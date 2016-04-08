@@ -36,7 +36,7 @@ class classMap{
 
 		classMap();
 		void init(int sizeScreenX, int sizeScreenY);
-		void saveMap();
+		//void saveMap();
 		void updateMapScreen();
 		bool remplirHerbe();
 

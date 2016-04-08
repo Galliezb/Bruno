@@ -204,26 +204,6 @@ bool classMap::removeStone(unsigned int posX, unsigned int posY, bool arbre, boo
 	removeTree(posX, posY, false, true);
 	return true;
 }
-
-/*************************** SAUVEGARDER L'IMAGE ********************************/
-void classMap::saveMap(){
-
-	//on stock les pixels de l'image en low-level pour passer d'un objet à l'autre
-	// PUTAIN C'ETAIT CHIANT A COMPRENDRE CA !   
-	unsigned char* pixels = new unsigned char[widthImage*heightImage*3];  ;  
-	ofImage saveImage;  
-	saveImage.allocate(widthImage,heightImage,OF_IMAGE_COLOR);
-	saveImage.setUseTexture(false);  
-
-	// On copie les pixel de FBO vers OFIMAGE qui possède la fonction d'enregistrement en fichier
-	fbo.begin();
-	glPixelStorei(GL_PACK_ALIGNMENT, 1);
-	glReadPixels(0, 0, fbo.getWidth(), fbo.getHeight(), GL_RGB, GL_UNSIGNED_BYTE, pixels);    
-	saveImage.setFromPixels(pixels, fbo.getWidth(), fbo.getHeight(), OF_IMAGE_COLOR);    
-	saveImage.saveImage("output.jpg", OF_IMAGE_QUALITY_BEST);  
-	fbo.end();  
-	ofLog(OF_LOG_VERBOSE, "Image is safe ! Coffee time !"); 
-}
 /********************* SET => LES BOUBOULES CA FOU LES BOULES ! ***************************/
 
 void classMap::setBoolMoveCameraLeft(){
@@ -252,6 +232,34 @@ bool classMap::getBoolMoveCameraDown() {
 	return moveCameraDown;
 }
 
+/*************************** SAUVEGARDER L'IMAGE ********************************/
+/*
+void classMap::saveMap() {
+
+	// Est-ce utile de conserver ceci ? on peut recréer l'image depuis un tableau de donné
+	// et l'utilisé directement dans ofImage au besoin.
+
+
+
+	//on stock les pixels de l'image en low-level pour passer d'un objet à l'autre
+	// PUTAIN C'ETAIT CHIANT A COMPRENDRE CA !   
+	unsigned char* pixels = new unsigned char[widthImage*heightImage * 3]; ;
+	ofImage saveImage;
+	saveImage.allocate(widthImage, heightImage, OF_IMAGE_COLOR);
+	saveImage.setUseTexture(false);
+
+	// On copie les pixel de FBO vers OFIMAGE qui possède la fonction d'enregistrement en fichier
+	fbo.begin();
+	glPixelStorei(GL_PACK_ALIGNMENT, 1);
+	glReadPixels(0, 0, fbo.getWidth(), fbo.getHeight(), GL_RGB, GL_UNSIGNED_BYTE, pixels);
+	saveImage.setFromPixels(pixels, fbo.getWidth(), fbo.getHeight(), OF_IMAGE_COLOR);
+	saveImage.saveImage("output.jpg", OF_IMAGE_QUALITY_BEST);
+	fbo.end();
+	ofLog(OF_LOG_VERBOSE, "Image is safe ! Coffee time !");
+}
+*/
+
+
 /**************************** UPDATER L'AFFICHAGE *********************************/
 void classMap::updateMapScreen() {
 
@@ -274,6 +282,7 @@ void classMap::updateMapScreen() {
 	glReadPixels(0, 0, fbo.getWidth(), fbo.getHeight(), GL_RGB, GL_UNSIGNED_BYTE, pixels);
 	affichage.setFromPixels(pixels, fbo.getWidth(), fbo.getHeight(), OF_IMAGE_COLOR);
 	affichage.update();
+
 	affichage.saveImage("outputTest.jpg", OF_IMAGE_QUALITY_MEDIUM);
 	fbo.end();
 	ofLog(OF_LOG_VERBOSE, "Image FBO transféré dans OfImage pour l'affichage ( mise a jour OK )");
@@ -302,6 +311,5 @@ void classMap::displayMap(){
 			posYjoueur += speedScaleCamera;
 		}
 	}
-	printf("posXjoueur =>%d\n",posXjoueur, moveCameraLeft);
 	affichage.drawSubsection(0, 0, sizeScreenWidth, sizeScreenHeight, posXjoueur, posYjoueur, sizeScreenWidth, sizeScreenHeight);
 }

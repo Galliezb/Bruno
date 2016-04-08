@@ -34,7 +34,7 @@ void ofApp::setup(){
 	ofLogVerbose() << "ajouter 1 rocher => " << succes;
 
 	//save
-	test1.saveMap();
+	test1.updateMapScreen();
 	 
 
 }
@@ -89,9 +89,6 @@ void ofApp::keyReleased(int key){
 			}
 		}
 		ofLogVerbose() << "Ajout effectuée";
-		break;
-	case 's':
-		test1.saveMap();
 		break;
 	case 'u':
 		test1.updateMapScreen();
