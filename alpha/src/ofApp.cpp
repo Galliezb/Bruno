@@ -12,18 +12,20 @@ void ofApp::setup(){
 	// taille de l'écran client
 	widthScreen = ofGetWindowWidth();
 	heightScreen = ofGetWindowHeight();
+	//widthScreen = ofGetScreenWidth();
+	//heightScreen = ofGetScreenHeight();
 
 
-	// Mise a jour de la position joueur selon la sauvegarde
-	positionXjoueur = widthScreen/2;
-	positionYjoueur = heightScreen/2;
+	// C'est la position actuel de l'origin 0 - 0 = haut coin haut gauche.
+	originX = 0;
+	originY = 0;
 
 
 	// initialisation des classes ( pour passer les valeurs par pointeur surtout )
 	// map
-	gestionMap.init(&positionXjoueur,&positionYjoueur,&widthScreen,&heightScreen);
+	gestionMap.init(&originX,&originY,&widthScreen,&heightScreen);
 	// animation personnage
-	movePersonnage.init(&positionXjoueur, &positionYjoueur);
+	movePersonnage.init(&originX, &originY,&widthScreen, &heightScreen);
 
 	 
 
@@ -34,13 +36,13 @@ void ofApp::update(){
 
 	// si le joueur a bougé, on met à jour l'info
 	if(playerHasMove){
-		if (playerMoveTop)   { positionYjoueur -= scrollingSpeed; }
-		if (playerMoveRight) { positionXjoueur += scrollingSpeed; }
-		if (playerMoveDown)  { positionYjoueur += scrollingSpeed; }
-		if (playerMoveLeft)  { positionXjoueur -= scrollingSpeed; }
+		if (playerMoveTop)   { originY -= scrollingSpeed; }
+		if (playerMoveRight) { originX += scrollingSpeed; }
+		if (playerMoveDown)  { originY += scrollingSpeed; }
+		if (playerMoveLeft)  { originX -= scrollingSpeed; }
 		// verification des nons dépassement de limite
-		ofLogVerbose() << "positionYjoueur : " << positionYjoueur;
-		ofLogVerbose() << "positionXjoueur : " << positionXjoueur;
+		ofLogVerbose() << "originY : " << originY;
+		ofLogVerbose() << "originX : " << originX;
 		// limite les déplacement dans la carte ( et pas en dehors des limites )
 		movePersonnage.limitMovePlayer();
 
@@ -95,10 +97,21 @@ void ofApp::keyReleased(int key){
 	switch (key) {
 		// Fullscreen touche F
 		case 'f':
+			printf("AVANT changement d ecran : \n");
+			ofLogVerbose() << "widthScreen : " << widthScreen;
+			ofLogVerbose() << "heightScreen : " << heightScreen;
+
 			ofToggleFullscreen();
 			widthScreen = ofGetScreenWidth();
 			heightScreen = ofGetScreenHeight();
+
+			printf("APPRES changement d ecran : \n");
+			ofLogVerbose() << "widthScreen : " << widthScreen;
+			ofLogVerbose() << "heightScreen : " << heightScreen;
+
 			break;
+
+
 	}
 
 	// deplacement position joueur + animation

@@ -19,7 +19,7 @@ class classMap{
 		int speedScaleCamera = 1;
 
 		// pointeur position joueur
-		int *ptrPositionX, *ptrPositionY;
+		int *ptrOriginX, *ptrOriginY;
 		int *ptrWidthScreen, *ptrHeightScreen;
 
 public :
@@ -38,7 +38,7 @@ public :
 		int tabContentMap[120][80][2] = { 0 };
 
 		classMap();
-		void init(int *pointPositionJoueurX, int *pointPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen);
+		void init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen);
 		//void saveMap();
 		void updateMapScreen();
 		bool remplirHerbe();

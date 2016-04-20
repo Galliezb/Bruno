@@ -6,9 +6,9 @@ But : gérer le personnage
 #include "ofMain.h"
 class moving {
 
-	int * ptrHeightScreen;
-	int * ptrWidthScreen;
-
+	// pointeur valeur variable ofapp
+	int *ptrOriginX, *ptrOriginY;
+	int *ptrWidthScreen, *ptrHeightScreen;
 
 	// incrementation pour l'animation
 	int startCycleAnimationTop = 0;
@@ -37,7 +37,7 @@ public:
 	ofImage repos;
 
 	moving();
-	void init(int *ptrWidthScreen, int *ptrHeightScreen);
+	void init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen);
 	void movePlayer();
 	void playerWait();
 	void setBoolMovePlayerTop(bool b);
@@ -48,5 +48,5 @@ public:
 	bool getBoolMovePlayerRight();
 	bool getBoolMovePlayerDown();
 	bool getBoolMovePlayerLeft();
-	void moving::limitMovePlayer();
+	void limitMovePlayer();
 };

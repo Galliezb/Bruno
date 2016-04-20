@@ -12,7 +12,7 @@ classMap::classMap() {
 	// voir init. OF n'est pas encore dispo quand on appelle certaine fonction.
 	// Le setup d'OF qui permet un accès total appelera donc un init();
 }
-void classMap::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen){
+void classMap::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen) {
 	arbre.loadImage("arbre.png");
 	boue.loadImage("boue.jpg");
 	eau.loadImage("eau.jpg");
@@ -26,26 +26,25 @@ void classMap::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWi
 	affichage.setUseTexture(true);
 
 	// taille écran disponible ici ?
-	this->ptrHeightScreen = ptrWidthScreen;
-	this->ptrWidthScreen = ptrHeightScreen;
+	this->ptrHeightScreen = ptrHeightScreen;
+	this->ptrWidthScreen = ptrWidthScreen;
 
+	printf("Initialisation MAP :  \n");
 	ofLogVerbose() << "*ptrWidthScreen : " << *ptrWidthScreen;
-	ofLogVerbose() << "*ptrWidthScreen : " << *ptrWidthScreen;
-	ofLogVerbose() << "*this->ptrWidthScreen : " << *this->ptrHeightScreen;
-	ofLogVerbose() << "*this->ptrWidthScreen : " << *this->ptrWidthScreen;
+	ofLogVerbose() << "*ptrHeightScreen : " << *ptrHeightScreen;
 
-	this->ptrPositionX = ptrPositionJoueurX;
-	this->ptrPositionY = ptrPositionJoueurY;
+	this->ptrOriginX = ptrOriginX;
+	this->ptrOriginY = ptrOriginY;
 
-	ofLogVerbose() << "*ptrPositionX : " << *ptrPositionX;
-	ofLogVerbose() << "*ptrPositionY : " << *ptrPositionY;
+	ofLogVerbose() << "*ptrOriginX : " << *ptrOriginX;
+	ofLogVerbose() << "*ptrOriginY : " << *ptrOriginY;
 
 	/******************************* GENERATION MAP ************************************/
 	bool succes = false;
 	// on rempli la carte d'herbe.
 	succes = remplirHerbe();
 	ofLogVerbose() << "remplirHerbe => " << succes;
-
+	/*
 	// on ajoute un zone d'eau
 	succes = ajoutLac(10, 10);
 	ofLogVerbose() << "ajoutLac(10,10) => " << succes;
@@ -57,7 +56,7 @@ void classMap::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWi
 	// test ajoute des rochers de manière aleatoire
 	succes = addStoneRandom();
 	ofLogVerbose() << "ajouter random rocher => " << succes;
-
+	*/
 	// update de l'affichage
 	updateMapScreen();
 
@@ -297,18 +296,18 @@ void classMap::updateMapScreen() {
 }
 
 void classMap::displayMap(){
-	affichage.drawSubsection(0, 0, *ptrWidthScreen, *ptrHeightScreen, *ptrPositionX, *ptrPositionY, *ptrWidthScreen, *ptrHeightScreen);
+	affichage.drawSubsection(0, 0, *ptrWidthScreen, *ptrHeightScreen, *ptrOriginX, *ptrOriginY, *ptrWidthScreen, *ptrHeightScreen);
 }
 
 void classMap::changeCase(int posMouseX, int posMouseY){
 
-	ofLogVerbose() << "*ptrPositionX : " << *ptrPositionX;
-	ofLogVerbose() << "*ptrPositionY : " << *ptrPositionY;
+	ofLogVerbose() << "*ptrOriginX : " << *ptrOriginX;
+	ofLogVerbose() << "*ptrOriginY : " << *ptrOriginY;
 	ofLogVerbose() << "posMouseX : " << posMouseX;
 	ofLogVerbose() << "posMouseY : " << posMouseY;
 
-	int caseX = floor((*ptrPositionX + posMouseX) / 64);
-	int caseY = floor((*ptrPositionY + posMouseY) / 64);
+	int caseX = floor((*ptrOriginX + posMouseX) / 64);
+	int caseY = floor((*ptrOriginY + posMouseY) / 64);
 	
 	ofLogVerbose() << "caseX : " << caseX;
 	ofLogVerbose() << "caseY : " << caseY;

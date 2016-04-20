@@ -10,35 +10,49 @@ moving::moving(){
 	repos.loadImage("animrepos.png");
 }
 // initialisation de la classe ( OF dispo ici, pas dans le constructeur )
-void moving::init(int *ptrWidthScreen, int *ptrHeightScreen) {
+void moving::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen) {
 
 	// ajout des adresses pointeurs vers la position joueur
 	this->ptrHeightScreen = ptrWidthScreen;
 	this->ptrWidthScreen = ptrHeightScreen;
 
+	this->ptrOriginX = ptrOriginX;
+	this->ptrOriginY = ptrOriginY;
+
+	printf("Initialisation MOVING : \n");
+
+	ofLogVerbose() << "*ptrWidthScreen : " << *ptrWidthScreen;
+	ofLogVerbose() << "*ptrWidthScreen : " << *ptrHeightScreen;
+
+	ofLogVerbose() << "*ptrOriginX : " << *ptrOriginX;
+	ofLogVerbose() << "*ptrOriginY : " << *ptrOriginY;
+
+
 }
+
 void moving::movePlayer(){
+
 	//Animation marche
 	if (goTop == true) {
 
-		marche.drawSubsection(*ptrWidthScreen/2, *ptrHeightScreen/2, 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
+		marche.drawSubsection(150, 150, 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
 		startCycleAnimationTop++;
 		if (startCycleAnimationTop == 16) { startCycleAnimationTop = 0; }
 
 	} else if (goRight == true){
 
-		marche.drawSubsection(*ptrWidthScreen/2, *ptrHeightScreen/2, 64, 64, 64 * startCycleAnimationRight, 0, 64, 64);
+		marche.drawSubsection(150, 150, 64, 64, 64 * startCycleAnimationRight, 0, 64, 64);
 		startCycleAnimationRight++;
 		if (startCycleAnimationRight == 32){ startCycleAnimationRight = 16;}
 
 	} else if (goDown == true) {
 
-		marche.drawSubsection(*ptrWidthScreen/2, *ptrHeightScreen/2, 64, 64, 64 * startCycleAnimationDown, 0, 64, 64);
+		marche.drawSubsection(150, 150, 64, 64, 64 * startCycleAnimationDown, 0, 64, 64);
 		startCycleAnimationDown++;
 		if (startCycleAnimationDown == 48) { startCycleAnimationDown = 32; }
 	} else if (goLeft == true){
 	 
-		marche.drawSubsection(*ptrWidthScreen/2, *ptrHeightScreen/2, 64, 64, 64 * startCycleAnimationLeft, 0, 64, 64);
+		marche.drawSubsection(150, 150, 64, 64, 64 * startCycleAnimationLeft, 0, 64, 64);
 		startCycleAnimationLeft++;
 		if (startCycleAnimationLeft == 64) { startCycleAnimationLeft = 48; }
 
@@ -52,25 +66,25 @@ void moving::movePlayer(){
 void moving::playerWait(){
 	if (lastmoveTop == true) {
 
-		repos.drawSubsection(*ptrWidthScreen/2, *ptrHeightScreen/2, 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
+		repos.drawSubsection(150, 150, 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
 		startCycleAnimationTop++;
 		if (startCycleAnimationTop == 16) { startCycleAnimationTop = 0; }
 
 	} else if (lastmoveRight == true) {
 
-		repos.drawSubsection(*ptrWidthScreen/2, *ptrHeightScreen/2, 64, 64, 64 * startCycleAnimationRight, 0, 64, 64);
+		repos.drawSubsection(150, 150, 64, 64, 64 * startCycleAnimationRight, 0, 64, 64);
 		startCycleAnimationRight++;
 		if (startCycleAnimationRight == 32) { startCycleAnimationRight = 16; }
 
 	} else if (lastmoveDown == true) {
 
-		repos.drawSubsection(*ptrWidthScreen/2, *ptrHeightScreen/2, 64, 64, 64 * startCycleAnimationDown, 0, 64, 64);
+		repos.drawSubsection(150, 150, 64, 64, 64 * startCycleAnimationDown, 0, 64, 64);
 		startCycleAnimationDown++;
 		if (startCycleAnimationDown == 48) { startCycleAnimationDown = 32; }
 
 	} else if (lastmoveLeft == true) {
 
-		repos.drawSubsection(*ptrWidthScreen/2, *ptrHeightScreen/2, 64, 64, 64 * startCycleAnimationLeft, 0, 64, 64);
+		repos.drawSubsection(150, 150, 64, 64, 64 * startCycleAnimationLeft, 0, 64, 64);
 		startCycleAnimationLeft++;
 		if (startCycleAnimationLeft == 64) { startCycleAnimationLeft = 48; }
 
@@ -112,8 +126,8 @@ bool moving::getBoolMovePlayerLeft() {
 	return goLeft;
 }
 void moving::limitMovePlayer(){
-	if (*ptrWidthScreen/2 < 1 ){ *ptrWidthScreen = 1; }
-	if (*ptrHeightScreen/2 < 1) { *ptrHeightScreen = 1; }
-	if (*ptrWidthScreen/2 > 7680) { *ptrWidthScreen = 7680; }
-	if (*ptrHeightScreen/2 > 5120) { *ptrHeightScreen = 5120; }
+	if (*ptrOriginX < 1 ){ *ptrOriginX = 1; }
+	if (*ptrOriginY < 1) { *ptrOriginY = 1; }
+	if (*ptrOriginX > 7680) { *ptrOriginX = 7680; }
+	if (*ptrOriginY > 5120) { *ptrOriginY = 5120; }
 }

@@ -31,7 +31,7 @@ class ofApp : public ofBaseApp{
 		// taille ecran utilisateur
 		int widthScreen,heightScreen;
 		// position du joueur
-		int positionXjoueur = 150, positionYjoueur = 150;
+		int originX = 150, originY = 150;
 		// le joueur a bouge ?
 		bool playerHasMove = false;
 		bool playerMoveTop = false;
