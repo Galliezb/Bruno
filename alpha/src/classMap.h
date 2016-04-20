@@ -53,6 +53,8 @@ public :
 		bool removeStone(unsigned int posX, unsigned int posY, bool arbre = true, bool rocher = false);
 
 		void displayMap();
+		int classMap::limitCameraX();
+		int classMap::limitCameraY();
 
 		void changeCase(int posMouseX, int posMouseY);
 };

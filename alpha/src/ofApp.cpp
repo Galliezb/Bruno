@@ -17,8 +17,8 @@ void ofApp::setup(){
 
 
 	// C'est la position actuel de l'origin 0 - 0 = haut coin haut gauche.
-	originX = 0;
-	originY = 0;
+	originX = 6500;
+	originY = 4500;
 
 
 	// initialisation des classes ( pour passer les valeurs par pointeur surtout )
@@ -36,17 +36,37 @@ void ofApp::update(){
 
 	// si le joueur a bougé, on met à jour l'info
 	if(playerHasMove){
-		if (playerMoveTop)   { originY -= scrollingSpeed; }
-		if (playerMoveRight) { originX += scrollingSpeed; }
-		if (playerMoveDown)  { originY += scrollingSpeed; }
-		if (playerMoveLeft)  { originX -= scrollingSpeed; }
-		// verification des nons dépassement de limite
-		ofLogVerbose() << "originY : " << originY;
-		ofLogVerbose() << "originX : " << originX;
+		if (playerMoveTop){ 
+			originY -= scrollingSpeed; 
+			if (originY < 1 - heightScreen/2 - 32 + 64) { 
+				originY = 1 - heightScreen/2 - 32 + 64; 
+			}
+		}
+		if (playerMoveRight){ 
+			originX += scrollingSpeed; 
+			if (originX > 7679-widthScreen / 2) { 
+				originX = 7680 - widthScreen / 2; 
+			}
+		}
+		if (playerMoveDown){ 
+			originY += scrollingSpeed; 
+			if (originY > 5119-heightScreen/2) { 
+				originY = 5120 - heightScreen/2; 
+			}
+		}
+		if (playerMoveLeft){ 
+			originX -= scrollingSpeed; 
+		if (originX < 1 - widthScreen / 2 - 32 + 64) { 
+			originX = 1 - widthScreen / 2 - 32 + 64;
+		}
+		}
 		// limite les déplacement dans la carte ( et pas en dehors des limites )
-		movePersonnage.limitMovePlayer();
-
+		//movePersonnage.limitMovePlayer();
 	}
+	string fpsStr = "ptrOriginY " + ofToString(originY);
+	ofDrawBitmapString(fpsStr, 200, 50);
+	fpsStr = "ptrOriginX " + ofToString(originX);
+	ofDrawBitmapString(fpsStr, 200, 75);
 
 }
 
@@ -102,8 +122,8 @@ void ofApp::keyReleased(int key){
 			ofLogVerbose() << "heightScreen : " << heightScreen;
 
 			ofToggleFullscreen();
-			widthScreen = ofGetScreenWidth();
-			heightScreen = ofGetScreenHeight();
+			widthScreen = ofGetWindowWidth();
+			heightScreen = ofGetWindowHeight();
 
 			printf("APPRES changement d ecran : \n");
 			ofLogVerbose() << "widthScreen : " << widthScreen;
@@ -133,7 +153,7 @@ void ofApp::keyReleased(int key){
 	}
 	// si aucun mouvement en cours, on repasse a false pour éviter les traitements.
 	if (!playerMoveTop && !playerMoveRight && !playerMoveDown && !playerMoveLeft) { playerHasMove = false; }
-
+	
 }
 
 //--------------------------------------------------------------

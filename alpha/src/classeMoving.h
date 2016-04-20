@@ -48,5 +48,7 @@ public:
 	bool getBoolMovePlayerRight();
 	bool getBoolMovePlayerDown();
 	bool getBoolMovePlayerLeft();
-	void limitMovePlayer();
+	//void limitMovePlayer();
+	int midX();
+	int midY();
 };

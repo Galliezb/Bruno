@@ -30,8 +30,8 @@ class ofApp : public ofBaseApp{
 		// variable
 		// taille ecran utilisateur
 		int widthScreen,heightScreen;
-		// position du joueur
-		int originX = 150, originY = 150;
+		// position de la caméra
+		int originX, originY;
 		// le joueur a bouge ?
 		bool playerHasMove = false;
 		bool playerMoveTop = false;
@@ -39,6 +39,6 @@ class ofApp : public ofBaseApp{
 		bool playerMoveDown = false;
 		bool playerMoveLeft = false;
 		// vitesse de défilement
-		int scrollingSpeed = 1;
+		int scrollingSpeed = 50;
 
 };

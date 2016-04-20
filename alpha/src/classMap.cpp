@@ -25,6 +25,7 @@ void classMap::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *
 	affichage.allocate(widthImage, heightImage, OF_IMAGE_COLOR);
 	affichage.setUseTexture(true);
 
+
 	// taille écran disponible ici ?
 	this->ptrHeightScreen = ptrHeightScreen;
 	this->ptrWidthScreen = ptrWidthScreen;
@@ -48,11 +49,11 @@ void classMap::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *
 	// on ajoute un zone d'eau
 	succes = ajoutLac(10, 10);
 	ofLogVerbose() << "ajoutLac(10,10) => " << succes;
-
+	*/
 	// test ajoute des arbres de manière aleatoire
 	succes = addTreeRandom();
 	ofLogVerbose() << "ajoutLactreeRandom => " << succes;
-
+	/*
 	// test ajoute des rochers de manière aleatoire
 	succes = addStoneRandom();
 	ofLogVerbose() << "ajouter random rocher => " << succes;
@@ -296,48 +297,56 @@ void classMap::updateMapScreen() {
 }
 
 void classMap::displayMap(){
-	affichage.drawSubsection(0, 0, *ptrWidthScreen, *ptrHeightScreen, *ptrOriginX, *ptrOriginY, *ptrWidthScreen, *ptrHeightScreen);
+	affichage.drawSubsection(0, 0, *ptrWidthScreen, *ptrHeightScreen, limitCameraX(), limitCameraY(), *ptrWidthScreen, *ptrHeightScreen);
 }
+int classMap::limitCameraX() {
 
+	if (*ptrOriginX<1) {
+		return 0;
+	} else if (*ptrOriginX>(7680 - *ptrWidthScreen)) {
+		return 7680 - *ptrWidthScreen;
+	} else {
+		return *ptrOriginX;
+	}
+}
+int classMap::limitCameraY() {
+	if (*ptrOriginY<1){
+		return 0;
+	} else if (*ptrOriginY>(5120 - *ptrHeightScreen)) {
+		return 5120 - *ptrHeightScreen;
+	} else {
+		return *ptrOriginY;
+	}
+}
 void classMap::changeCase(int posMouseX, int posMouseY){
 
-	ofLogVerbose() << "*ptrOriginX : " << *ptrOriginX;
-	ofLogVerbose() << "*ptrOriginY : " << *ptrOriginY;
+	// sort les valeurs de bordure de map et les restaure sur des valeurs correctes.
+	int x = *ptrOriginX;
+	int y = *ptrOriginY;
+	if ( x < 0 ){ x = 0; }
+	if ( y < 0) { y = 0; }
+	if (x > 7680 - *ptrWidthScreen ) { x = 7680 - *ptrWidthScreen; }
+	if (y > 5120 - *ptrHeightScreen) { y = 5120 - *ptrHeightScreen; }
+
+	ofLogVerbose() << "*ptrOriginX : " << x;
+	ofLogVerbose() << "*ptrOriginY : " << y;
 	ofLogVerbose() << "posMouseX : " << posMouseX;
 	ofLogVerbose() << "posMouseY : " << posMouseY;
 
-	int caseX = floor((*ptrOriginX + posMouseX) / 64);
-	int caseY = floor((*ptrOriginY + posMouseY) / 64);
+	int caseX = floor((x + posMouseX) / 64);
+	int caseY = floor((y + posMouseY) / 64);
 	
 	ofLogVerbose() << "caseX : " << caseX;
 	ofLogVerbose() << "caseY : " << caseY;
 
 	int index = 0;
 	int index2 = 0; 
-
-
-	//  test changement de pixel
-	/*
-	for (int i = 0; i < 128; i++) {
-
-		index = widthImage * caseY + i * widthImage + caseX * 64 + 0;
-		index = widthImage * caseY + i * widthImage + caseX * 64 + 64;
-		ofLogVerbose() << "Index =>" << index << "/" << index2;
-		for (int j = 0; j < 64; j++) {
-
-			index = widthImage * caseY + i * widthImage + caseX * 64 + j;
-			// RGB violet ( inversé en BGR ) => 	255;62;191
-			// ofColor violet(255, 62, 191);
-			affichage.setColor(index,violet);
-
-		}
-	}
-	*/
-	for (int i=caseX*64; i<caseX*64+caseX+64; i++){
-		for (int j=caseY*64; j<caseY*64+caseY+64; j++) {
+	for (int i=caseX*64; i<caseX*64+64; i++){
+		for (int j=caseY*64; j<caseY*64+64; j++) {
 			affichage.setColor(i,j, ofColor(255, 62, 191) );
 		}
 	}
+
 	ofLogVerbose() << "Update image en cours, merci de patienter.";
 	affichage.update();
 	ofLogVerbose() << "Update effectuée";
