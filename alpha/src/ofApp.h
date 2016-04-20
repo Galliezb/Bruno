@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
+#include "classMap.h"
+#include "classeMoving.h"
 
 class ofApp : public ofBaseApp{
 
@@ -20,5 +22,23 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-		
+
+		// Utilisation des classes
+		classMap gestionMap;
+		moving movePersonnage; 
+
+		// variable
+		// taille ecran utilisateur
+		int widthScreen,heightScreen;
+		// position du joueur
+		int positionXjoueur = 150, positionYjoueur = 150;
+		// le joueur a bouge ?
+		bool playerHasMove = false;
+		bool playerMoveTop = false;
+		bool playerMoveRight = false;
+		bool playerMoveDown = false;
+		bool playerMoveLeft = false;
+		// vitesse de défilement
+		int scrollingSpeed = 1;
+
 };

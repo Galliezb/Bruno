@@ -237,3 +237,5 @@ _Pvt_Extensions
 *.exp
 *.exe
 *.lib
+/alpha/alpha.VC.db
+/Mapping/Mapping.VC.db
