@@ -65,27 +65,27 @@ void moving::movePlayer(){
 		if (startCycleAnimationDown == 48) { startCycleAnimationDown = 32; }
 	//Animation repos
 	} else {
-		playerAction("wait");
+		playerAction();
 	}
 }
 
 // Gère les animations du personnage au repos.
-void moving::playerAction(string str){
+void moving::playerAction(){
 
-	if ( str == "construire" ){
+	if ( playerCurrentAction == "construire" ){
 		action = construire;
-	} else if (str == "courir") {
+	} else if (playerCurrentAction == "courir") {
 		action = courir;
-	} else if(str == "degat") {
+	} else if(playerCurrentAction == "degat") {
 		action = degat;
-	} else if (str == "hacher") {
+	} else if (playerCurrentAction == "hacher") {
 		action = hacher;
-	} else if (str == "miner") {
+	} else if (playerCurrentAction == "miner") {
 		action = miner;
-	} else if (str == "mort") {
+	} else if (playerCurrentAction == "mort") {
 		action = mort;
 	} else {
-		action = construire;
+		action = repos;
 	}
 	
 	// Right and left prioritaire !
@@ -209,50 +209,21 @@ int moving::midY() {
 	}
 }
 /*************************************** ACTIONS PLAYER ************************/
-void moving::actionPlayerBuild(){
-	// Right and left prioritaire !
-	if (lastmoveRight == true) {
-
-		construire.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationRight, 0, 64, 64);
-		startCycleAnimationRight++;
-		if (startCycleAnimationRight == 32) { startCycleAnimationRight = 16; }
-
-	}
-	else if (lastmoveLeft == true) {
-
-		construire.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationLeft, 0, 64, 64);
-		startCycleAnimationLeft++;
-		if (startCycleAnimationLeft == 64) { startCycleAnimationLeft = 48; }
-	}
-	else if (lastmoveTop == true) {
-
-		construire.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
-		startCycleAnimationTop++;
-		if (startCycleAnimationTop == 16) { startCycleAnimationTop = 0; }
-
-		// position repos de base, face vers l'utilisateur pardi !
-	}
-	else {
-
-		construire.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationDown, 0, 64, 64);
-		startCycleAnimationDown++;
-		if (startCycleAnimationDown == 48) { startCycleAnimationDown = 32; }
-
-	}
+void moving::setActionPlayerBuild(){
 
 }
-void actionPlayerRun() {
+void moving::setActionPlayerRun() {
 
 }
-void actionPlayerTakeDamage() {
+void moving::setActionPlayerTakeDamage() {
 
 }
-void actionPlayerCut() {
+void moving::setActionPlayerCut() {
 
 }
-void actionPlayerMine() {
+void moving::setActionPlayerMine() {
 
 }
-void actionPlayerIsDead() {
+void moving::setActionPlayerIsDead() {
 
 }
