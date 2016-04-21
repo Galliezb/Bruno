@@ -8,6 +8,12 @@ But : gérer le personnage
 moving::moving(){
 	marche.loadImage("animmarche.png");
 	repos.loadImage("animrepos.png");
+	construire.loadImage("animconstruire.png");
+	courir.loadImage("animcourir.png");
+	degat.loadImage("anidegat.png");
+	hacher.loadImage("animhacher.png");
+	miner.loadImage("animminer.png");
+	mort.loadImage("animmort.png");
 }
 // initialisation de la classe ( OF dispo ici, pas dans le constructeur )
 void moving::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen) {
@@ -59,39 +65,56 @@ void moving::movePlayer(){
 		if (startCycleAnimationDown == 48) { startCycleAnimationDown = 32; }
 	//Animation repos
 	} else {
-		playerWait();
+		playerAction("wait");
 	}
 }
 
 // Gère les animations du personnage au repos.
-void moving::playerWait(){
+void moving::playerAction(string str){
 
+	if ( str == "construire" ){
+		action = construire;
+	} else if (str == "courir") {
+		action = courir;
+	} else if(str == "degat") {
+		action = degat;
+	} else if (str == "hacher") {
+		action = hacher;
+	} else if (str == "miner") {
+		action = miner;
+	} else if (str == "mort") {
+		action = mort;
+	} else {
+		action = construire;
+	}
+	
 	// Right and left prioritaire !
 	if (lastmoveRight == true) {
 
-		repos.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationRight, 0, 64, 64);
+		action.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationRight, 0, 64, 64);
 		startCycleAnimationRight++;
 		if (startCycleAnimationRight == 32) { startCycleAnimationRight = 16; }
 
 	} else if (lastmoveLeft == true) {
 
-		repos.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationLeft, 0, 64, 64);
+		action.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationLeft, 0, 64, 64);
 		startCycleAnimationLeft++;
 		if (startCycleAnimationLeft == 64) { startCycleAnimationLeft = 48; }
 	} else if (lastmoveTop == true) {
 
-		repos.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
+		action.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
 		startCycleAnimationTop++;
 		if (startCycleAnimationTop == 16) { startCycleAnimationTop = 0; }
 
 	// position repos de base, face vers l'utilisateur pardi !
 	} else {
 
-		repos.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationDown, 0, 64, 64);
+		action.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationDown, 0, 64, 64);
 		startCycleAnimationDown++;
 		if (startCycleAnimationDown == 48) { startCycleAnimationDown = 32; }
 
 	}
+
 
 }
 // Gère l'animation déplacement du joueur 
@@ -149,17 +172,6 @@ bool moving::getBoolMovePlayerDown() {
 bool moving::getBoolMovePlayerLeft() {
 	return goLeft;
 }
-// empeche le cadrage de la camera de sortir de la map
-// Il faudra permettre au joueur de se déplacer mais pas la camera
-/*
-GERER DANS OFAPP DESORMAIS
-void moving::limitMovePlayer(){
-	if (*ptrOriginX < 1 ){ *ptrOriginX = 0; }
-	if (*ptrOriginY < 1) { *ptrOriginY = 0; }
-	if (*ptrOriginX > 7679) { *ptrOriginX = 7680; }
-	if (*ptrOriginY > 5119) { *ptrOriginY = 5120; }
-}
-*/
 int moving::midX(){
 
 	if ( *ptrOriginX<0){
@@ -195,4 +207,52 @@ int moving::midY() {
 			return *ptrHeightScreen / 2 - 32;
 		}
 	}
+}
+/*************************************** ACTIONS PLAYER ************************/
+void moving::actionPlayerBuild(){
+	// Right and left prioritaire !
+	if (lastmoveRight == true) {
+
+		construire.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationRight, 0, 64, 64);
+		startCycleAnimationRight++;
+		if (startCycleAnimationRight == 32) { startCycleAnimationRight = 16; }
+
+	}
+	else if (lastmoveLeft == true) {
+
+		construire.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationLeft, 0, 64, 64);
+		startCycleAnimationLeft++;
+		if (startCycleAnimationLeft == 64) { startCycleAnimationLeft = 48; }
+	}
+	else if (lastmoveTop == true) {
+
+		construire.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
+		startCycleAnimationTop++;
+		if (startCycleAnimationTop == 16) { startCycleAnimationTop = 0; }
+
+		// position repos de base, face vers l'utilisateur pardi !
+	}
+	else {
+
+		construire.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationDown, 0, 64, 64);
+		startCycleAnimationDown++;
+		if (startCycleAnimationDown == 48) { startCycleAnimationDown = 32; }
+
+	}
+
+}
+void actionPlayerRun() {
+
+}
+void actionPlayerTakeDamage() {
+
+}
+void actionPlayerCut() {
+
+}
+void actionPlayerMine() {
+
+}
+void actionPlayerIsDead() {
+
 }

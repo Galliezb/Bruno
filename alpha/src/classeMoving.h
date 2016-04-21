@@ -33,13 +33,12 @@ public:
 
 
 	// fonction pour le mouvement
-	ofImage marche;
-	ofImage repos;
+	ofImage marche, repos, construire, courir, degat, hacher, miner, mort, action;
 
 	moving();
 	void init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen);
 	void movePlayer();
-	void playerWait();
+	void playerAction(string str);
 	void setBoolMovePlayerTop(bool b);
 	void setBoolMovePlayerRight(bool b);
 	void setBoolMovePlayerDown(bool b);
@@ -48,7 +47,14 @@ public:
 	bool getBoolMovePlayerRight();
 	bool getBoolMovePlayerDown();
 	bool getBoolMovePlayerLeft();
-	//void limitMovePlayer();
 	int midX();
 	int midY();
+
+	// les différentes action du personnage ( mourir, construire etc..
+	void actionPlayerBuild();
+	void actionPlayerRun();
+	void actionPlayerTakeDamage();
+	void actionPlayerCut();
+	void actionPlayerMine();
+	void actionPlayerIsDead();
 };
