@@ -22,6 +22,9 @@ class moving {
 	bool lastmoveDown = true;
 	bool lastmoveLeft = false;
 
+	// Action en cours du personnage
+	string playerCurrentAction = "repos";
+
 public:
 
 	// Variables pour l'animation de la marche du personnage
@@ -38,7 +41,7 @@ public:
 	moving();
 	void init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen);
 	void movePlayer();
-	void playerAction(string str);
+	void playerAction();
 	void setBoolMovePlayerTop(bool b);
 	void setBoolMovePlayerRight(bool b);
 	void setBoolMovePlayerDown(bool b);
@@ -51,10 +54,10 @@ public:
 	int midY();
 
 	// les différentes action du personnage ( mourir, construire etc..
-	void actionPlayerBuild();
-	void actionPlayerRun();
-	void actionPlayerTakeDamage();
-	void actionPlayerCut();
-	void actionPlayerMine();
-	void actionPlayerIsDead();
+	void setActionPlayerBuild();
+	void setActionPlayerRun();
+	void setActionPlayerTakeDamage();
+	void setActionPlayerCut();
+	void setActionPlayerMine();
+	void setActionPlayerIsDead();
 };

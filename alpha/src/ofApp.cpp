@@ -56,9 +56,9 @@ void ofApp::update(){
 		}
 		if (playerMoveLeft){ 
 			originX -= scrollingSpeed; 
-		if (originX < 1 - widthScreen / 2 - 32 + 64) { 
-			originX = 1 - widthScreen / 2 - 32 + 64;
-		}
+			if (originX < 1 - widthScreen / 2 - 32 + 64) { 
+				originX = 1 - widthScreen / 2 - 32 + 64;
+			}
 		}
 		// limite les déplacement dans la carte ( et pas en dehors des limites )
 		//movePersonnage.limitMovePlayer();
