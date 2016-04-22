@@ -32,6 +32,8 @@ class ofApp : public ofBaseApp{
 		int widthScreen,heightScreen;
 		// position de la caméra
 		int originX, originY;
+		// action du joueur
+		string playerCurrentAction = "repos";
 		// le joueur a bouge ?
 		bool playerHasMove = false;
 		bool playerMoveTop = false;

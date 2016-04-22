@@ -25,8 +25,9 @@ void ofApp::setup(){
 	// map
 	gestionMap.init(&originX,&originY,&widthScreen,&heightScreen);
 	// animation personnage
-	movePersonnage.init(&originX, &originY,&widthScreen, &heightScreen);
+	movePersonnage.init(&originX, &originY,&widthScreen, &heightScreen, &playerCurrentAction);
 
+	movePersonnage.setTimerStart();
 	 
 
 }
@@ -63,10 +64,8 @@ void ofApp::update(){
 		// limite les déplacement dans la carte ( et pas en dehors des limites )
 		//movePersonnage.limitMovePlayer();
 	}
-	string fpsStr = "ptrOriginY " + ofToString(originY);
-	ofDrawBitmapString(fpsStr, 200, 50);
-	fpsStr = "ptrOriginX " + ofToString(originX);
-	ofDrawBitmapString(fpsStr, 200, 75);
+
+	movePersonnage.setTimerEnd();
 
 }
 
@@ -78,6 +77,13 @@ void ofApp::draw(){
 	// affichage du personnage
 	movePersonnage.movePlayer();
 
+	string fpsStr = "start => " + ofToString(movePersonnage.getTimerStart());
+	ofDrawBitmapString(fpsStr, 10, 100);
+	fpsStr = "end => " + ofToString(movePersonnage.getTimerEnd());
+	ofDrawBitmapString(fpsStr, 20, 125);
+	fpsStr = "Diff => " + ofToString(movePersonnage.getDiffTime());
+	ofDrawBitmapString(fpsStr, 20, 150);
+	printf("diff => %0.4d\n", movePersonnage.getDiffTime());
 
 }
 
@@ -130,8 +136,13 @@ void ofApp::keyReleased(int key){
 			ofLogVerbose() << "heightScreen : " << heightScreen;
 
 			break;
-
-
+		case 'a': playerCurrentAction = "construire"; break;
+		case 'z': playerCurrentAction = "courir"; break;
+		case 'e': playerCurrentAction = "degat"; break;
+		case 'r': playerCurrentAction = "hacher"; break;
+		case 't': playerCurrentAction = "miner"; break;
+		case 'y': playerCurrentAction = "mort"; break;
+		case 'u': playerCurrentAction = "repos"; break;
 	}
 
 	// deplacement position joueur + animation
@@ -188,7 +199,8 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-
+	widthScreen = ofGetWindowWidth();
+	heightScreen = ofGetWindowHeight();
 }
 
 //--------------------------------------------------------------

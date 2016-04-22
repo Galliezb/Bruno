@@ -10,13 +10,13 @@ moving::moving(){
 	repos.loadImage("animrepos.png");
 	construire.loadImage("animconstruire.png");
 	courir.loadImage("animcourir.png");
-	degat.loadImage("anidegat.png");
+	degat.loadImage("animdegat.png");
 	hacher.loadImage("animhacher.png");
 	miner.loadImage("animminer.png");
 	mort.loadImage("animmort.png");
 }
 // initialisation de la classe ( OF dispo ici, pas dans le constructeur )
-void moving::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen) {
+void moving::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction) {
 
 	// ajout des adresses pointeurs vers la position joueur
 	this->ptrHeightScreen = ptrHeightScreen;
@@ -24,6 +24,9 @@ void moving::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *pt
 
 	this->ptrOriginX = ptrOriginX;
 	this->ptrOriginY = ptrOriginY;
+
+	// action en cours du joueur
+	this->playerCurrentAction = playerCurrentAction;
 
 	printf("Initialisation MOVING : \n");
 
@@ -52,6 +55,7 @@ void moving::movePlayer(){
 		startCycleAnimationRight++;
 		if (startCycleAnimationRight == 32) { startCycleAnimationRight = 16; }
 
+
 	} else if (goTop == true) {
 
 		marche.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
@@ -72,49 +76,67 @@ void moving::movePlayer(){
 // Gère les animations du personnage au repos.
 void moving::playerAction(){
 
-	if ( playerCurrentAction == "construire" ){
+	if ( *playerCurrentAction == "construire" ){
 		action = construire;
-	} else if (playerCurrentAction == "courir") {
+	} else if (*playerCurrentAction == "courir") {
 		action = courir;
-	} else if(playerCurrentAction == "degat") {
+	} else if(*playerCurrentAction == "degat") {
 		action = degat;
-	} else if (playerCurrentAction == "hacher") {
+	} else if (*playerCurrentAction == "hacher") {
 		action = hacher;
-	} else if (playerCurrentAction == "miner") {
+	} else if (*playerCurrentAction == "miner") {
 		action = miner;
-	} else if (playerCurrentAction == "mort") {
+	} else if (*playerCurrentAction == "mort") {
 		action = mort;
 	} else {
 		action = repos;
 	}
-	
+
 	// Right and left prioritaire !
 	if (lastmoveRight == true) {
 
 		action.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationRight, 0, 64, 64);
-		startCycleAnimationRight++;
-		if (startCycleAnimationRight == 32) { startCycleAnimationRight = 16; }
+		
+		if (getDiffTime() > speedAnim) {
+			ofLogVerbose() << "RIGHT =>" << startCycleAnimationRight;
+			startCycleAnimationRight++;
+			setTimerStart();
+		}
+		if (startCycleAnimationLeft == 64) { startCycleAnimationLeft = 48; }
+
 
 	} else if (lastmoveLeft == true) {
 
 		action.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationLeft, 0, 64, 64);
-		startCycleAnimationLeft++;
+		if (getDiffTime() > speedAnim) {
+			startCycleAnimationRight++;
+			setTimerStart();
+		}
 		if (startCycleAnimationLeft == 64) { startCycleAnimationLeft = 48; }
+
+
 	} else if (lastmoveTop == true) {
 
 		action.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
-		startCycleAnimationTop++;
+		if (getDiffTime() > speedAnim) {
+			startCycleAnimationRight++;
+			setTimerStart();
+		}
 		if (startCycleAnimationTop == 16) { startCycleAnimationTop = 0; }
 
 	// position repos de base, face vers l'utilisateur pardi !
 	} else {
 
 		action.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationDown, 0, 64, 64);
-		startCycleAnimationDown++;
+		if (getDiffTime() > speedAnim) {
+			startCycleAnimationRight++;
+			setTimerStart();
+		}
 		if (startCycleAnimationDown == 48) { startCycleAnimationDown = 32; }
 
 	}
 
+	if (*playerCurrentAction != "repos") { *playerCurrentAction = "repos"; }
 
 }
 // Gère l'animation déplacement du joueur 
@@ -208,22 +230,18 @@ int moving::midY() {
 		}
 	}
 }
-/*************************************** ACTIONS PLAYER ************************/
-void moving::setActionPlayerBuild(){
-
+void moving::setTimerStart(){
+	tpsStart = ofGetElapsedTimeMillis();
 }
-void moving::setActionPlayerRun() {
-
+void moving::setTimerEnd() {
+	tpsStop = ofGetElapsedTimeMillis();
 }
-void moving::setActionPlayerTakeDamage() {
-
+int moving::getDiffTime(){
+	return ofGetElapsedTimeMillis() - tpsStart;
 }
-void moving::setActionPlayerCut() {
-
+int moving::getTimerStart() {
+	return tpsStart;
 }
-void moving::setActionPlayerMine() {
-
-}
-void moving::setActionPlayerIsDead() {
-
+int moving::getTimerEnd() {
+	return tpsStop;
 }
