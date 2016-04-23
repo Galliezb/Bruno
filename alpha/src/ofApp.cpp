@@ -184,7 +184,7 @@ void ofApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-	gestionMap.changeCase(x,y);
+	gestionMap.returnPosCaseClic(x,y);
 }
 
 //--------------------------------------------------------------

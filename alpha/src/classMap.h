@@ -56,5 +56,5 @@ public :
 		int classMap::limitCameraX();
 		int classMap::limitCameraY();
 
-		void changeCase(int posMouseX, int posMouseY);
+		void returnPosCaseClic(int posMouseX, int posMouseY);
 };

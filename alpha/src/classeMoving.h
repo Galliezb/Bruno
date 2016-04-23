@@ -17,7 +17,7 @@ class moving {
 	int startCycleAnimationDown = 32;
 	int startCycleAnimationLeft = 48;
 	// vitesse animation
-	int speedAnim = 350;
+	int speedAnim = 100;
 
 	// Variables pour l'arrêt du personnage
 	bool lastmoveTop = false;

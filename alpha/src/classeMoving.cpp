@@ -41,31 +41,45 @@ void moving::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *pt
 
 void moving::movePlayer(){
 
+	// vitesse d'animation
+	speedAnim = 50;
 	//Animation marche
 	// Right and left prioritaire !
 	if (goLeft == true) {
 
 		marche.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationLeft, 0, 64, 64);
-		startCycleAnimationLeft++;
+		if (getDiffTime() > speedAnim) {
+			startCycleAnimationLeft++;
+			setTimerStart();
+		}
 		if (startCycleAnimationLeft == 64) { startCycleAnimationLeft = 48; }
 	
 	} else if (goRight == true) {
 
 		marche.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationRight, 0, 64, 64);
-		startCycleAnimationRight++;
+		if (getDiffTime() > speedAnim) {
+			startCycleAnimationRight++;
+			setTimerStart();
+		}
 		if (startCycleAnimationRight == 32) { startCycleAnimationRight = 16; }
 
 
 	} else if (goTop == true) {
 
 		marche.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
-		startCycleAnimationTop++;
+		if (getDiffTime() > speedAnim) {
+			startCycleAnimationTop++;
+			setTimerStart();
+		}
 		if (startCycleAnimationTop == 16) { startCycleAnimationTop = 0; }
 
 	} else if (goDown == true) {
 
 		marche.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationDown, 0, 64, 64);
-		startCycleAnimationDown++;
+		if (getDiffTime() > speedAnim) {
+			startCycleAnimationDown++;
+			setTimerStart();
+		}
 		if (startCycleAnimationDown == 48) { startCycleAnimationDown = 32; }
 	//Animation repos
 	} else {
@@ -78,20 +92,28 @@ void moving::playerAction(){
 
 	if ( *playerCurrentAction == "construire" ){
 		action = construire;
+		speedAnim = 50;
 	} else if (*playerCurrentAction == "courir") {
 		action = courir;
+		speedAnim = 75;
 	} else if(*playerCurrentAction == "degat") {
 		action = degat;
+		speedAnim = 90;
 	} else if (*playerCurrentAction == "hacher") {
 		action = hacher;
+		speedAnim = 80;
 	} else if (*playerCurrentAction == "miner") {
 		action = miner;
+		speedAnim = 80;
 	} else if (*playerCurrentAction == "mort") {
 		action = mort;
+		speedAnim = 100;
 	} else {
 		action = repos;
+		speedAnim = 50;
 	}
 
+	ofLogVerbose() << "action courante => " << *playerCurrentAction;
 	// Right and left prioritaire !
 	if (lastmoveRight == true) {
 
@@ -109,7 +131,8 @@ void moving::playerAction(){
 
 		action.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationLeft, 0, 64, 64);
 		if (getDiffTime() > speedAnim) {
-			startCycleAnimationRight++;
+			ofLogVerbose() << "LEFT =>" << startCycleAnimationLeft;
+			startCycleAnimationLeft++;
 			setTimerStart();
 		}
 		if (startCycleAnimationLeft == 64) { startCycleAnimationLeft = 48; }
@@ -119,7 +142,8 @@ void moving::playerAction(){
 
 		action.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
 		if (getDiffTime() > speedAnim) {
-			startCycleAnimationRight++;
+			ofLogVerbose() << "TOP =>" << startCycleAnimationTop;
+			startCycleAnimationTop++;
 			setTimerStart();
 		}
 		if (startCycleAnimationTop == 16) { startCycleAnimationTop = 0; }
@@ -129,14 +153,13 @@ void moving::playerAction(){
 
 		action.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationDown, 0, 64, 64);
 		if (getDiffTime() > speedAnim) {
-			startCycleAnimationRight++;
+			ofLogVerbose() << "DOWN =>" << startCycleAnimationDown;
+			startCycleAnimationDown++;
 			setTimerStart();
 		}
 		if (startCycleAnimationDown == 48) { startCycleAnimationDown = 32; }
 
 	}
-
-	if (*playerCurrentAction != "repos") { *playerCurrentAction = "repos"; }
 
 }
 // Gère l'animation déplacement du joueur 

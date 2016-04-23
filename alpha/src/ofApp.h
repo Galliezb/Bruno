@@ -41,6 +41,6 @@ class ofApp : public ofBaseApp{
 		bool playerMoveDown = false;
 		bool playerMoveLeft = false;
 		// vitesse de défilement
-		int scrollingSpeed = 50;
+		int scrollingSpeed = 10;
 
 };

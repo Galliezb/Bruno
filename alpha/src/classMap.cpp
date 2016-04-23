@@ -2,6 +2,7 @@
 Made by Galliez Bruno
 Version : 3.0
 But : Gérer la map
+COPYRIGHT : TOUCHE PAS A CA PETIT CON !
 */
 #include <math.h>
 #include "classMap.h"
@@ -318,7 +319,7 @@ int classMap::limitCameraY() {
 		return *ptrOriginY;
 	}
 }
-void classMap::changeCase(int posMouseX, int posMouseY){
+void classMap::returnPosCaseClic(int posMouseX, int posMouseY){
 
 	// sort les valeurs de bordure de map et les restaure sur des valeurs correctes.
 	int x = *ptrOriginX;
