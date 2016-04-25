@@ -17,8 +17,8 @@ void ofApp::setup(){
 
 
 	// C'est la position actuel de l'origin 0 - 0 = haut coin haut gauche.
-	originX = 6500;
-	originY = 4500;
+	originX = 0;
+	originY = 0;
 
 
 	// initialisation des classes ( pour passer les valeurs par pointeur surtout )
@@ -83,7 +83,6 @@ void ofApp::draw(){
 	ofDrawBitmapString(fpsStr, 20, 125);
 	fpsStr = "Diff => " + ofToString(movePersonnage.getDiffTime());
 	ofDrawBitmapString(fpsStr, 20, 150);
-	printf("diff => %0.4d\n", movePersonnage.getDiffTime());
 
 }
 
@@ -123,26 +122,32 @@ void ofApp::keyReleased(int key){
 	switch (key) {
 		// Fullscreen touche F
 		case 'f':
-			printf("AVANT changement d ecran : \n");
-			ofLogVerbose() << "widthScreen : " << widthScreen;
-			ofLogVerbose() << "heightScreen : " << heightScreen;
 
 			ofToggleFullscreen();
 			widthScreen = ofGetWindowWidth();
 			heightScreen = ofGetWindowHeight();
-
-			printf("APPRES changement d ecran : \n");
-			ofLogVerbose() << "widthScreen : " << widthScreen;
-			ofLogVerbose() << "heightScreen : " << heightScreen;
-
 			break;
+
 		case 'a': playerCurrentAction = "construire"; break;
 		case 'z': playerCurrentAction = "courir"; break;
 		case 'e': playerCurrentAction = "degat"; break;
 		case 'r': playerCurrentAction = "hacher"; break;
 		case 't': playerCurrentAction = "miner"; break;
 		case 'y': playerCurrentAction = "mort"; break;
-		case 'u': playerCurrentAction = "repos"; break;
+		case 'u': playerCurrentAction = "attaquer"; break;
+		case 'i': playerCurrentAction = "repos"; break;
+		case 'q': 
+			gestionMap.addTree(1, 1);
+			gestionMap.addTree(2, 1);
+		break;
+		case 's':
+			gestionMap.removeTree(1, 1);
+			gestionMap.removeStone(2,2);
+			gestionMap.removeTree(3, 3);
+			gestionMap.removeTree(4, 4);
+			gestionMap.removeTree(5, 5);
+			gestionMap.removeTree(6, 6);
+			break;
 	}
 
 	// deplacement position joueur + animation

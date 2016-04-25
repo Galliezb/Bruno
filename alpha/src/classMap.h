@@ -22,6 +22,11 @@ class classMap{
 		int *ptrOriginX, *ptrOriginY;
 		int *ptrWidthScreen, *ptrHeightScreen;
 
+		// tableau de pixel des images
+		unsigned char* pixelsMap = new unsigned char[widthImage * heightImage * 3];
+		unsigned char* tabPixelArbre = new unsigned char[64 * 64 * 4];
+		unsigned char* tabPixelHerbe = new unsigned char[64 * 64 * 4];
+
 public :
 
 		ofImage affichage;

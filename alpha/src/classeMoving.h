@@ -44,7 +44,7 @@ public:
 
 
 	// fonction pour le mouvement
-	ofImage marche, repos, construire, courir, degat, hacher, miner, mort, action;
+	ofImage marche, courir, repos, construire, degat, hacher, miner, mort, action, attaquer;
 
 	moving();
 	void init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction);

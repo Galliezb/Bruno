@@ -7,13 +7,14 @@ But : gérer le personnage
 
 moving::moving(){
 	marche.loadImage("animmarche.png");
+	courir.loadImage("animcourir.png");
 	repos.loadImage("animrepos.png");
 	construire.loadImage("animconstruire.png");
-	courir.loadImage("animcourir.png");
 	degat.loadImage("animdegat.png");
 	hacher.loadImage("animhacher.png");
 	miner.loadImage("animminer.png");
 	mort.loadImage("animmort.png");
+	attaquer.loadImage("animattaquer.png");
 }
 // initialisation de la classe ( OF dispo ici, pas dans le constructeur )
 void moving::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction) {
@@ -27,15 +28,6 @@ void moving::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *pt
 
 	// action en cours du joueur
 	this->playerCurrentAction = playerCurrentAction;
-
-	printf("Initialisation MOVING : \n");
-
-	ofLogVerbose() << "*ptrWidthScreen : " << *ptrWidthScreen;
-	ofLogVerbose() << "*ptrWidthScreen : " << *ptrHeightScreen;
-
-	ofLogVerbose() << "*ptrOriginX : " << *ptrOriginX;
-	ofLogVerbose() << "*ptrOriginY : " << *ptrOriginY;
-
 
 }
 
@@ -108,30 +100,32 @@ void moving::playerAction(){
 	} else if (*playerCurrentAction == "mort") {
 		action = mort;
 		speedAnim = 100;
-	} else {
+	}
+	else if (*playerCurrentAction == "attaquer") {
+		action = attaquer;
+		speedAnim = 50;
+	}
+	else {
 		action = repos;
 		speedAnim = 50;
 	}
 
-	ofLogVerbose() << "action courante => " << *playerCurrentAction;
 	// Right and left prioritaire !
 	if (lastmoveRight == true) {
 
 		action.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationRight, 0, 64, 64);
 		
 		if (getDiffTime() > speedAnim) {
-			ofLogVerbose() << "RIGHT =>" << startCycleAnimationRight;
 			startCycleAnimationRight++;
 			setTimerStart();
 		}
-		if (startCycleAnimationLeft == 64) { startCycleAnimationLeft = 48; }
+		if (startCycleAnimationRight == 32) { startCycleAnimationRight = 16; }
 
 
 	} else if (lastmoveLeft == true) {
 
 		action.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationLeft, 0, 64, 64);
 		if (getDiffTime() > speedAnim) {
-			ofLogVerbose() << "LEFT =>" << startCycleAnimationLeft;
 			startCycleAnimationLeft++;
 			setTimerStart();
 		}
@@ -142,7 +136,6 @@ void moving::playerAction(){
 
 		action.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
 		if (getDiffTime() > speedAnim) {
-			ofLogVerbose() << "TOP =>" << startCycleAnimationTop;
 			startCycleAnimationTop++;
 			setTimerStart();
 		}
@@ -153,7 +146,6 @@ void moving::playerAction(){
 
 		action.drawSubsection(midX(),midY(), 64, 64, 64 * startCycleAnimationDown, 0, 64, 64);
 		if (getDiffTime() > speedAnim) {
-			ofLogVerbose() << "DOWN =>" << startCycleAnimationDown;
 			startCycleAnimationDown++;
 			setTimerStart();
 		}
@@ -232,12 +224,6 @@ int moving::midX(){
 	}
 }
 int moving::midY() {
-	string fpsStr = "ptrOriginY => " + ofToString(*ptrOriginY);
-	ofDrawBitmapString(fpsStr, 400, 100);
-	fpsStr = "ptrOriginX => " + ofToString(*ptrOriginX);
-	ofDrawBitmapString(fpsStr, 400, 125);
-	fpsStr = "ptrOriginX => " + ofToString((7680 - *ptrWidthScreen) + (*ptrOriginX - (7680 - *ptrWidthScreen)));
-	ofDrawBitmapString(fpsStr, 400, 150);
 
 	if (*ptrOriginY<0) {
 		return *ptrHeightScreen / 2 - 32 + *ptrOriginY;
