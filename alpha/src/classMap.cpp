@@ -1,6 +1,6 @@
 /*
 Made by Galliez Bruno
-Version : 4.0
+Version : 5.0
 But : Gérer la map
 COPYRIGHT : TOUCHE PAS A CA PETIT CON !
 */
@@ -15,81 +15,20 @@ classMap::classMap() {
 }
 void classMap::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen) {
 	arbre.loadImage("arbre.png");
-	arbre.setUseTexture(false);
-	tabPixelArbre = arbre.getPixels();
-	/*
-	for (int y = 0; y<32; y++) {
-		for (int x = 0; x<64; x++) {
-			for (int k = 0; k<3; k++) {
-				// ligne en cours + X case * 64 * les 3 index
-				int startIndex = (y * 64 + x) * 3;
-				// 64 ligne - la ligne traité en cours + X case*64 et * les 3 valeurs ( RGB )
-				int startIndexInverse = ((64 - y) * 64 + x) * 3;
-				// permutation des cases
-				if (tabPixelArbre[startIndex + k] != tabPixelArbre[startIndexInverse + k]) {
-					printf("AVANT = %d <=> %d\t\t", tabPixelArbre[startIndex + k], tabPixelArbre[startIndexInverse + k]);
-					int temp = tabPixelArbre[startIndex + k];
-					tabPixelArbre[startIndex + k] = tabPixelArbre[startIndexInverse + k];
-					tabPixelArbre[startIndexInverse + k] = temp;
-					printf("APRES = %d <=> %d\n", tabPixelArbre[startIndex + k], tabPixelArbre[startIndexInverse + k]);
-				}
-			}
-		}
-	}
-	*/
-
-
-
 	herbe.loadImage("herbe.jpg");
-	herbe.setUseTexture(false);
-	tabPixelHerbe = herbe.getPixels();
-
-	herbe.getColor(0,0);
-	/*
-	for (int y = 0; y<32; y++) {
-		for (int x = 0; x<64; x++) {
-			for (int k=0; k<4; k++){
-				// ligne en cours + X case * 64 * les 3 index
-				int startIndex = (y*64 + x)*4;
-				// 64 ligne - la ligne traité en cours + X case*64 et * les 3 valeurs ( RGB )
-				int startIndexInverse = ((64-y)*64 + x)*4;
-				// permutation des cases
-				if (tabPixelHerbe[startIndex + k] != tabPixelHerbe[startIndexInverse + k]){
-					int temp = tabPixelHerbe[startIndex+k];
-					tabPixelHerbe[startIndex + k] = tabPixelHerbe[startIndexInverse+k];
-					tabPixelHerbe[startIndexInverse + k] = temp;
-				}
-			}
-		}
-	}*/
-
-
 	boue.loadImage("boue.jpg");
 	eau.loadImage("eau.jpg");
 	rocher.loadImage("rocher.png");
-	fbo.setUseTexture(false);
 	fbo.allocate(widthImage,heightImage);
-
-	// ofImage de l'affichage
-	affichage.allocate(widthImage, heightImage, OF_IMAGE_COLOR);
-	affichage.setUseTexture(true);
-
 
 	// taille écran disponible ici ?
 	this->ptrHeightScreen = ptrHeightScreen;
 	this->ptrWidthScreen = ptrWidthScreen;
 
 	printf("Initialisation MAP :  \n");
-	
-	
 
 	this->ptrOriginX = ptrOriginX;
 	this->ptrOriginY = ptrOriginY;
-
-	
-	// Démarre la création de la map ( VIDE ) en stockant le tableau dans l'instance Ofimage
-	affichage.setFromPixels(pixelsMap, widthImage, heightImage, OF_IMAGE_COLOR);
-
 	
 
 	/******************************* GENERATION MAP ************************************/
@@ -117,68 +56,56 @@ void classMap::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *
 /******************************* HERBE ************************************/
 bool classMap::remplirHerbe(){
 
+	fbo.begin();
+	ofClear(255, 255, 255, 0);
 
-	// coordonnees
-	/*
-	for(int x=0;x<120;x++){
-		for(int y=0;y<80;y++){
-			
-			for (int i = 0; i<64; i++) {
-				for (int j = 0; j<64; j++) {
-					int start = x*64*3+y*120*64*3+i*3+j*64*3;
-					
-					pixelsMap[start]     = tabPixelHerbe[i * 3 + j * 64 * 3];
-					pixelsMap[start + 1] = tabPixelHerbe[i * 3 + j * 64 * 3 + 1];
-					pixelsMap[start + 2] = tabPixelHerbe[i * 3 + j * 64 * 3 + 2];
-					
-					affichage.setColor(start,ofColor(255,
-													 0,
-													 0));
-				}
-			}
-
+	for (int x = 0; x<120; x++) {
+		for (int y = 0; y<80; y++) {
+			herbe.draw(x*64,y*64);
+			tabContentMap[x][y][1] = 0;
 		}
-	}*/
-
-	for ( int i=0;i<64*64*120*80;i++){
-		affichage.setColor(i, herbe.getColor(0,0));
-
 	}
-
-	//glPixelStorei(GL_PACK_ALIGNMENT, 1);
-	//affichage.setFromPixels(pixelsMap, widthImage, heightImage, OF_IMAGE_COLOR);
-	fbo.getTexture().drawSubsection()
-	affichage.update();
+	fbo.end();
+	
 	return true;
 
 }
-/******************************** LAC *************************************/
-bool classMap::ajoutLac( unsigned int posX, unsigned int posY){
+bool classMap::restoreGrass(int posCaseX, int posCaseY){
+
+	if (posCaseX > 119 || posCaseX < 0 || posCaseY > 79 || posCaseY < 0) {
+		printf("Coordonnees incorrect, la case sort de la map\n");
+		return false;
+	} else {
+
+		if ( tabContentMap[posCaseX][posCaseY][1] != 0 ){
+			fbo.begin();
+			herbe.draw(posCaseX,posCaseY);
+			fbo.end();
+		}
+		return true;
+	}
+}
+/******************************** EAU *************************************/
+bool classMap::changeCaseWater( unsigned int posX, unsigned int posY){
 
 	// on verifie que le lac sort pas de la map
-	if ( posX > 124 || posX < 0 || posY > 74 || posY < 0){
+	if ( posX > 119 || posX < 0 || posY > 79 || posY < 0){
 		printf("Coordonnees incorrect, le lac sort de la map\n");
 		return false;
 	} else {
-		for (int cx=0;cx<5;cx++){
-			for (int cy=0;cy<5;cy++){
-				fbo.begin();
-				eau.draw((posX*64)+(cx * 64), (posY*64)+(cy * 64), 64, 64);
-				tabContentMap[cx+posX][cy+posY][0] = 2;
-				tabContentMap[cx+posX][cy+posY][1] = 0;
-				// par defaut la case de côte est considéré comme de l'herbe
-				fbo.end();
-			}
-		}
+		fbo.begin();
+		eau.draw(posX,posY);
+		tabContentMap[posX][posY][0] = 2;
+		fbo.end();
 		return true;
 	}
 
 }
-/******************************** ARBRE *************************************/
-bool classMap::addTree(unsigned int posX, unsigned int posY, bool arbre, bool rocher){
+/******************************** ARBRE OU ROCHER *************************************/
+bool classMap::addRessource(unsigned int posX, unsigned int posY, bool arbre, bool rocher){
 
 	// on verifie que l'arbre sort pas de la map
-	if ( posX > 124 || posX < 0 || posY > 74 || posY < 0){
+	if ( posX > 119 || posX < 0 || posY > 79 || posY < 0){
 		if (arbre && !rocher) {
 			printf("Coordonnees incorrect, le rocher sort de la map");
 		} else if (!arbre && rocher) {
@@ -370,7 +297,7 @@ void classMap::updateMapScreen() {
 }
 
 void classMap::displayMap(){
-	affichage.drawSubsection(0, 0, *ptrWidthScreen, *ptrHeightScreen, limitCameraX(), limitCameraY(), *ptrWidthScreen, *ptrHeightScreen);
+	fbo.getTexture().drawSubsection(0, 0, *ptrWidthScreen, *ptrHeightScreen, limitCameraX(), limitCameraY(), *ptrWidthScreen, *ptrHeightScreen);
 }
 int classMap::limitCameraX() {
 

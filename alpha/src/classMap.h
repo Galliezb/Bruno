@@ -46,10 +46,13 @@ public :
 		void init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen);
 		//void saveMap();
 		void updateMapScreen();
+		// Gestion de l'herbe
 		bool remplirHerbe();
+		bool restoreGrass(int posCaseX, int posCaseY);
 
-		bool ajoutLac( unsigned int posX, unsigned int posY);
-		bool addTree( unsigned int posX, unsigned int posY, bool arbre = true, bool rocher = false);
+		// les ressources
+		bool changeCaseWater( unsigned int posX, unsigned int posY);
+		bool addRessource( unsigned int posX, unsigned int posY, bool arbre = true, bool rocher = false);
 		bool addTreeRandom( bool arbre = true, bool rocher = false);
 		bool addStone(unsigned int posX, unsigned int posY, bool arbre = true, bool rocher = false);
 		bool addStoneRandom(bool arbre = true, bool rocher = false);
