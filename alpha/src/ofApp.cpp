@@ -121,7 +121,7 @@ void ofApp::keyReleased(int key){
 
 	switch (key) {
 		// Fullscreen touche F
-		case 'f':
+		case 'g':
 
 			ofToggleFullscreen();
 			widthScreen = ofGetWindowWidth();
@@ -137,17 +137,34 @@ void ofApp::keyReleased(int key){
 		case 'u': playerCurrentAction = "attaquer"; break;
 		case 'i': playerCurrentAction = "repos"; break;
 		case 'q': 
-			gestionMap.addTree(1, 1);
-			gestionMap.addTree(2, 1);
-		break;
-		case 's':
-			gestionMap.removeTree(1, 1);
-			gestionMap.removeStone(2,2);
-			gestionMap.removeTree(3, 3);
-			gestionMap.removeTree(4, 4);
-			gestionMap.removeTree(5, 5);
-			gestionMap.removeTree(6, 6);
+			for (int x = 0; x<15; x++) {
+				for (int y = 0; y<15; y++) {
+					gestionMap.restoreGrass(x, y);
+				}
+			}
 			break;
+		case 's':
+			for (int x=0;x<15;x++){
+				for(int y=0; y<15;y++){
+					gestionMap.addRessource(x, y,true,false);
+				}
+			}
+			break;
+		case 'd':
+			for (int x = 0; x<15; x++) {
+				for (int y = 0; y<15; y++) {
+					gestionMap.addRessource(x, y, false, true);
+				}
+			}
+			break;
+		case 'f':
+			for (int x = 0; x<15; x++) {
+				for (int y = 0; y<15; y++) {
+					gestionMap.changeCaseWater(x, y);
+				}
+			}
+			break;
+
 	}
 
 	// deplacement position joueur + animation
