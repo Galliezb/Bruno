@@ -17,7 +17,11 @@ moving::moving(){
 	attaquer.loadImage("animattaquer.png");
 }
 // initialisation de la classe ( OF dispo ici, pas dans le constructeur )
-void moving::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction) {
+void moving::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain) {
+
+	// pointeur tab content map
+	this->ptrTabContentCase = ptrTabContentCase;
+	this->ptrTabContentTerrain = ptrTtabContentTerrain;
 
 	// ajout des adresses pointeurs vers la position joueur
 	this->ptrHeightScreen = ptrHeightScreen;

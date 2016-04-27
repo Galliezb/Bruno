@@ -23,9 +23,9 @@ void ofApp::setup(){
 
 	// initialisation des classes ( pour passer les valeurs par pointeur surtout )
 	// map
-	gestionMap.init(&originX,&originY,&widthScreen,&heightScreen);
+	gestionMap.init(&originX,&originY,&widthScreen,&heightScreen, tabContentCase, tabContentTerrain);
 	// animation personnage
-	movePersonnage.init(&originX, &originY,&widthScreen, &heightScreen, &playerCurrentAction);
+	movePersonnage.init(&originX, &originY,&widthScreen, &heightScreen, &playerCurrentAction, tabContentCase, tabContentTerrain);
 
 	movePersonnage.setTimerStart();
 	 
@@ -206,7 +206,7 @@ void ofApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-	gestionMap.returnPosCaseClic(x,y);
+	gestionMap.returnPosCase(x,y);
 }
 
 //--------------------------------------------------------------

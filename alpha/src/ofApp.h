@@ -42,5 +42,18 @@ class ofApp : public ofBaseApp{
 		bool playerMoveLeft = false;
 		// vitesse de défilement
 		int scrollingSpeed = 10;
+		/* tableau contenant le terrain
+		0 => herbe ( marche ok )
+		1 => boue ( marche ralentie )
+		2 => eau ( pas de marche, ni arbre, ni roche )
+		*/
+		int tabContentTerrain[9600] = { 0 };
+		/* tableau contenant ce qui se trouve sur la case
+		0 = > RIEN
+		1 = > arbre
+		2 = > rocher
+		*/
+		int tabContentCase[9600] = { 0 };
+
 
 };

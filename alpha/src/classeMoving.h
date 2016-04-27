@@ -10,6 +10,9 @@ class moving {
 	// pointeur valeur variable ofapp
 	int *ptrOriginX, *ptrOriginY;
 	int *ptrWidthScreen, *ptrHeightScreen;
+	// pointeur tab content map
+	int *ptrTabContentCase;
+	int *ptrTabContentTerrain;
 
 	// incrementation pour l'animation
 	int startCycleAnimationTop = 0;
@@ -47,7 +50,7 @@ public:
 	ofImage marche, courir, repos, construire, degat, hacher, miner, mort, action, attaquer;
 
 	moving();
-	void init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction);
+	void init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain);
 	void movePlayer();
 	void playerAction();
 	void setBoolMovePlayerTop(bool b);

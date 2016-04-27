@@ -21,29 +21,15 @@ class classMap{
 		// pointeur position joueur
 		int *ptrOriginX, *ptrOriginY;
 		int *ptrWidthScreen, *ptrHeightScreen;
-
-		// tableau de pixel des images
-		unsigned char* pixelsMap = new unsigned char[widthImage * heightImage * 3];
-		unsigned char* tabPixelArbre = new unsigned char[64 * 64 * 4];
-		unsigned char* tabPixelHerbe = new unsigned char[64 * 64 * 4];
+		// pointeur tableau contenu MAP
+		int *ptrTabContentCase, *ptrTabContentTerrain;
 
 public :
 
 		ofImage affichage;
-		/*
-		tabContentMap[X][Y][0] :
-		tabContentMap[X][Y][0] = 0 => herbe ( marche ok )
-		tabContentMap[X][Y][0] = 1 => boue ( marche ralentie )
-		tabContentMap[X][Y][0] = 2 => eau ( pas de marche, ni arbre, ni roche )
-		tabContentMap[X][Y][1] :
-		tabContentMap[X][Y][1] = 0 => RIEN
-		tabContentMap[X][Y][1] = 1 => arbre
-		tabContentMap[X][Y][1] = 2 => rocher
-		*/
-		int tabContentMap[120][80][2] = { 0 };
 
 		classMap();
-		void init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen);
+		void init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain);
 		// Gestion de l'herbe
 		bool remplirHerbe();
 		bool restoreGrass(int posX, int posY);
@@ -57,5 +43,6 @@ public :
 		int classMap::limitCameraX();
 		int classMap::limitCameraY();
 
-		void returnPosCaseClic(int posMouseX, int posMouseY);
+		void returnPosCase(int coordX, int coordY);
+		void seeDataOfThisFuckingTab();
 };
