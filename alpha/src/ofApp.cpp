@@ -36,27 +36,28 @@ void ofApp::setup(){
 void ofApp::update(){
 
 	// si le joueur a bougé, on met à jour l'info
+	
 	if(playerHasMove){
 		if (playerMoveTop){ 
-			originY -= scrollingSpeed; 
+			originY -= 10; 
 			if (originY < 1 - heightScreen/2 - 32 + 64) { 
-				originY = 1 - heightScreen/2 - 32 + 64; 
+				originY = 1 - heightScreen/2 - 32 + 64;
 			}
 		}
 		if (playerMoveRight){ 
-			originX += scrollingSpeed; 
+			originX += 10; 
 			if (originX > 7679-widthScreen / 2) { 
 				originX = 7680 - widthScreen / 2; 
 			}
 		}
 		if (playerMoveDown){ 
-			originY += scrollingSpeed; 
+			originY += 10; 
 			if (originY > 5119-heightScreen/2) { 
 				originY = 5120 - heightScreen/2; 
 			}
 		}
 		if (playerMoveLeft){ 
-			originX -= scrollingSpeed; 
+			originX -= 10; 
 			if (originX < 1 - widthScreen / 2 - 32 + 64) { 
 				originX = 1 - widthScreen / 2 - 32 + 64;
 			}
@@ -77,12 +78,10 @@ void ofApp::draw(){
 	// affichage du personnage
 	movePersonnage.movePlayer();
 
-	string fpsStr = "start => " + ofToString(movePersonnage.getTimerStart());
+	string fpsStr = "originX => " + ofToString(originX);
 	ofDrawBitmapString(fpsStr, 10, 100);
-	fpsStr = "end => " + ofToString(movePersonnage.getTimerEnd());
+	fpsStr = "originY => " + ofToString(originY);
 	ofDrawBitmapString(fpsStr, 20, 125);
-	fpsStr = "Diff => " + ofToString(movePersonnage.getDiffTime());
-	ofDrawBitmapString(fpsStr, 20, 150);
 
 }
 

@@ -14,7 +14,7 @@ classMap::classMap() {
 	// Le setup d'OF qui permet un accès total appelera donc un init();
 }
 void classMap::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTtabContentTerrain) {
-	arbre.loadImage("arbre128.png");
+	arbre.loadImage("arbre.png");
 	herbe.loadImage("herbe.jpg");
 	boue.loadImage("boue.jpg");
 	eau.loadImage("eau.jpg");
@@ -48,11 +48,13 @@ void classMap::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *
 	succes = changeCaseWater(11, 11);
 	succes = changeCaseWater(11, 12);
 	
+	// ajoute des arbres de manière aleatoire
+	succes = addRessourceRandom(true, false);
+
+
 	// test ajoute des rochers de manière aleatoire
 	succes = addRessourceRandom(false, true);
 
-	// ajoute des arbres de manière aleatoire
-	succes = addRessourceRandom(true, false);
 	
 	seeDataOfThisFuckingTab();
 
@@ -134,9 +136,9 @@ bool classMap::addRessource(unsigned int posX, unsigned int posY, bool arbre, bo
 				// on ajoute la disponibilité du rocher dans le tableau de donnée
 				*(ptrTabContentCase + posX + posY * 120 - 1) = 2;
 			}
-		} else {
-			printf("[ERROR] => pas d'arbre ni de rocher dans la flotte bordel de merde !\n");
-		}
+		} /*else {
+			printf("[ERROR][%d][%d]\t T:%d\t C:%d\n", posX, posY, *(ptrTabContentTerrain + posX + posY * 120 - 1), *(ptrTabContentCase + posX + posY * 120 - 1));
+		}*/
 		//fbo.end();
 		affichage.update();
 		return true;
@@ -152,8 +154,9 @@ bool classMap::addRessourceRandom( bool arbre, bool rocher){
 	for (int x=0;x<120;x++){
 		for(int y=0;y<80;y++){
 			alea = rand()%101;
-			if ( alea < 10 ){
+			if ( alea < 15 ){
 				addRessource(x,y,arbre,rocher);
+				Sleep(1);
 			}
 		}
 	}
@@ -208,7 +211,7 @@ void classMap::seeDataOfThisFuckingTab(){
 
 	for(int x=0;x<120;x++){
 		for(int y=0;y<80;y++){
-			printf("[%d/%d] : C:%d T:%d\n",x,y, *(ptrTabContentCase + x + y * 120 - 1), *(ptrTabContentTerrain + x + y * 120 - 1));
+			//printf("[%d/%d] : C:%d T:%d\n",x,y, *(ptrTabContentCase + x + y * 120 - 1), *(ptrTabContentTerrain + x + y * 120 - 1));
 		}
 	}
 
