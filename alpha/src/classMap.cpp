@@ -14,7 +14,7 @@ classMap::classMap() {
 	// Le setup d'OF qui permet un accès total appelera donc un init();
 }
 void classMap::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen) {
-	arbre.loadImage("arbre.png");
+	arbre.loadImage("arbre128.png");
 	herbe.loadImage("herbe.jpg");
 	boue.loadImage("boue.jpg");
 	eau.loadImage("eau.jpg");
@@ -44,11 +44,12 @@ void classMap::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *
 	succes = changeCaseWater(11, 11);
 	succes = changeCaseWater(11, 12);
 	
+	// test ajoute des rochers de manière aleatoire
+	succes = addRessourceRandom(false, true);
+
 	// ajoute des arbres de manière aleatoire
 	succes = addRessourceRandom(true, false);
 	
-	// test ajoute des rochers de manière aleatoire
-	succes = addRessourceRandom(false,true);
 	
 
 }
@@ -61,7 +62,7 @@ bool classMap::remplirHerbe(){
 	for (int x = 0; x<120; x++) {
 		for (int y = 0; y<80; y++) {
 			herbe.draw(x*64,y*64);
-			tabContentMap[x][y][1] = 0;
+			tabContentMap[x][y][0] = 0;
 		}
 	}
 	fbo.end();
@@ -77,8 +78,12 @@ bool classMap::restoreGrass(int posX, int posY){
 	} else {
 		fbo.begin();
 		herbe.draw(posX *64, posY *64);
+		// si c'est un arbre
+		if (tabContentMap[posX][posY][1] == 1){
+			herbe.draw((posX-1) * 64, posY * 64);
+		}
 		fbo.end();
-		tabContentMap[posX][posY][1] = 0;
+		tabContentMap[posX][posY][0] = 0;
 		return true;
 	}
 }
@@ -117,13 +122,12 @@ bool classMap::addRessource(unsigned int posX, unsigned int posY, bool arbre, bo
 
 				//this->arbre.draw(posX *64, posY *64,64,64);
 				fbo.begin();
-				this->arbre.draw(posX*64,posY*64);
+				this->arbre.draw(posX*64-64,posY*64,64,128);
 				fbo.end();
 				// on ajoute la disponibilité de l'arbre dans le tableau de donnée
 				tabContentMap[posX][posY][1] = 1;
 
-			} else if ( !arbre && rocher ){
-				//this->arbre.draw(posX *64, posY *64,64,64);
+			} else if ( !arbre && rocher && tabContentMap[posX][posY + 1][1] != 1){
 				fbo.begin();
 				this->rocher.draw(posX*64,posY*64);
 				fbo.end();
@@ -151,15 +155,17 @@ bool classMap::addRessourceRandom( bool arbre, bool rocher){
 			fbo.begin();
 			alea = rand()%101;
 			// Pas d'arbre ou rocher sur un arbre ou rocher ou de l'eau !
+			// + pas de rocher si un un arbre de 128 est en dessous
 			if (tabContentMap[x][y][0] == 0 && tabContentMap[x][y][1] == 0) {
 
 				if ( alea < 10 ){
 					if (arbre && !rocher) {
-						this->arbre.draw(x * 64, y * 64, 64, 64);
+						this->arbre.draw(x * 64-64, y * 64, 64, 128);
 						// position Arbre => tab donnée
 						tabContentMap[x][y][1] = 1;
-					}
-					else if (!arbre && rocher) {
+					} else if (!arbre && rocher && tabContentMap[x][y + 1][1] != 1) {
+						printf("Case : %d \ Case+1 : %d\n", tabContentMap[x][y][1], tabContentMap[x][y + 1][1]);
+
 						this->rocher.draw(x * 64, y * 64, 64, 64);
 						// position Arbre => tab donnée
 						tabContentMap[x][y][1] = 2;
@@ -222,7 +228,9 @@ void classMap::returnPosCaseClic(int posMouseX, int posMouseY){
 	// De toute façon je le supprime d'ici peu de temps :D
 	for (int i=caseX*64; i<caseX*64+64; i++){
 		for (int j=caseY*64; j<caseY*64+64; j++) {
-			affichage.setColor(i,j, ofColor(255, 62, 191) );
+			fbo.begin();
+			herbe.setColor(i,j,ofColor(255,0,0));
+			fbo.end();
 		}
 	}
 
