@@ -40,8 +40,6 @@ class ofApp : public ofBaseApp{
 		bool playerMoveRight = false;
 		bool playerMoveDown = false;
 		bool playerMoveLeft = false;
-		// vitesse de défilement
-		int scrollingSpeed = 10;
 		/* tableau contenant le terrain
 		0 => herbe ( marche ok )
 		1 => boue ( marche ralentie )

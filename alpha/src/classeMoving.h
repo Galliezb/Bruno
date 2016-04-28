@@ -34,16 +34,21 @@ class moving {
 	// Action en cours du personnage
 	string  * playerCurrentAction;
 
+	// vitesse de défilement
+	int scrollingSpeed = 10;
+
+
 	// methode private
+	void returnLimitCollisionMove();
 
 public:
 
 	// Variables pour l'animation de la marche du personnage
 
-	bool goTop = false;
-	bool goRight = false;
-	bool goDown = false;
-	bool goLeft = false;
+	bool boolMovePlayerTop = false;
+	bool boolMovePlayerRight = false;
+	bool boolMovePlayerDown = false;
+	bool boolMovePlayerLeft = false;
 
 
 	// fonction pour le mouvement
@@ -51,8 +56,10 @@ public:
 
 	moving();
 	void init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain);
-	void movePlayer();
 	void playerAction();
+
+	// méthode de gestion du déplacement joueur
+	void movePlayer();
 	void setBoolMovePlayerTop(bool b);
 	void setBoolMovePlayerRight(bool b);
 	void setBoolMovePlayerDown(bool b);
@@ -63,6 +70,7 @@ public:
 	bool getBoolMovePlayerLeft();
 	int midX();
 	int midY();
+	void updateOrigin();
 
 	// démarre l'enregistrement du temps
 	void moving::setTimerStart();
