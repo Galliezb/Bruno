@@ -19,6 +19,7 @@ void classMap::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *
 	boue.loadImage("boue.jpg");
 	eau.loadImage("eau.jpg");
 	rocher.loadImage("rocher.png");
+	cadre.loadImage("cadre.png");
 	fbo.allocate(widthImage,heightImage);
 
 	// pointeur tab content map
@@ -69,6 +70,7 @@ bool classMap::remplirHerbe(){
 		for (int y = 0; y<80; y++) {
 			herbe.draw(x*64,y*64);
 			*(ptrTabContentTerrain + x + y*120 - 1) = 0;
+			cadre.draw(x * 64, y * 64);
 		}
 	}
 	fbo.end();
@@ -193,20 +195,22 @@ int classMap::limitCameraY() {
 void classMap::returnPosCase(int coordX, int coordY){
 
 	// sort les valeurs de bordure de map et les restaure sur des valeurs correctes.
-	int x = *ptrOriginX;
-	int y = *ptrOriginY;
-	if ( x < 0 ){ x = 0; }
-	if ( y < 0) { y = 0; }
-	if (x > 7680 - *ptrWidthScreen ) { x = 7680 - *ptrWidthScreen; }
-	if (y > 5120 - *ptrHeightScreen) { y = 5120 - *ptrHeightScreen; }
+	int caseX = *ptrOriginX;
+	int caseY = *ptrOriginY;
+	if (caseX < 0 ){ caseX = 0; }
+	if (caseY < 0) { caseY = 0; }
+	if (caseX > 7680 - *ptrWidthScreen ) { caseX = 7680 - *ptrWidthScreen; }
+	if (caseY > 5120 - *ptrHeightScreen) { caseY = 5120 - *ptrHeightScreen; }
 
 
-	int caseX = floor((x + coordX) / 64);
-	int caseY = floor((y + coordY) / 64);
+	caseX = floor((caseX + coordX) / 64);
+	caseY = floor((caseY + coordY) / 64);
 
-	printf("Case X => %d \tCase Y => %d\n",caseX,caseY);
+	printf("Case X => %d \tCase Y => %d\t Case => %d \t Terrain =>%d \n",caseX,caseY, *(ptrTabContentCase + caseX + caseY * 120 - 1), *(ptrTabContentTerrain + caseX + caseY * 120 - 1));
 }
 
+// Oui WTF, quand ça merde, ca fait chier. Mais bon c'est toujours
+// mieux que d'être constipé non ?
 void classMap::seeDataOfThisFuckingTab(){
 
 	for(int x=0;x<120;x++){

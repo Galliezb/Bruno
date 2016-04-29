@@ -28,9 +28,7 @@ void ofApp::setup(){
 	movePersonnage.init(&originX, &originY,&widthScreen, &heightScreen, &playerCurrentAction, tabContentCase, tabContentTerrain);
 
 	movePersonnage.setTimerStart();
-	
-	// WTF ? PC trop Rapide ? lié au script et tableau de pointeur ? 
-	scrollingSpeed = 10;
+	 
 
 }
 
@@ -38,38 +36,10 @@ void ofApp::setup(){
 void ofApp::update(){
 
 	// si le joueur a bougé, on met à jour l'info
-	
 	if(playerHasMove){
-		if (playerMoveTop){ 
-			originY -= scrollingSpeed;
-			if (originY < 1 - heightScreen/2 - 32 + 64) { 
-				originY = 1 - heightScreen/2 - 32 + 64;
-			}
-		}
-		if (playerMoveRight){ 
-			originX += scrollingSpeed;
-			if (originX > 7679-widthScreen / 2) { 
-				originX = 7680 - widthScreen / 2; 
-			}
-		}
-		if (playerMoveDown){ 
-			originY += scrollingSpeed;
-			if (originY > 5119-heightScreen/2) { 
-				originY = 5120 - heightScreen/2; 
-			}
-		}
-		if (playerMoveLeft){ 
-			originX -= scrollingSpeed;
-			if (originX < 1 - widthScreen / 2 - 32 + 64) { 
-				originX = 1 - widthScreen / 2 - 32 + 64;
-			}
-		}
-		// limite les déplacement dans la carte ( et pas en dehors des limites )
-		//movePersonnage.limitMovePlayer();
+		// Gestion des colisions INTEGRE avec les objets présent et les cases d'eau
+		movePersonnage.updateOrigin();
 	}
-
-	movePersonnage.setTimerEnd();
-
 }
 
 //--------------------------------------------------------------
@@ -80,10 +50,12 @@ void ofApp::draw(){
 	// affichage du personnage
 	movePersonnage.movePlayer();
 
+
 	string fpsStr = "originX => " + ofToString(originX);
-	ofDrawBitmapString(fpsStr, 10, 100);
+	ofDrawBitmapString(fpsStr, 20, 100);
 	fpsStr = "originY => " + ofToString(originY);
 	ofDrawBitmapString(fpsStr, 20, 125);
+
 
 }
 

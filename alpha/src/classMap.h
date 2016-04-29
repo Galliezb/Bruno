@@ -8,7 +8,7 @@ But : Gérer la map
 
 class classMap{
 	private :
-		ofImage arbre,boue,eau,herbe,rocher;
+		ofImage arbre,boue,eau,herbe,rocher,cadre;
 		ofFbo fbo;
 		bool moveCameraLeft = false;
 		bool moveCameraRight = false;
