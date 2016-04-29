@@ -28,7 +28,9 @@ void ofApp::setup(){
 	movePersonnage.init(&originX, &originY,&widthScreen, &heightScreen, &playerCurrentAction, tabContentCase, tabContentTerrain);
 
 	movePersonnage.setTimerStart();
-	 
+	
+	// WTF ? PC trop Rapide ? lié au script et tableau de pointeur ? 
+	scrollingSpeed = 10;
 
 }
 
@@ -39,25 +41,25 @@ void ofApp::update(){
 	
 	if(playerHasMove){
 		if (playerMoveTop){ 
-			originY -= 10; 
+			originY -= scrollingSpeed;
 			if (originY < 1 - heightScreen/2 - 32 + 64) { 
 				originY = 1 - heightScreen/2 - 32 + 64;
 			}
 		}
 		if (playerMoveRight){ 
-			originX += 10; 
+			originX += scrollingSpeed;
 			if (originX > 7679-widthScreen / 2) { 
 				originX = 7680 - widthScreen / 2; 
 			}
 		}
 		if (playerMoveDown){ 
-			originY += 10; 
+			originY += scrollingSpeed;
 			if (originY > 5119-heightScreen/2) { 
 				originY = 5120 - heightScreen/2; 
 			}
 		}
 		if (playerMoveLeft){ 
-			originX -= 10; 
+			originX -= scrollingSpeed;
 			if (originX < 1 - widthScreen / 2 - 32 + 64) { 
 				originX = 1 - widthScreen / 2 - 32 + 64;
 			}

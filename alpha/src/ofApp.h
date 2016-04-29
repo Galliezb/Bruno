@@ -41,19 +41,19 @@ class ofApp : public ofBaseApp{
 		bool playerMoveDown = false;
 		bool playerMoveLeft = false;
 		// vitesse de défilement
-		int scrollingSpeed = 10;
+		int scrollingSpeed=10;
 		/* tableau contenant le terrain
 		0 => herbe ( marche ok )
 		1 => boue ( marche ralentie )
 		2 => eau ( pas de marche, ni arbre, ni roche )
 		*/
-		int tabContentTerrain[9600] = { 0 };
+		int tabContentTerrain[120*80] = { 0 };
 		/* tableau contenant ce qui se trouve sur la case
 		0 = > RIEN
 		1 = > arbre
 		2 = > rocher
 		*/
-		int tabContentCase[9600] = { 0 };
+		int tabContentCase[120*80] = { 0 };
 
 
 };
