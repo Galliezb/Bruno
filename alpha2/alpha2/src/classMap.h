@@ -1,8 +1,3 @@
-/*
-Made by Galliez Bruno
-Version : 3.0
-But : Gérer la map
-*/
 #include "ofMain.h"
 #include <math.h>
 
@@ -19,7 +14,7 @@ class classMap{
 		int speedScaleCamera = 1;
 
 		// pointeur position joueur
-		int *ptrOriginX, *ptrOriginY;
+		int *ptrPositionJoueurX, *ptrPositionJoueurY;
 		int *ptrWidthScreen, *ptrHeightScreen;
 		// pointeur tableau contenu MAP
 		int *ptrTabContentCase, *ptrTabContentTerrain;
@@ -29,7 +24,7 @@ public :
 		ofImage affichage;
 
 		classMap();
-		void init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain);
+		void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain);
 		// Gestion de l'herbe
 		bool remplirHerbe();
 		bool restoreGrass(int posX, int posY);

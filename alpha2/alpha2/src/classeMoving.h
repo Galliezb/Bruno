@@ -1,14 +1,10 @@
-/*
-Codé par Christophe
-But : gérer le personnage
-*/
 #pragma once
 #include <time.h>
 #include "ofMain.h"
 class moving {
 
 	// pointeur valeur variable ofapp
-	int *ptrOriginX, *ptrOriginY;
+	int *ptrPositionJoueurX, *ptrPositionJoueurY;
 	int *ptrWidthScreen, *ptrHeightScreen;
 	// pointeur tab content map
 	int *ptrTabContentCase;
@@ -44,10 +40,6 @@ class moving {
 	// vitesse de défilement
 	int scrollingSpeed = 10;
 
-
-	// methode private
-	void returnLimitCollisionMove();
-
 public:
 
 	// Variables pour l'animation de la marche du personnage
@@ -62,7 +54,7 @@ public:
 	ofImage marche, courir, repos, construire, degat, hacher, miner, mort, action, attaquer;
 
 	moving();
-	void init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain);
+	void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain);
 	void playerAction();
 
 	// méthode de gestion du déplacement joueur
@@ -77,12 +69,17 @@ public:
 	bool getBoolMovePlayerLeft();
 	int midX();
 	int midY();
-	void updateOrigin();
+	void updatePositionJoueur();
+
+	// origin / center / left / Right
+	int returnPosCaseX(string ancre);
+	// origin / bottom / top
+	int returnPosCaseY(string ancre);
 
 	// démarre l'enregistrement du temps
-	void moving::setTimerStart();
-	void moving::setTimerEnd();
-	int moving::getTimerStart();
-	int moving::getTimerEnd();
-	int moving::getDiffTime();
+	void setTimerStart();
+	void setTimerEnd();
+	int getTimerStart();
+	int getTimerEnd();
+	int getDiffTime();
 };

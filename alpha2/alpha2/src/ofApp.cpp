@@ -12,20 +12,18 @@ void ofApp::setup(){
 	// taille de l'écran client
 	widthScreen = ofGetWindowWidth();
 	heightScreen = ofGetWindowHeight();
-	//widthScreen = ofGetScreenWidth();
-	//heightScreen = ofGetScreenHeight();
 
 
 	// C'est la position actuel de l'origin 0 - 0 = haut coin haut gauche.
-	originX = -100;
-	originY = 4500;
+	positionJoueurX = 50;
+	positionJoueurY = 50;
 
 
 	// initialisation des classes ( pour passer les valeurs par pointeur surtout )
 	// map
-	gestionMap.init(&originX,&originY,&widthScreen,&heightScreen, tabContentCase, tabContentTerrain);
+	gestionMap.init(&positionJoueurX,&positionJoueurY,&widthScreen,&heightScreen, tabContentCase, tabContentTerrain);
 	// animation personnage
-	movePersonnage.init(&originX, &originY,&widthScreen, &heightScreen, &playerCurrentAction, tabContentCase, tabContentTerrain);
+	movePersonnage.init(&positionJoueurX, &positionJoueurY,&widthScreen, &heightScreen, &playerCurrentAction, tabContentCase, tabContentTerrain);
 
 	movePersonnage.setTimerStart();
 	 
@@ -38,7 +36,7 @@ void ofApp::update(){
 	// si le joueur a bougé, on met à jour l'info
 	if(playerHasMove){
 		// Gestion des colisions INTEGRE avec les objets présent et les cases d'eau
-		movePersonnage.updateOrigin();
+		movePersonnage.updatePositionJoueur();
 	}
 }
 
@@ -51,10 +49,14 @@ void ofApp::draw(){
 	movePersonnage.movePlayer();
 
 
-	string fpsStr = "originX => " + ofToString(originX);
+	string fpsStr = "positionJoueurX => " + ofToString(positionJoueurX);
 	ofDrawBitmapString(fpsStr, 20, 100);
-	fpsStr = "originY => " + ofToString(originY);
+	fpsStr = "positionJoueurY => " + ofToString(positionJoueurY);
 	ofDrawBitmapString(fpsStr, 20, 125);
+	fpsStr = "positionCameraX => " + ofToString(positionJoueurX-widthScreen/2);
+	ofDrawBitmapString(fpsStr, 20, 150);
+	fpsStr = "positionCameraY => " + ofToString(positionJoueurY-heightScreen/2);
+	ofDrawBitmapString(fpsStr, 20, 175);
 
 
 }
@@ -179,7 +181,7 @@ void ofApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-	gestionMap.returnPosCase(x,y);
+	printf("X => %d\tY=>%d\n",movePersonnage.returnPosCaseX("center"), movePersonnage.returnPosCaseY("top"));
 }
 
 //--------------------------------------------------------------
