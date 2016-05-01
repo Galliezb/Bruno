@@ -50,11 +50,11 @@ void classMap::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *
 	succes = changeCaseWater(11, 12);
 	
 	// ajoute des arbres de manière aleatoire
-	succes = addRessourceRandom(true, false);
+	//succes = addRessourceRandom(true, false);
 
 
 	// test ajoute des rochers de manière aleatoire
-	succes = addRessourceRandom(false, true);
+	//succes = addRessourceRandom(false, true);
 
 	
 	seeDataOfThisFuckingTab();

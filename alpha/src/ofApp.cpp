@@ -17,8 +17,8 @@ void ofApp::setup(){
 
 
 	// C'est la position actuel de l'origin 0 - 0 = haut coin haut gauche.
-	originX = 0;
-	originY = 0;
+	originX = -100;
+	originY = -100;
 
 
 	// initialisation des classes ( pour passer les valeurs par pointeur surtout )

@@ -295,15 +295,18 @@ void moving::updateOrigin(){
 		}
 
 		// si la case contient un arbre ou rocher + exception X pour passer a coté des arbres.
-		if ( ( *(ptrTabContentTerrain + caseX + caseY * 120 - 1) != 0
-			 || *(ptrTabContentCase + caseX + caseY * 120 - 1) == 1
+		if ( ( *(ptrTabContentCase + caseX + caseY * 120 - 1) == 1
 			 || *(ptrTabContentCase + caseX + caseY * 120 - 1) == 2)
 			 && *ptrOriginX + *ptrWidthScreen / 2 > caseX * 64 + 16 
 			 && *ptrOriginX + *ptrWidthScreen / 2 < caseX * 64 + 48) {
 			// Limite basse de la case ou y'a colision
 			// -20 c'est pour coller au plus proche, on modifie vers le haut la limite de 20
 			int maxY = caseY * 64 + 64 -20;
-			printf("TOP\n");
+			if (*ptrOriginY + *ptrHeightScreen / 2 < maxY) { *ptrOriginY = maxY - *ptrHeightScreen / 2; }
+		// si la case est autre chose que de l'herbe pratiquable
+		} else if(*(ptrTabContentTerrain + caseX + caseY * 120 - 1) != 0){
+			printf("HIT CASE PLEINE TOP\n");
+			int maxY = caseY * 64 + 64 -20;
 			printf("%d < %d\n", *ptrOriginY + *ptrHeightScreen / 2, maxY);
 			if (*ptrOriginY + *ptrHeightScreen / 2 < maxY) { *ptrOriginY = maxY - *ptrHeightScreen / 2; }
 			printf("%d < %d\n", *ptrOriginY + *ptrHeightScreen / 2, maxY);
@@ -332,20 +335,34 @@ void moving::updateOrigin(){
 		}
 
 		// si la case contient un arbre ou rocher + exception X pour passer a coté des arbres.
-		if ((*(ptrTabContentTerrain + caseX + caseY * 120 - 1) != 0
-			|| *(ptrTabContentCase + caseX + caseY * 120 - 1) == 1
+		if ((*(ptrTabContentCase + caseX + caseY * 120 - 1) == 1
 			|| *(ptrTabContentCase + caseX + caseY * 120 - 1) == 2)
 			&& *ptrOriginY + *ptrHeightScreen / 2 > caseY * 64 - 20) {
+
 			// Limite basse de la case ou y'a colision
 			// -20 c'est pour coller au plus proche, on modifie vers le haut la limite de 20
 			int maxX = caseX * 64 + 12;
 			if (*ptrOriginX + *ptrWidthScreen / 2 > maxX) { *ptrOriginX = maxX - *ptrWidthScreen / 2; }
+
+		} else if( *(ptrTabContentTerrain + caseX + caseY * 120 - 1) != 0 ){
+		
+			printf("HIT CASE PLEINE RIGHT\n");
+			int maxX = caseX * 64 - 8;
+			printf("%d > %d\n", *ptrOriginX + *ptrWidthScreen / 2, maxX);
+			if (*ptrOriginX + *ptrWidthScreen / 2 > maxX) { *ptrOriginX = maxX - *ptrWidthScreen / 2; }
+			printf("%d > %d\n", *ptrOriginX + *ptrWidthScreen / 2, maxX);
+
 		}
 
 
 	}
 	/*************************************** VERS LE BAS ******************************/
 	if (boolMovePlayerDown) {
+
+		*ptrOriginY += scrollingSpeed;
+		if (*ptrOriginY > 5119 - *ptrHeightScreen / 2) {
+			*ptrOriginY = 5120 - *ptrHeightScreen / 2;
+		}
 
 		// ici on calcul par rapport à la case et pts d'anchrage 0.0 de la sprite
 		int caseX = *ptrOriginX + *ptrWidthScreen / 2;
@@ -359,18 +376,12 @@ void moving::updateOrigin(){
 		caseX = floor(caseX / 64);
 		caseY = floor(caseY / 64);
 
-
-		*ptrOriginY += scrollingSpeed;
-		if (*ptrOriginY > 5119 - *ptrHeightScreen / 2) {
-			*ptrOriginY = 5120 - *ptrHeightScreen / 2;
-		}
-
 		// si la case contient un arbre ou rocher + exception X pour passer a coté des arbres.
-		if ((*(ptrTabContentTerrain + caseX + (caseY+1) * 120 - 1) != 0
-			|| *(ptrTabContentCase + caseX + (caseY+1) * 120 - 1) == 1
+		if ((*(ptrTabContentCase + caseX + (caseY+1) * 120 - 1) == 1
 			|| *(ptrTabContentCase + caseX + (caseY+1) * 120 - 1) == 2)
 			&& *ptrOriginX + *ptrWidthScreen / 2 > caseX * 64 + 16
 			&& *ptrOriginX + *ptrWidthScreen / 2 < caseX * 64 + 48) {
+
 			// Limite basse de la case ou y'a colision
 			// -20 c'est pour coller au plus proche, on modifie vers le haut la limite de 20
 			int maxY = (caseY+1) * 64 -22;
@@ -378,6 +389,15 @@ void moving::updateOrigin(){
 			printf("%d > %d\n", *ptrOriginY + *ptrHeightScreen / 2, maxY);
 			if (*ptrOriginY + *ptrHeightScreen / 2 > maxY) { *ptrOriginY = maxY - *ptrHeightScreen / 2; }
 			printf("%d > %d\n", *ptrOriginY + *ptrHeightScreen / 2, maxY);
+
+		} else if (*(ptrTabContentTerrain + caseX + (caseY + 1) * 120 - 1) != 0){
+		
+			int maxY = (caseY + 1) * 64 - 30;
+			printf("HIT CASE PLEINE DOWN\n");
+			printf("%d > %d\n", *ptrOriginY + *ptrHeightScreen / 2, maxY);
+			if (*ptrOriginY + *ptrHeightScreen / 2 > maxY) { *ptrOriginY = maxY - *ptrHeightScreen / 2; }
+			printf("%d > %d\n", *ptrOriginY + *ptrHeightScreen / 2, maxY);
+
 		}
 
 
@@ -408,16 +428,16 @@ void moving::updateOrigin(){
 		printf("originY => %d(%d)\n", *ptrOriginY, *ptrOriginY + *ptrHeightScreen / 2);
 		printf("caseX => %d\t", caseX);
 		printf("caseY => %d\n", caseY);
-		printf("Case => %d\t", *(ptrTabContentCase + caseX + caseY * 120 - 1));
-		printf("Terrain => %d\n", *(ptrTabContentTerrain + caseX + caseY * 120 - 1));
+		printf("Case => %d\t", *(ptrTabContentCase + caseX + (caseY + 1) * 120 - 1));
+		printf("Terrain => %d\n", *(ptrTabContentTerrain + caseX + (caseY + 1) * 120 - 1));
 		printf("Screen => w;%d\th:%d\n", *ptrWidthScreen, *ptrHeightScreen);
 		printf("haut arbre => %d > %d\n", *ptrOriginY + *ptrHeightScreen / 2, caseY * 64 - 10);
 
 		// si la case contient un arbre ou rocher + exception X pour passer a coté des arbres.
-		if ((*(ptrTabContentTerrain + caseX + caseY * 120 - 1) != 0
-			|| *(ptrTabContentCase + caseX + caseY * 120 - 1) == 1
+		if (( *(ptrTabContentCase + caseX + caseY * 120 - 1) == 1
 			|| *(ptrTabContentCase + caseX + caseY * 120 - 1) == 2)
 			&& *ptrOriginY + *ptrHeightScreen / 2 > caseY * 64 - 20) {
+
 			// Limite basse de la case ou y'a colision
 			// -20 c'est pour coller au plus proche, on modifie vers le haut la limite de 20
 			int maxX = caseX * 64 + 32 + 20;
@@ -425,6 +445,15 @@ void moving::updateOrigin(){
 			printf("%d < %d\n", *ptrOriginX + *ptrWidthScreen / 2, maxX);
 			if (*ptrOriginX + *ptrWidthScreen / 2 < maxX) { *ptrOriginX = maxX - *ptrWidthScreen / 2; }
 			printf("%d < %d\n", *ptrOriginX + *ptrWidthScreen / 2, maxX);
+
+		} else if(*(ptrTabContentTerrain + caseX + caseY * 120 - 1) != 0){
+		
+			int maxX = caseX * 64 + 64 + 8;
+			printf("CASE PLEINE LEFT HIT !!!\n");
+			printf("%d < %d\n", *ptrOriginX + *ptrWidthScreen / 2, maxX);
+			if (*ptrOriginX + *ptrWidthScreen / 2 < maxX) { *ptrOriginX = maxX - *ptrWidthScreen / 2; }
+			printf("%d < %d\n", *ptrOriginX + *ptrWidthScreen / 2, maxX);
+
 		}
 
 
