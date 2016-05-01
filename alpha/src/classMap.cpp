@@ -18,7 +18,7 @@ void classMap::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *
 	herbe.loadImage("herbe.jpg");
 	boue.loadImage("boue.jpg");
 	eau.loadImage("eau.jpg");
-	rocher.loadImage("rocher.png");
+	rocher.loadImage("rochert.png");
 	cadre.loadImage("cadre.png");
 	fbo.allocate(widthImage,heightImage);
 
@@ -125,16 +125,12 @@ bool classMap::addRessource(unsigned int posX, unsigned int posY, bool arbre, bo
 			if ( arbre && !rocher ){
 
 				//this->arbre.draw(posX *64, posY *64,64,64);
-				fbo.begin();
 				this->arbre.draw(posX*64,posY*64,64,64);
-				fbo.end();
 				// on ajoute la disponibilité de l'arbre dans le tableau de donnée
 				*(ptrTabContentCase + posX + posY * 120 - 1) = 1;
 
 			} else if ( !arbre && rocher ){
-				fbo.begin();
 				this->rocher.draw(posX*64,posY*64);
-				fbo.end();
 				// on ajoute la disponibilité du rocher dans le tableau de donnée
 				*(ptrTabContentCase + posX + posY * 120 - 1) = 2;
 			}
@@ -152,7 +148,7 @@ bool classMap::addRessourceRandom( bool arbre, bool rocher){
 
 	srand(time(NULL));
 	int alea = 0;
- 
+	fbo.begin();
 	for (int x=0;x<120;x++){
 		for(int y=0;y<80;y++){
 			alea = rand()%101;
@@ -161,7 +157,9 @@ bool classMap::addRessourceRandom( bool arbre, bool rocher){
 				Sleep(1);
 			}
 		}
+		
 	}
+	fbo.end();
 	return true;
 }
 

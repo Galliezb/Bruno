@@ -15,6 +15,8 @@ moving::moving(){
 	miner.loadImage("animminer.png");
 	mort.loadImage("animmort.png");
 	attaquer.loadImage("animattaquer.png");
+
+	sound.load("aie.mp3");
 }
 // initialisation de la classe ( OF dispo ici, pas dans le constructeur )
 void moving::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain) {
@@ -258,36 +260,176 @@ int moving::getTimerStart() {
 int moving::getTimerEnd() {
 	return tpsStop;
 }
+// Gère le déplacement  + la colision avec les objets
 void moving::updateOrigin(){
-
+	int caseX, caseY;
+	// Calcul de case pour les colisions !
+	
+	/*************************************** VERS LE HAUT ******************************/
 	if (boolMovePlayerTop) {
+
+		// ici on calcul par rapport à la case et pts d'anchrage 0.0 de la sprite
+		int caseX = *ptrOriginX + *ptrWidthScreen / 2;
+		int caseY = *ptrOriginY + *ptrHeightScreen / 2;
+		// les bords de map c'est chiant putain !
+		if (caseX < 0) { caseX = 0; }
+		if (caseY < 0) { caseY = 0; }
+		if (caseX > 7680 - *ptrWidthScreen) { caseX = 7680 - *ptrWidthScreen; }
+		if (caseY > 5120 - *ptrHeightScreen) { caseY = 5120 - *ptrHeightScreen; }
+		// on transforme en case
+		caseX = floor(caseX / 64);
+		caseY = floor(caseY / 64);
+
 		*ptrOriginY -= scrollingSpeed;
 		// Putain tu va ou la ? On sort pas de la map gros lâche !
+		// -24 mesuré au pixel prêt
 		if (*ptrOriginY < 1 - *ptrHeightScreen / 2 - 32 + 64) {
-			*ptrOriginY = 1 - *ptrHeightScreen / 2 - 32 + 64;
+			*ptrOriginY = 1 - *ptrHeightScreen / 2 - 32 + 64 - 24;
+
+			if ((ofGetElapsedTimeMillis()-timerTrollAie)/1000 > 30 ){
+				sound.play();
+				timerTrollAie = ofGetElapsedTimeMillis();
+			}
+			printf("**********\nOUCH(%d)\n**********\n", (ofGetElapsedTimeMillis() - timerTrollAie) / 1000);
+
 		}
+
+		// si la case contient un arbre ou rocher + exception X pour passer a coté des arbres.
+		if ( ( *(ptrTabContentTerrain + caseX + caseY * 120 - 1) != 0
+			 || *(ptrTabContentCase + caseX + caseY * 120 - 1) == 1
+			 || *(ptrTabContentCase + caseX + caseY * 120 - 1) == 2)
+			 && *ptrOriginX + *ptrWidthScreen / 2 > caseX * 64 + 16 
+			 && *ptrOriginX + *ptrWidthScreen / 2 < caseX * 64 + 48) {
+			// Limite basse de la case ou y'a colision
+			// -20 c'est pour coller au plus proche, on modifie vers le haut la limite de 20
+			int maxY = caseY * 64 + 64 -20;
+			printf("TOP\n");
+			printf("%d < %d\n", *ptrOriginY + *ptrHeightScreen / 2, maxY);
+			if (*ptrOriginY + *ptrHeightScreen / 2 < maxY) { *ptrOriginY = maxY - *ptrHeightScreen / 2; }
+			printf("%d < %d\n", *ptrOriginY + *ptrHeightScreen / 2, maxY);
+		}
+
 	}
+
+	/*************************************** VERS LA DROITE ******************************/
 	if (boolMovePlayerRight) {
+
+		// ici on calcul par rapport à la case et pts d'anchrage au niveau du pied droit de la sprite
+		int caseX = *ptrOriginX + 39 + *ptrWidthScreen / 2;
+		int caseY = *ptrOriginY + 28 + *ptrHeightScreen / 2;
+		// les bords de map c'est chiant putain !
+		if (caseX < 0) { caseX = 0; }
+		if (caseY < 0) { caseY = 0; }
+		if (caseX > 7680 - *ptrWidthScreen) { caseX = 7680 - *ptrWidthScreen; }
+		if (caseY > 5120 - *ptrHeightScreen) { caseY = 5120 - *ptrHeightScreen; }
+		// on transforme en case
+		caseX = floor(caseX / 64);
+		caseY = floor(caseY / 64);
+
 		*ptrOriginX += scrollingSpeed;
 		if (*ptrOriginX > 7679 - *ptrWidthScreen / 2) {
 			*ptrOriginX = 7680 - *ptrWidthScreen / 2;
 		}
+
+		// si la case contient un arbre ou rocher + exception X pour passer a coté des arbres.
+		if ((*(ptrTabContentTerrain + caseX + caseY * 120 - 1) != 0
+			|| *(ptrTabContentCase + caseX + caseY * 120 - 1) == 1
+			|| *(ptrTabContentCase + caseX + caseY * 120 - 1) == 2)
+			&& *ptrOriginY + *ptrHeightScreen / 2 > caseY * 64 - 20) {
+			// Limite basse de la case ou y'a colision
+			// -20 c'est pour coller au plus proche, on modifie vers le haut la limite de 20
+			int maxX = caseX * 64 + 12;
+			if (*ptrOriginX + *ptrWidthScreen / 2 > maxX) { *ptrOriginX = maxX - *ptrWidthScreen / 2; }
+		}
+
+
 	}
+	/*************************************** VERS LE BAS ******************************/
 	if (boolMovePlayerDown) {
+
+		// ici on calcul par rapport à la case et pts d'anchrage 0.0 de la sprite
+		int caseX = *ptrOriginX + *ptrWidthScreen / 2;
+		int caseY = *ptrOriginY + *ptrHeightScreen / 2;
+		// les bords de map c'est chiant putain !
+		if (caseX < 0) { caseX = 0; }
+		if (caseY < 0) { caseY = 0; }
+		if (caseX > 7680 - *ptrWidthScreen) { caseX = 7680 - *ptrWidthScreen; }
+		if (caseY > 5120 - *ptrHeightScreen) { caseY = 5120 - *ptrHeightScreen; }
+		// on transforme en case
+		caseX = floor(caseX / 64);
+		caseY = floor(caseY / 64);
+
+
 		*ptrOriginY += scrollingSpeed;
 		if (*ptrOriginY > 5119 - *ptrHeightScreen / 2) {
 			*ptrOriginY = 5120 - *ptrHeightScreen / 2;
 		}
+
+		// si la case contient un arbre ou rocher + exception X pour passer a coté des arbres.
+		if ((*(ptrTabContentTerrain + caseX + (caseY+1) * 120 - 1) != 0
+			|| *(ptrTabContentCase + caseX + (caseY+1) * 120 - 1) == 1
+			|| *(ptrTabContentCase + caseX + (caseY+1) * 120 - 1) == 2)
+			&& *ptrOriginX + *ptrWidthScreen / 2 > caseX * 64 + 16
+			&& *ptrOriginX + *ptrWidthScreen / 2 < caseX * 64 + 48) {
+			// Limite basse de la case ou y'a colision
+			// -20 c'est pour coller au plus proche, on modifie vers le haut la limite de 20
+			int maxY = (caseY+1) * 64 -22;
+			printf("DOWN\n");
+			printf("%d > %d\n", *ptrOriginY + *ptrHeightScreen / 2, maxY);
+			if (*ptrOriginY + *ptrHeightScreen / 2 > maxY) { *ptrOriginY = maxY - *ptrHeightScreen / 2; }
+			printf("%d > %d\n", *ptrOriginY + *ptrHeightScreen / 2, maxY);
+		}
+
+
 	}
+	/*************************************** VERS LA GAUCHE ******************************/
 	if (boolMovePlayerLeft) {
+
 		*ptrOriginX -= scrollingSpeed;
 		if (*ptrOriginX < 1 - *ptrWidthScreen / 2 - 32 + 64) {
 			*ptrOriginX = 1 - *ptrWidthScreen / 2 - 32 + 64;
 		}
+
+
+		// ici on calcul par rapport à la case et pts d'anchrage au niveau du pied droit de la sprite
+		int caseX = *ptrOriginX - 7 + *ptrWidthScreen / 2;
+		int caseY = *ptrOriginY + 28 + *ptrHeightScreen / 2;
+		// les bords de map c'est chiant putain !
+		if (caseX < 0) { caseX = 0; }
+		if (caseY < 0) { caseY = 0; }
+		if (caseX > 7680 - *ptrWidthScreen) { caseX = 7680 - *ptrWidthScreen; }
+		if (caseY > 5120 - *ptrHeightScreen) { caseY = 5120 - *ptrHeightScreen; }
+		// on transforme en case
+		caseX = floor(caseX / 64);
+		caseY = floor(caseY / 64);
+
+		printf("*****************************************************\n");
+		printf("originX => %d(%d)\t", *ptrOriginX, *ptrOriginX + *ptrWidthScreen / 2);
+		printf("originY => %d(%d)\n", *ptrOriginY, *ptrOriginY + *ptrHeightScreen / 2);
+		printf("caseX => %d\t", caseX);
+		printf("caseY => %d\n", caseY);
+		printf("Case => %d\t", *(ptrTabContentCase + caseX + caseY * 120 - 1));
+		printf("Terrain => %d\n", *(ptrTabContentTerrain + caseX + caseY * 120 - 1));
+		printf("Screen => w;%d\th:%d\n", *ptrWidthScreen, *ptrHeightScreen);
+		printf("haut arbre => %d > %d\n", *ptrOriginY + *ptrHeightScreen / 2, caseY * 64 - 10);
+
+		// si la case contient un arbre ou rocher + exception X pour passer a coté des arbres.
+		if ((*(ptrTabContentTerrain + caseX + caseY * 120 - 1) != 0
+			|| *(ptrTabContentCase + caseX + caseY * 120 - 1) == 1
+			|| *(ptrTabContentCase + caseX + caseY * 120 - 1) == 2)
+			&& *ptrOriginY + *ptrHeightScreen / 2 > caseY * 64 - 20) {
+			// Limite basse de la case ou y'a colision
+			// -20 c'est pour coller au plus proche, on modifie vers le haut la limite de 20
+			int maxX = caseX * 64 + 32 + 20;
+			printf("LEFT HIT !!!\n");
+			printf("%d < %d\n", *ptrOriginX + *ptrWidthScreen / 2, maxX);
+			if (*ptrOriginX + *ptrWidthScreen / 2 < maxX) { *ptrOriginX = maxX - *ptrWidthScreen / 2; }
+			printf("%d < %d\n", *ptrOriginX + *ptrWidthScreen / 2, maxX);
+		}
+
+
 	}
 
-	// verifie la collision
-	returnLimitCollisionMove();
 
 
 }
@@ -297,16 +439,7 @@ void moving::returnLimitCollisionMove(){
 	// ne pas oublier, les pointeurs pointe des variables qui possèdent déjà la nouvelle position
 	// Il faut donc décider ici si on refuse ou limite la distance de déplacement.
 
-	// variable local,
-	int caseX = *ptrOriginX + *ptrWidthScreen/2;
-	int caseY = *ptrOriginY + *ptrHeightScreen/2;
-	// les bords de map c'est chiant putain !
-	if (caseX < 0) { caseX = 0; }
-	if (caseY < 0) { caseY = 0; }
-
-	// on doit aussi calculer Y
-	caseX = floor(caseX / 64);
-	caseY = floor(caseY / 64);
+	/*
 	printf("*****************************************************\n");
 	printf("originX => %d\t",*ptrOriginX);
 	printf("originY => %d\n", *ptrOriginY);
@@ -314,17 +447,17 @@ void moving::returnLimitCollisionMove(){
 	printf("caseY => %d\n", caseY);
 	printf("Case => %d\t", *(ptrTabContentCase + caseX + caseY * 120 - 1));
 	printf("Terrain => %d\n", *(ptrTabContentTerrain + caseX + caseY * 120 - 1));
-
+	*/
 
 	// on verifie que la case ne soit pas de l'eau ( l'eau c'est pour les connards ! Heu les canards ! )
 	// Et tout objet qui se trouve dessus
-	if ( *(ptrTabContentCase + caseX + caseY * 120 - 1)!=0 || *(ptrTabContentTerrain + caseX + caseY * 120 -1) !=0 ){
+	//if ( *(ptrTabContentCase + caseX + caseY * 120 - 1)!=0 || *(ptrTabContentTerrain + caseX + caseY * 120 -1) !=0 ){
 	
 		
 		// Bordel y'a collision ! Par soucis de conscience professionnelle
 		// on va renvoyé la limite de la case plutôt que l'ancienne position
 		// Ce sera ainsi adapatable à toute vitesse de déplacement
-
+		/*
 		if ( getBoolMovePlayerLeft() ){
 			// valeur max X autorisé vers la GAUCHE 
 			int maxX = caseX*64+64;
@@ -336,21 +469,24 @@ void moving::returnLimitCollisionMove(){
 			int maxX = caseX * 64;
 			printf("\n*****\ndroite : %d>%d\n*****\n", *ptrOriginX, maxX);
 			if (*ptrOriginX>maxX - *ptrWidthScreen / 2) { *ptrOriginX = maxX - *ptrWidthScreen / 2; }
-		}
-
+		}*/
+		/*
 		if (getBoolMovePlayerTop()) {
-			// valeur max X autorisé vers le HAUT 
+			// Limite basse de la case ou y'a colision
 			int maxY = caseY * 64 + 64;
-			if (*ptrOriginY<maxY) { *ptrOriginY = maxY; }
+			printf("%d < %d\n", *ptrOriginY + *ptrHeightScreen / 2, maxY);
+			printf("%d\n", *ptrHeightScreen);
+			if (*ptrOriginY+*ptrHeightScreen/2 < maxY) { *ptrOriginY = maxY-*ptrHeightScreen/2-10; }
+			printf("%d < %d\n", *ptrOriginY + *ptrHeightScreen / 2,maxY);
 		}
 		if (getBoolMovePlayerDown()) {
 			// valeur max X autorisé vers le BAS
 			int maxY = caseY * 64;
 			if (*ptrOriginY>maxY) { *ptrOriginY = maxY; }
-		}
+		}*/
 
 
 	
-	}
+	//}
 
 }

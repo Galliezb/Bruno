@@ -28,6 +28,10 @@ class moving {
 	bool lastmoveDown = true;
 	bool lastmoveLeft = false;
 
+	// bool timer troll Aie
+	int timerTrollAie = 0;
+	ofSoundPlayer sound;
+
 	// variable de temps
 	int tpsStart, tpsStop,tpsDiff;
 
