@@ -105,7 +105,7 @@ bool classMap::changeCaseWater( unsigned int posX, unsigned int posY){
 		fbo.end();
 		return true;
 	}
-
+	
 }
 /******************************** ARBRE OU ROCHER *************************************/
 bool classMap::addRessource(unsigned int posX, unsigned int posY, bool arbre, bool rocher){
