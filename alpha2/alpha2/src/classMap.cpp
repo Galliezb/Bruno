@@ -1,7 +1,4 @@
 /*
-Made by Galliez Bruno
-Version : 5.0
-But : Gérer la map
 COPYRIGHT : TOUCHE PAS A CA PETIT CON !
 */
 #include <math.h>
@@ -13,7 +10,7 @@ classMap::classMap() {
 	// voir init. OF n'est pas encore dispo quand on appelle certaine fonction.
 	// Le setup d'OF qui permet un accès total appelera donc un init();
 }
-void classMap::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTtabContentTerrain) {
+void classMap::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTtabContentTerrain) {
 	arbre.loadImage("arbre.png");
 	herbe.loadImage("herbe.jpg");
 	boue.loadImage("boue.jpg");
@@ -32,8 +29,8 @@ void classMap::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *
 
 	printf("Initialisation MAP :  \n");
 
-	this->ptrOriginX = ptrOriginX;
-	this->ptrOriginY = ptrOriginY;
+	this->ptrPositionJoueurX = ptrPositionJoueurX;
+	this->ptrPositionJoueurY = ptrPositionJoueurY;
 	
 
 	/******************************* GENERATION MAP ************************************/
@@ -43,6 +40,7 @@ void classMap::init(int *ptrOriginX, int *ptrOriginY, int *ptrWidthScreen, int *
 	
 	// on ajoute une case d'eau
 	succes = changeCaseWater(5, 5);
+	succes = changeCaseWater(7, 7);
 	succes = changeCaseMud(10, 11);
 	succes = changeCaseMud(10, 12);
 	succes = changeCaseMud(11, 10);
@@ -188,35 +186,36 @@ void classMap::displayMap(){
 // Bonjour les calculs de position joueurs, putain comment deux variable peuvent ne pas s'incrémenter
 // a la même vitesse bordel de merde ! Faut trouver pourquoi ! Piste = OF ferait-il du threading ce con ?
 int classMap::limitCameraX() {
+	
+	int posX = *ptrPositionJoueurX - *ptrWidthScreen/2;
 
-	if (*ptrOriginX<1) {
+	if (posX<1) {
 		return 0;
-	} else if (*ptrOriginX>(7680 - *ptrWidthScreen)) {
+	} else if ( posX> 7680 - *ptrWidthScreen ){
 		return 7680 - *ptrWidthScreen;
 	} else {
-		return *ptrOriginX;
+		return posX;
 	}
 }
 int classMap::limitCameraY() {
-	if (*ptrOriginY<1){
+
+	int posY = *ptrPositionJoueurY - *ptrHeightScreen / 2;
+
+	if (posY<1){
 		return 0;
-	} else if (*ptrOriginY>(5120 - *ptrHeightScreen)) {
+	} else if ( posY> 5120 - *ptrHeightScreen ) {
 		return 5120 - *ptrHeightScreen;
 	} else {
-		return *ptrOriginY;
+		return posY;
 	}
+
 }
 // retourne la postion X et Y du clic correspondant au COORDONNES MAP ( pas en pixel ! )
 void classMap::returnPosCase(int coordX, int coordY){
 
 	// sort les valeurs de bordure de map et les restaure sur des valeurs correctes.
-	int caseX = *ptrOriginX;
-	int caseY = *ptrOriginY;
-	if (caseX < 0 ){ caseX = 0; }
-	if (caseY < 0) { caseY = 0; }
-	if (caseX > 7680 - *ptrWidthScreen ) { caseX = 7680 - *ptrWidthScreen; }
-	if (caseY > 5120 - *ptrHeightScreen) { caseY = 5120 - *ptrHeightScreen; }
-
+	int caseX = *ptrPositionJoueurX +32;
+	int caseY = *ptrPositionJoueurY +57;
 
 	caseX = floor((caseX + coordX) / 64);
 	caseY = floor((caseY + coordY) / 64);

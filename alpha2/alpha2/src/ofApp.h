@@ -31,7 +31,7 @@ class ofApp : public ofBaseApp{
 		// taille ecran utilisateur
 		int widthScreen,heightScreen;
 		// position de la caméra
-		int originX, originY;
+		int positionJoueurX, positionJoueurY;
 		// action du joueur
 		string playerCurrentAction = "repos";
 		// le joueur a bouge ?
