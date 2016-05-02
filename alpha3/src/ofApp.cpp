@@ -15,8 +15,8 @@ void ofApp::setup(){
 
 
 	// C'est la position actuel de l'origin 0 - 0 = haut coin haut gauche.
-	positionJoueurX = 50;
-	positionJoueurY = 50;
+	positionJoueurX = 300;
+	positionJoueurY = 300;
 
 
 	// initialisation des classes ( pour passer les valeurs par pointeur surtout )
@@ -37,11 +37,27 @@ void ofApp::update(){
 	if(playerHasMove){
 		// Gestion des colisions INTEGRE avec les objets présent et les cases d'eau
 		movePersonnage.updatePositionJoueur();
+
+		// Le quadrillage Horizontal
+		pathLineHorizontal.clear();
+		pathLineHorizontal.moveTo(movePersonnage.midX(), movePersonnage.midY());
+		pathLineHorizontal.lineTo(movePersonnage.midX()+64, movePersonnage.midY());
+		pathLineHorizontal.lineTo(movePersonnage.midX()+64, movePersonnage.midY() + 64);
+		pathLineHorizontal.lineTo(movePersonnage.midX(), movePersonnage.midY()+64);
+		pathLineHorizontal.lineTo(movePersonnage.midX(), movePersonnage.midY());
+
+		pathLineHorizontal.close();
+		pathLineHorizontal.setStrokeColor(ofColor::red);
+		pathLineHorizontal.setFilled(false);
+		pathLineHorizontal.setStrokeWidth(1);
+
+
 	}
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+
 
 	// affiche a l'écran
 	gestionMap.displayMap();
@@ -57,7 +73,11 @@ void ofApp::draw(){
 	ofDrawBitmapString(fpsStr, 20, 150);
 	fpsStr = "positionCameraY => " + ofToString(positionJoueurY-heightScreen/2);
 	ofDrawBitmapString(fpsStr, 20, 175);
-
+	fpsStr = "Origin: " + ofToString(positionJoueurX/64)+";"+ofToString(positionJoueurY/64);
+	ofDrawBitmapString(fpsStr, 20, 200);
+	fpsStr = "Origin(pied): " + ofToString((positionJoueurX+32) / 64) + ";" + ofToString((positionJoueurY+60) / 64);
+	ofDrawBitmapString(fpsStr, 20, 225);
+	pathLineHorizontal.draw();
 
 }
 
@@ -139,7 +159,6 @@ void ofApp::keyReleased(int key){
 				}
 			}
 			break;
-
 	}
 
 	// deplacement position joueur + animation

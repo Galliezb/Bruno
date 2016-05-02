@@ -38,7 +38,7 @@ class moving {
 	string  * playerCurrentAction;
 
 	// vitesse de défilement
-	int scrollingSpeed = 10;
+	int scrollingSpeed = 1;
 
 public:
 
@@ -75,6 +75,8 @@ public:
 	int returnPosCaseX(string ancre);
 	// origin / bottom / top
 	int returnPosCaseY(string ancre);
+	// retourne la position du joueur via paramètre : center
+	int returnPosJoueurX(string ancre);
 
 	// démarre l'enregistrement du temps
 	void setTimerStart();

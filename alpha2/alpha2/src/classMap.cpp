@@ -39,13 +39,10 @@ void classMap::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWi
 	succes = remplirHerbe();
 	
 	// on ajoute une case d'eau
+	addRessource(4,4,true);
 	succes = changeCaseWater(5, 5);
 	succes = changeCaseWater(7, 7);
-	succes = changeCaseMud(10, 11);
-	succes = changeCaseMud(10, 12);
-	succes = changeCaseMud(11, 10);
-	succes = changeCaseMud(11, 11);
-	succes = changeCaseMud(11, 12);
+	succes = changeCaseMud(8, 8);
 	
 	// ajoute des arbres de manière aleatoire
 	succes = addRessourceRandom(true, false);
@@ -164,8 +161,8 @@ bool classMap::addRessourceRandom( bool arbre, bool rocher){
 	srand(time(NULL));
 	int alea = 0;
 	fbo.begin();
-	for (int x=0;x<120;x++){
-		for(int y=0;y<80;y++){
+	for (int x=1;x<120;x++){
+		for(int y=1;y<80;y++){
 			alea = rand()%101;
 			if ( alea < 15 ){
 				addRessource(x,y,arbre,rocher);
@@ -187,7 +184,8 @@ void classMap::displayMap(){
 // a la même vitesse bordel de merde ! Faut trouver pourquoi ! Piste = OF ferait-il du threading ce con ?
 int classMap::limitCameraX() {
 	
-	int posX = *ptrPositionJoueurX - *ptrWidthScreen/2;
+	// centré sur la sprite
+	int posX = *ptrPositionJoueurX+32 - *ptrWidthScreen/2;
 
 	if (posX<1) {
 		return 0;
@@ -199,7 +197,8 @@ int classMap::limitCameraX() {
 }
 int classMap::limitCameraY() {
 
-	int posY = *ptrPositionJoueurY - *ptrHeightScreen / 2;
+	// centré sur la sprite
+	int posY = *ptrPositionJoueurY+32 - *ptrHeightScreen / 2;
 
 	if (posY<1){
 		return 0;

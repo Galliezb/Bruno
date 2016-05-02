@@ -40,18 +40,19 @@ class ofApp : public ofBaseApp{
 		bool playerMoveRight = false;
 		bool playerMoveDown = false;
 		bool playerMoveLeft = false;
-		/* tableau contenant le terrain
+		/* tableau TERRAIN contenant le terrain
 		0 => herbe ( marche ok )
 		1 => eau ( pas de marche, ni arbre, ni roche )
 		2 => boue ( marche ralentie )
 		*/
 		int tabContentTerrain[9600] = { 0 };
-		/* tableau contenant ce qui se trouve sur la case
+		/* tableau CASE contenant ce qui se trouve sur la case
 		0 = > RIEN
 		1 = > arbre
 		2 = > rocher
 		*/
 		int tabContentCase[9600] = { 0 };
 
+		ofPath pathLineHorizontal;
 
 };
