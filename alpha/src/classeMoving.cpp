@@ -292,7 +292,7 @@ void moving::updateOrigin(){
 
 }
 // c'est la méthode BOSS ok ? Elle dit t'avance pas, alors t'avance pas bordel !
-void moving::returnLimitCollisionMove(){
+void moving::limitCollisionMove(){
 
 	// ne pas oublier, les pointeurs pointe des variables qui possèdent déjà la nouvelle position
 	// Il faut donc décider ici si on refuse ou limite la distance de déplacement.
@@ -318,18 +318,25 @@ void moving::returnLimitCollisionMove(){
 
 	// on verifie que la case ne soit pas de l'eau ( l'eau c'est pour les connards ! Heu les canards ! )
 	// Et tout objet qui se trouve dessus
-	if ( *(ptrTabContentCase + caseX + caseY * 120 - 1)!=0 || *(ptrTabContentTerrain + caseX + caseY * 120 -1) !=0 ){
-	
-		
+	// Il faut vérifier 4 colisions, X de la sprite ( en Y = 0 ) et X de la sprite ( en Y : 64 )
+	// idem pour les Y mais avec les X
+	// les colisions X
+	if ( *(ptrTabContentCase + caseX + caseY * 120 - 1)!=0 || *(ptrTabContentCase + caseX + caseY * 120 - 1) != 0){		
 		// Bordel y'a collision ! Par soucis de conscience professionnelle
 		// on va renvoyé la limite de la case plutôt que l'ancienne position
 		// Ce sera ainsi adapatable à toute vitesse de déplacement
 
 		if ( getBoolMovePlayerLeft() ){
-			// valeur max X autorisé vers la GAUCHE 
+			// valeur max X autorisé vers la GAUCHE pour le coin HAUT GAUCHE de la sprite
 			int maxX = caseX*64+64;
 			printf("\n*****\ngauche : %d<%d\n*****\n", *ptrOriginX, maxX);
 			if (*ptrOriginX<maxX){ *ptrOriginX=maxX-*ptrWidthScreen/2; }
+
+			// valeur max X autorisé vers la GAUCHE pour le coin BAS GAUCHE de la sprite
+			int maxX = caseX * 64 + 64;
+			printf("\n*****\ngauche : %d<%d\n*****\n", *ptrOriginX, maxX);
+			if (*ptrOriginX<maxX) { *ptrOriginX = maxX - *ptrWidthScreen / 2; }
+
 		}
 		if (getBoolMovePlayerRight()) {
 			// valeur max X autorisé ers la DROITE

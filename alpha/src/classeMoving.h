@@ -39,7 +39,7 @@ class moving {
 
 
 	// methode private
-	void returnLimitCollisionMove();
+	void limitCollisionMove();
 
 public:
 
