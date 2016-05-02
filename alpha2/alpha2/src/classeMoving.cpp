@@ -274,9 +274,16 @@ void moving::updatePositionJoueur(){
 			}
 			printf("**********\nOUCH(%d)\n**********\n", (ofGetElapsedTimeMillis() - timerTrollAie) / 1000);
 
-		}
+		// colision arbre / rocher
+		} else if ( *(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("top") * 120 -1 ) == 1
+			|| *(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("top") * 120 - 1) == 2){
+			
+				if ( *ptrPositionJoueurY - returnPosCaseY("top") * 64 > 10 ){
+					*ptrPositionJoueurY = returnPosCaseY("top")+10;
+				}  
 
-	}
+			}
+		}
 
 	/*************************************** VERS LA DROITE ******************************/
 	if (boolMovePlayerRight) {
