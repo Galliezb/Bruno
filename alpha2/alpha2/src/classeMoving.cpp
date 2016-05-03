@@ -1,6 +1,4 @@
-#include <math.h>
-#include "classeMoving.h"
-#include "ofMain.h"
+#include "classemoving.h"
 
 moving::moving(){
 	marche.loadImage("animmarche.png");
@@ -223,7 +221,6 @@ int moving::midX(){
 	}
 
 	return *ptrPositionJoueurX - posXCamera;
-	printf("ptrPosY => %d\n", *ptrPositionJoueurX);
 
 }
 int moving::midY() {
@@ -237,23 +234,13 @@ int moving::midY() {
 	}
 
 	return *ptrPositionJoueurY - posYCamera;
-	printf("ptrPosY => %d\n", *ptrPositionJoueurX);
 
 }
 void moving::setTimerStart(){
 	tpsStart = ofGetElapsedTimeMillis();
 }
-void moving::setTimerEnd() {
-	tpsStop = ofGetElapsedTimeMillis();
-}
 int moving::getDiffTime(){
 	return ofGetElapsedTimeMillis() - tpsStart;
-}
-int moving::getTimerStart() {
-	return tpsStart;
-}
-int moving::getTimerEnd() {
-	return tpsStop;
 }
 // Gère le déplacement  + la colision avec les objets
 void moving::updatePositionJoueur(){
@@ -459,7 +446,7 @@ int moving::returnPosCaseY(string ancre) {
 	} else if (ancre == "top") {
 		// pour les déplacement vers le haut, limite de ses pieds - 5 px
 		return (*ptrPositionJoueurY + 28) / 64;
-	// m'enerve ces warnings d emerde !
+	// m'enerve ces warnings de merde !
 	} else {
 		return *ptrPositionJoueurY / 64;
 	}
@@ -470,5 +457,23 @@ int moving::returnPosJoueurX(string ancre){
 	// entre les pieds du joueur
 	if (ancre=="center"){
 		return (*ptrPositionJoueurX+32)%64;
+	} else {
+		return *ptrPositionJoueurX % 64;
 	}
+}
+
+void moving::actionRecolte(){
+	// 1° on récupère les coordonnées
+	int x = returnPosCaseX("center");
+	// le top = haut de ses pieds, OUI C'EST BIZARRE ET ALORS ? T'ES DANS MA TETE ?
+	int y = returnPosCaseY("top");
+
+	// c'est un arbre ?
+	if ( *(ptrTabContentCase + x + y * 120 -1) ){
+		*playerCurrentAction == "hacher";
+	// c'est un rocher ?
+	} else if (*(ptrTabContentCase + x + y * 120 - 1)) {
+		*playerCurrentAction == "miner";
+	}
+	tpsStartActionRecolte = ofGetElapsedTimeMillis();
 }

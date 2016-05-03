@@ -1,5 +1,4 @@
 #pragma once
-#include <time.h>
 #include "ofMain.h"
 class moving {
 
@@ -30,6 +29,7 @@ class moving {
 
 	// variable de temps
 	int tpsStart, tpsStop,tpsDiff;
+	int tpsStartActionRecolte;
 
 	// ralentissement du a la boue
 	int slowMudCase = 10; // => /2 = 50% de vitesse en moins
@@ -43,7 +43,6 @@ class moving {
 public:
 
 	// Variables pour l'animation de la marche du personnage
-
 	bool boolMovePlayerTop = false;
 	bool boolMovePlayerRight = false;
 	bool boolMovePlayerDown = false;
@@ -67,6 +66,7 @@ public:
 	bool getBoolMovePlayerRight();
 	bool getBoolMovePlayerDown();
 	bool getBoolMovePlayerLeft();
+
 	int midX();
 	int midY();
 	void updatePositionJoueur();
@@ -80,8 +80,8 @@ public:
 
 	// démarre l'enregistrement du temps
 	void setTimerStart();
-	void setTimerEnd();
-	int getTimerStart();
-	int getTimerEnd();
 	int getDiffTime();
+
+	// vérifie et lance la récolte de bois et pierre
+	void actionRecolte();
 };

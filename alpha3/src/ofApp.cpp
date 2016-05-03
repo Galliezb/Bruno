@@ -115,48 +115,11 @@ void ofApp::keyReleased(int key){
 
 	switch (key) {
 		// Fullscreen touche F
-		case 'g':
+		case 'f':
 
 			ofToggleFullscreen();
 			widthScreen = ofGetWindowWidth();
 			heightScreen = ofGetWindowHeight();
-			break;
-
-		case 'a': playerCurrentAction = "construire"; break;
-		case 'z': playerCurrentAction = "courir"; break;
-		case 'e': playerCurrentAction = "degat"; break;
-		case 'r': playerCurrentAction = "hacher"; break;
-		case 't': playerCurrentAction = "miner"; break;
-		case 'y': playerCurrentAction = "mort"; break;
-		case 'u': playerCurrentAction = "attaquer"; break;
-		case 'i': playerCurrentAction = "repos"; break;
-		case 'q': 
-			for (int x = 0; x<15; x++) {
-				for (int y = 0; y<15; y++) {
-					gestionMap.restoreGrass(x, y);
-				}
-			}
-			break;
-		case 's':
-			for (int x=0;x<15;x++){
-				for(int y=0; y<15;y++){
-					gestionMap.addRessource(x, y,true,false);
-				}
-			}
-			break;
-		case 'd':
-			for (int x = 0; x<15; x++) {
-				for (int y = 0; y<15; y++) {
-					gestionMap.addRessource(x, y, false, true);
-				}
-			}
-			break;
-		case 'f':
-			for (int x = 0; x<15; x++) {
-				for (int y = 0; y<15; y++) {
-					gestionMap.changeCaseWater(x, y);
-				}
-			}
 			break;
 	}
 
