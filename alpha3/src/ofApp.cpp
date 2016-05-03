@@ -15,8 +15,8 @@ void ofApp::setup(){
 
 
 	// C'est la position actuel de l'origin 0 - 0 = haut coin haut gauche.
-	positionJoueurX = 300;
-	positionJoueurY = 300;
+	positionJoueurX = 450;
+	positionJoueurY = 450;
 
 
 	// initialisation des classes ( pour passer les valeurs par pointeur surtout )
@@ -26,7 +26,6 @@ void ofApp::setup(){
 	movePersonnage.init(&positionJoueurX, &positionJoueurY,&widthScreen, &heightScreen, &playerCurrentAction, tabContentCase, tabContentTerrain);
 
 	movePersonnage.setTimerStart();
-	 
 
 }
 

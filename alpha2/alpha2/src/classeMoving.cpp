@@ -278,8 +278,10 @@ void moving::updatePositionJoueur(){
 			|| *(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("top") * 120 - 1) == 2){
 				
 			// si position joueur < returnposeY(top soit les pied ) => bloque
-			if ( *ptrPositionJoueurY < returnPosCaseY("top") * 64 + 12 && returnPosJoueurX("center") > 12 && returnPosJoueurX("center") < 52){
-					*ptrPositionJoueurY = returnPosCaseY("top")*64 + 12;
+			if ( *ptrPositionJoueurY < returnPosCaseY("top") * 64 + 6 
+				 && *ptrPositionJoueurX+32 > returnPosCaseX("center")*64+12 
+				 && *ptrPositionJoueurX+32 < returnPosCaseX("center")*64+52){
+					*ptrPositionJoueurY = returnPosCaseY("top")*64 + 6;
 			}
 
 		// colision case pleine ( Ex eau )
@@ -308,15 +310,13 @@ void moving::updatePositionJoueur(){
 
 	/*************************************** VERS LA DROITE ******************************/
 	if (boolMovePlayerRight) {
-
-		printf("%d == %d\n", *(ptrTabContentTerrain + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1),2);
-		printf("X:%d \t Y:%d\n", returnPosCaseX("center"), returnPosCaseY("bottom"));
 		*ptrPositionJoueurX += scrollingSpeed;
 		if (*ptrPositionJoueurX > 7640) {
 			*ptrPositionJoueurX = 7640;
 		// colision arbre ( tout sauf la pointe )
-		} else if( *(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("bottom")*120 -1) == 1
-				   || *(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 2 ){
+		} else if( (*(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("bottom")*120 -1) == 1
+				   || *(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 2)
+				   && *ptrPositionJoueurX+32-returnPosCaseX("center")*64 < 30 ){
 			// si la position X est > au coté gauche arbre, on stop ( l'arbre commence a 15px )
 			if ( *ptrPositionJoueurX > returnPosCaseX("center")*64-20 && *ptrPositionJoueurY+60 > returnPosCaseY("bottom")*64+15 ){
 				*ptrPositionJoueurX = returnPosCaseX("center") * 64-20;
@@ -353,26 +353,25 @@ void moving::updatePositionJoueur(){
 			*ptrPositionJoueurY = 5060;
 
 			// colision arbre / rocher
-		}
-		else if (*(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 1
+		} else if (*(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 1
 			|| *(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 2) {
 
 			// si position joueur < returnposeY(top soit les pied ) => bloque
-			if (*ptrPositionJoueurY < returnPosCaseY("origin") * 64 + 12 && returnPosJoueurX("center") > 12 && returnPosJoueurX("center") < 52) {
+			if (*ptrPositionJoueurY > returnPosCaseY("origin") * 64 + 12 
+				&& *ptrPositionJoueurX+32 > returnPosCaseX("center") * 64 + 12
+				&& *ptrPositionJoueurX+32 < returnPosCaseX("center")*64 + 52) {
 				*ptrPositionJoueurY = returnPosCaseY("origin") * 64 + 12;
 			}
 
 			// colision case pleine ( Ex eau )
-		}
-		else if (*(ptrTabContentTerrain + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 1) {
+		} else if (*(ptrTabContentTerrain + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 1) {
 
 			// si position joueur < returnposeY(top soit les pied ) => bloque
-			if (*ptrPositionJoueurY < returnPosCaseY("bottom") * 64 - 60) {
+			if (*ptrPositionJoueurY > returnPosCaseY("bottom") * 64 - 60) {
 				*ptrPositionJoueurY = returnPosCaseY("bottom") * 64 - 60;
 			}
 
-		}
-		else if (*(ptrTabContentTerrain + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 2) {
+		} else if (*(ptrTabContentTerrain + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 2) {
 
 			// si position joueur < returnposeY(top soit les pied ) => bloque
 			if (*ptrPositionJoueurY < returnPosCaseY("bottom") * 64) {
@@ -394,10 +393,38 @@ void moving::updatePositionJoueur(){
 		if (*ptrPositionJoueurX < -24) {
 			*ptrPositionJoueurX = -24;
 		}
+		
+
+		if ( (*(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 1
+			|| *(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 2)
+			&& *ptrPositionJoueurX + 32 - returnPosCaseX("center") * 64 > 34) {
+			// si la position X est < au coté droite arbre, on stop ( l'arbre commence a 15px )
+			if (*ptrPositionJoueurX < returnPosCaseX("center") * 64 + 21 && *ptrPositionJoueurY + 60 > returnPosCaseY("bottom") * 64 + 15) {
+				*ptrPositionJoueurX = returnPosCaseX("center") * 64 + 21;
+
+			}
+			// colission avec case pleine ( ex eau )
+		} else if (*(ptrTabContentTerrain + (*ptrPositionJoueurX/64) + returnPosCaseY("bottom") * 120 - 1) == 1) {
+			if (*ptrPositionJoueurX < (*ptrPositionJoueurX / 64) * 64 + 38) {
+				*ptrPositionJoueurX = (*ptrPositionJoueurX / 64) * 64 + 38;
+			}
+
+		} else if (*(ptrTabContentTerrain + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 2) {
+
+			printf("%d<%d\n", *ptrPositionJoueurX + 32, ((*ptrPositionJoueurX+32) / 64) * 64 + 64 );
+			if (*ptrPositionJoueurX + 32 < ((*ptrPositionJoueurX+32) / 64) * 64 + 64) {
+				printf("HIT BOUE GAUCHE\n");
+				// on reviens en arrière
+				*ptrPositionJoueurX += scrollingSpeed;
+				// on affecte le déplacement ralenti
+				int plus = scrollingSpeed / slowMudCase;
+				if (!plus) { plus++; }
+				*ptrPositionJoueurX -= plus;
+			}
+
+		}
 
 	}
-
-
 
 }
 // origin / center / left / Right
@@ -405,7 +432,7 @@ int moving::returnPosCaseX(string ancre) {
 
 	if (ancre == "origin") {
 		// Par rapport au pt 0.0 de la sprite
-		return (*ptrPositionJoueurX) / 64;
+		return *ptrPositionJoueurX / 64;
 	} else if (ancre=="center"){
 		// Par rapport au centre de ses pieds
 		return (*ptrPositionJoueurX+32)/64;
@@ -438,6 +465,7 @@ int moving::returnPosCaseY(string ancre) {
 	}
 
 }
+
 int moving::returnPosJoueurX(string ancre){
 	// entre les pieds du joueur
 	if (ancre=="center"){
