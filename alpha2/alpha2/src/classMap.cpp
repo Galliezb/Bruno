@@ -49,7 +49,7 @@ void classMap::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWi
 
 
 	// test ajoute des rochers de manière aleatoire
-	//succes = addRessourceRandom(false, true);
+	succes = addRessourceRandom(false, true);
 
 	
 	seeDataOfThisFuckingTab();
@@ -131,7 +131,7 @@ bool classMap::addRessource(unsigned int posX, unsigned int posY, bool arbre, bo
 		}
 		return false;
 	} else {
-		//fbo.begin();
+		fbo.begin();
 		// Si le terrain = herbe + Case vide
 		if (*(ptrTabContentTerrain + posX + posY * 120 - 1) == 0 && *(ptrTabContentCase + posX + posY * 120 - 1) == 0){
 			if ( arbre && !rocher ){
@@ -149,7 +149,7 @@ bool classMap::addRessource(unsigned int posX, unsigned int posY, bool arbre, bo
 		} /*else {
 			printf("[ERROR][%d][%d]\t T:%d\t C:%d\n", posX, posY, *(ptrTabContentTerrain + posX + posY * 120 - 1), *(ptrTabContentCase + posX + posY * 120 - 1));
 		}*/
-		//fbo.end();
+		fbo.end();
 		affichage.update();
 		return true;
 	}
@@ -160,7 +160,6 @@ bool classMap::addRessourceRandom( bool arbre, bool rocher){
 
 	srand(time(NULL));
 	int alea = 0;
-	fbo.begin();
 	for (int x=1;x<120;x++){
 		for(int y=1;y<80;y++){
 			alea = rand()%101;
@@ -171,7 +170,6 @@ bool classMap::addRessourceRandom( bool arbre, bool rocher){
 		}
 		
 	}
-	fbo.end();
 	return true;
 }
 
