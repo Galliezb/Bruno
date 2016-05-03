@@ -38,7 +38,7 @@ class moving {
 	string  * playerCurrentAction;
 
 	// vitesse de défilement
-	int scrollingSpeed = 1;
+	int scrollingSpeed = 6;
 
 public:
 

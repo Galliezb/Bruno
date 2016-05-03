@@ -297,8 +297,9 @@ void moving::updatePositionJoueur(){
 				// on reviens en arrière
 				*ptrPositionJoueurY += scrollingSpeed;
 				// on affecte le déplacement ralenti
-				*ptrPositionJoueurY -= scrollingSpeed/slowMudCase;
-
+				int plus = scrollingSpeed / slowMudCase;
+				if (!plus) { plus++; }
+				*ptrPositionJoueurY -= plus;
 			}
 
 		}
@@ -308,27 +309,37 @@ void moving::updatePositionJoueur(){
 	/*************************************** VERS LA DROITE ******************************/
 	if (boolMovePlayerRight) {
 
+		printf("%d == %d\n", *(ptrTabContentTerrain + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1),2);
+		printf("X:%d \t Y:%d\n", returnPosCaseX("center"), returnPosCaseY("bottom"));
 		*ptrPositionJoueurX += scrollingSpeed;
-		printf("%d=%d\n", *(ptrTabContentTerrain + returnPosCaseX("right") + returnPosCaseY("bottom") * 120 - 1),1);
-		printf("r:%d \t b:%d\n", returnPosCaseX("right"), returnPosCaseY("bottom"));
 		if (*ptrPositionJoueurX > 7640) {
 			*ptrPositionJoueurX = 7640;
 		// colision arbre ( tout sauf la pointe )
 		} else if( *(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("bottom")*120 -1) == 1
 				   || *(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 2 ){
-			printf("HIT COLISION RIGHT ARBRE\n");
 			// si la position X est > au coté gauche arbre, on stop ( l'arbre commence a 15px )
-			if ( *ptrPositionJoueurX > returnPosCaseX("right")*64+40 && *ptrPositionJoueurY > returnPosCaseY("origin")*64+15 ){
-				
-				*ptrPositionJoueurX = returnPosCaseX("right") * 64+40;
+			if ( *ptrPositionJoueurX > returnPosCaseX("center")*64-20 && *ptrPositionJoueurY+60 > returnPosCaseY("bottom")*64+15 ){
+				*ptrPositionJoueurX = returnPosCaseX("center") * 64-20;
 			
 			}
 		// colission avec case pleine ( ex eau )
 		} else if (*(ptrTabContentTerrain + returnPosCaseX("right") + returnPosCaseY("bottom") * 120 - 1) == 1) {
 			
-			printf("%d>%d\n", *ptrPositionJoueurX+38, returnPosCaseX("right") * 64);
-			if (*ptrPositionJoueurX+38 > returnPosCaseX("right") * 64){
-				*ptrPositionJoueurX = returnPosCaseX("right") * 64-38;
+			if (*ptrPositionJoueurX > returnPosCaseX("right") * 64-40){
+				*ptrPositionJoueurX = returnPosCaseX("right") * 64-40;
+			}
+
+		} else if (*(ptrTabContentTerrain + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 2) {
+
+			printf("%d>%d\n", *ptrPositionJoueurX+32, ((*ptrPositionJoueurX) / 64) * 64);
+			if (*ptrPositionJoueurX+32 > ((*ptrPositionJoueurX)/64)*64) {
+				printf("HIT BOUE DROITE\n");
+				// on reviens en arrière
+				*ptrPositionJoueurX -= scrollingSpeed;
+				// on affecte le déplacement ralenti
+				int plus = scrollingSpeed / slowMudCase;
+				if (!plus){plus++;}
+				*ptrPositionJoueurX += plus;
 			}
 
 		}
@@ -340,6 +351,39 @@ void moving::updatePositionJoueur(){
 		*ptrPositionJoueurY += scrollingSpeed;
 		if (*ptrPositionJoueurY > 5060) {
 			*ptrPositionJoueurY = 5060;
+
+			// colision arbre / rocher
+		}
+		else if (*(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 1
+			|| *(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 2) {
+
+			// si position joueur < returnposeY(top soit les pied ) => bloque
+			if (*ptrPositionJoueurY < returnPosCaseY("origin") * 64 + 12 && returnPosJoueurX("center") > 12 && returnPosJoueurX("center") < 52) {
+				*ptrPositionJoueurY = returnPosCaseY("origin") * 64 + 12;
+			}
+
+			// colision case pleine ( Ex eau )
+		}
+		else if (*(ptrTabContentTerrain + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 1) {
+
+			// si position joueur < returnposeY(top soit les pied ) => bloque
+			if (*ptrPositionJoueurY < returnPosCaseY("bottom") * 64 - 60) {
+				*ptrPositionJoueurY = returnPosCaseY("bottom") * 64 - 60;
+			}
+
+		}
+		else if (*(ptrTabContentTerrain + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 2) {
+
+			// si position joueur < returnposeY(top soit les pied ) => bloque
+			if (*ptrPositionJoueurY < returnPosCaseY("bottom") * 64) {
+				// on reviens en arrière
+				*ptrPositionJoueurY -= scrollingSpeed;
+				// on affecte le déplacement ralenti
+				int plus = scrollingSpeed / slowMudCase;
+				if (!plus) { plus++; }
+				*ptrPositionJoueurY += plus;
+			}
+
 		}
 
 	}
@@ -358,6 +402,7 @@ void moving::updatePositionJoueur(){
 }
 // origin / center / left / Right
 int moving::returnPosCaseX(string ancre) {
+
 	if (ancre == "origin") {
 		// Par rapport au pt 0.0 de la sprite
 		return (*ptrPositionJoueurX) / 64;
@@ -366,7 +411,7 @@ int moving::returnPosCaseX(string ancre) {
 		return (*ptrPositionJoueurX+32)/64;
 	} else if (ancre == "left") {
 		return (*ptrPositionJoueurX + 42) / 64;
-	} else if (ancre == "Right") {
+	} else if (ancre == "right") {
 		return (*ptrPositionJoueurX + 64) / 64;
 	// m'enerve ces warnings d emerde !
 	} else {
@@ -377,7 +422,6 @@ int moving::returnPosCaseX(string ancre) {
 int moving::returnPosCaseY(string ancre) {
 
 	// ptroriginX = centre Sprite de base !
-
 	// Par rapport au bas de ses pieds
 	if (ancre == "origin") {
 		// Par rapport au pt 0.0 de la sprite
