@@ -121,6 +121,9 @@ void ofApp::keyReleased(int key){
 			widthScreen = ofGetWindowWidth();
 			heightScreen = ofGetWindowHeight();
 			break;
+		case 'e':
+			playerCurrentAction = "miner";
+			break;
 	}
 
 	// deplacement position joueur + animation
