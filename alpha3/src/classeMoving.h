@@ -1,8 +1,8 @@
 #pragma once
-#include <time.h>
 #include "ofMain.h"
 class moving {
 
+public:
 	// pointeur valeur variable ofapp
 	int *ptrPositionJoueurX, *ptrPositionJoueurY;
 	int *ptrWidthScreen, *ptrHeightScreen;
@@ -29,21 +29,19 @@ class moving {
 	ofSoundPlayer sound;
 
 	// variable de temps
-	int tpsStart, tpsStop,tpsDiff;
+	int tpsStart, tpsStop, tpsDiff;
+	int tpsStartActionRecolte;
 
 	// ralentissement du a la boue
 	int slowMudCase = 10; // => /2 = 50% de vitesse en moins
 
-	// Action en cours du personnage
+						  // Action en cours du personnage
 	string  * playerCurrentAction;
 
 	// vitesse de défilement
-	int scrollingSpeed = 10;
-
-public:
+	int scrollingSpeed = 6;
 
 	// Variables pour l'animation de la marche du personnage
-
 	bool boolMovePlayerTop = false;
 	bool boolMovePlayerRight = false;
 	bool boolMovePlayerDown = false;
@@ -56,7 +54,7 @@ public:
 	moving();
 	void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain);
 	void playerAction();
-
+	void actionRecolte();
 	// méthode de gestion du déplacement joueur
 	void movePlayer();
 	void setBoolMovePlayerTop(bool b);
@@ -67,6 +65,7 @@ public:
 	bool getBoolMovePlayerRight();
 	bool getBoolMovePlayerDown();
 	bool getBoolMovePlayerLeft();
+
 	int midX();
 	int midY();
 	void updatePositionJoueur();
@@ -75,11 +74,13 @@ public:
 	int returnPosCaseX(string ancre);
 	// origin / bottom / top
 	int returnPosCaseY(string ancre);
+	// retourne la position du joueur via paramètre : center
+	int returnPosJoueurX(string ancre);
 
 	// démarre l'enregistrement du temps
 	void setTimerStart();
-	void setTimerEnd();
-	int getTimerStart();
-	int getTimerEnd();
 	int getDiffTime();
+
+	// vérifie et lance la récolte de bois et pierre
+
 };

@@ -171,8 +171,8 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\alpha2\alpha2\src\classeMoving.cpp" />
-    <ClCompile Include="..\alpha2\alpha2\src\classMap.cpp" />
+    <ClCompile Include="src\classeMoving.cpp" />
+    <ClCompile Include="src\classMap.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxBaseGui.cpp" />
@@ -185,8 +185,8 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\alpha2\alpha2\src\classeMoving.h" />
-    <ClInclude Include="..\alpha2\alpha2\src\classMap.h" />
+    <ClInclude Include="src\classeMoving.h" />
+    <ClInclude Include="src\classMap.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxBaseGui.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxButton.h" />

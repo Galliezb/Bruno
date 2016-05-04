@@ -1,4 +1,5 @@
 #include "ofApp.h"
+#include "classeMoving.h"
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -26,8 +27,8 @@ void ofApp::setup(){
 	movePersonnage.init(&positionJoueurX, &positionJoueurY,&widthScreen, &heightScreen, &playerCurrentAction, tabContentCase, tabContentTerrain);
 
 	movePersonnage.setTimerStart();
-
 }
+
 
 //--------------------------------------------------------------
 void ofApp::update(){
@@ -63,7 +64,6 @@ void ofApp::draw(){
 	// affichage du personnage
 	movePersonnage.movePlayer();
 
-
 	string fpsStr = "positionJoueurX => " + ofToString(positionJoueurX);
 	ofDrawBitmapString(fpsStr, 20, 100);
 	fpsStr = "positionJoueurY => " + ofToString(positionJoueurY);
@@ -77,7 +77,7 @@ void ofApp::draw(){
 	fpsStr = "Origin(pied): " + ofToString((positionJoueurX+32) / 64) + ";" + ofToString((positionJoueurY+60) / 64);
 	ofDrawBitmapString(fpsStr, 20, 225);
 	pathLineHorizontal.draw();
-
+	movePersonnage.actionRecolte();
 }
 
 //--------------------------------------------------------------
