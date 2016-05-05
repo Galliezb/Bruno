@@ -1,3 +1,4 @@
+#pragma once
 #include "ofMain.h"
 #include <math.h>
 
@@ -28,6 +29,7 @@ public :
 		// Gestion de l'herbe
 		bool remplirHerbe();
 		bool restoreGrass(int posX, int posY);
+		void restoreTerrainWithoutRessource(int,int);
 
 		// les ressources
 		bool changeCaseWater( unsigned int posX, unsigned int posY);
@@ -36,8 +38,8 @@ public :
 		bool addRessourceRandom( bool arbre = true, bool rocher = false);
 
 		void displayMap();
-		int classMap::limitCameraX();
-		int classMap::limitCameraY();
+		int limitCameraX();
+		int limitCameraY();
 
 		void returnPosCase(int coordX, int coordY);
 		void seeDataOfThisFuckingTab();

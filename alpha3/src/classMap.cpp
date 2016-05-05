@@ -1,3 +1,4 @@
+#pragma once
 /*
 COPYRIGHT : TOUCHE PAS A CA PETIT CON !
 */
@@ -76,10 +77,11 @@ bool classMap::remplirHerbe() {
 	return true;
 
 }
+// restore une case d'herbe
 bool classMap::restoreGrass(int posX, int posY) {
 
 	if (posX > 119 || posX < 0 || posY > 79 || posY < 0) {
-		printf("Coordonnees incorrect, la case sort de la map\n");
+		printf("restoreGrass => Coordonnees incorrect, la case sort de la map\n");
 		return false;
 	}
 	else {
@@ -88,6 +90,26 @@ bool classMap::restoreGrass(int posX, int posY) {
 		fbo.end();
 		*(ptrTabContentTerrain + posX + posY * 120 - 1) = 0;
 		return true;
+	}
+}
+// permet de recréer une case sans un arbre ou de la roche
+void classMap::restoreTerrainWithoutRessource(int posX, int posY){
+
+	if (posX > 119 || posX < 0 || posY > 79 || posY < 0) {
+		printf("restoreTerrainWithoutRessource => Coordonnees incorrect, la case sort de la map\n");
+	} else {
+
+		fbo.begin();
+		// c'est de la boue ?
+		if (*(ptrTabContentTerrain + posX + posY * 120 - 1) == 2) {
+			boue.draw(posX * 64, posY * 64);
+		// sinon herbe
+		} else {
+			herbe.draw(posX * 64, posY * 64);
+		}
+		*(ptrTabContentTerrain + posX + posY * 120 - 1) = 0;
+		fbo.end();
+
 	}
 }
 /******************************** EAU *************************************/

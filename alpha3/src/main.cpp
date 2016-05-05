@@ -1,4 +1,4 @@
-#include "ofMain.h"
+#pragma once#include "ofMain.h"
 #include "ofApp.h"
 
 
@@ -10,7 +10,7 @@ int main( ){
 	// this kicks off the running of my app
 	// can be OF_WINDOW or OF_FULLSCREEN
 	// pass in width and height too:
-	//ofSetWindowPosition(2300,50);
+	ofSetWindowPosition(2300,50);
 	ofRunApp(new ofApp());
 
 }

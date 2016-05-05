@@ -1,5 +1,4 @@
 #pragma once
-
 #include "ofMain.h"
 #include "classMap.h"
 #include "classeMoving.h"
@@ -52,7 +51,14 @@ class ofApp : public ofBaseApp{
 		2 = > rocher
 		*/
 		int tabContentCase[9600] = { 0 };
-
+		/* Tableau contenant le stock du joueur
+		0 => bois
+		1 => roche
+		*/
+		int tabContentRessourcePlayer[2] = {0};
 		ofPath pathLineHorizontal;
+
+		// variable de récolte
+		bool actionRecolteActive = false;
 
 };

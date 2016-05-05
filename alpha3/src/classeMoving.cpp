@@ -1,3 +1,4 @@
+#pragma once
 #include "classeMoving.h"
 
 moving::moving() {
@@ -14,7 +15,7 @@ moving::moving() {
 	sound.load("aie.mp3");
 }
 // initialisation de la classe ( OF dispo ici, pas dans le constructeur )
-void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain) {
+void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap) {
 
 	// pointeur tab content map
 	this->ptrTabContentCase = ptrTabContentCase;
@@ -27,8 +28,14 @@ void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidt
 	this->ptrPositionJoueurX = ptrPositionJoueurX;
 	this->ptrPositionJoueurY = ptrPositionJoueurY;
 
+	// recoit l'accès a l'instance de la map
+	this->ptrInstanceGestionMap=ptrInstanceGestionMap;
+
 	// action en cours du joueur
 	this->playerCurrentAction = playerCurrentAction;
+
+	// tableau contenant le ressource joueur
+	this->ptrTabContentRessourcePlayer = ptrTabContentRessourcePlayer;
 
 }
 
@@ -258,6 +265,12 @@ int moving::getDiffTime() {
 }
 // Gère le déplacement  + la colision avec les objets
 void moving::updatePositionJoueur() {
+
+	// si on se déplace mais qu'une action de récolte en cours, on la stop
+	if (actionRecolteEnCours){
+		actionRecolteEnCours = false;
+		*playerCurrentAction = "repos";
+	}
 
 	// Calcul de case pour les colisions !
 	/*************************************** VERS LE HAUT ******************************/
@@ -496,19 +509,62 @@ int moving::returnPosJoueurX(string ancre) {
 	}
 }
 
-void moving::actionRecolte() {
-	// 1° on récupère les coordonnées
-	int x = returnPosCaseX("center");
-	// le top = haut de ses pieds, OUI C'EST BIZARRE ET ALORS ? T'ES DANS MA TETE ?
-	int y = returnPosCaseY("top");
+void moving::actionRecolteStart() {
 
-	// c'est un arbre ?
-	if (*(ptrTabContentCase + x + y * 120 - 1)) {
-		*playerCurrentAction == "hacher";
+	if ( !actionRecolteEnCours ){
+		// empeche de lancer 2 fois une récolte au même instant
+		actionRecolteEnCours = true;
+
+		// 1° on récupère les coordonnées
+		posXActionRecolte = returnPosCaseX("center");
+		// le top = haut de ses pieds, OUI C'EST BIZARRE ET ALORS ? T'ES DANS MA TETE ?
+		posYActionRecolte = returnPosCaseY("top");
+
+		printf("START ACTION : ");
+		// c'est un arbre ?
+		if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 1) {
+			*playerCurrentAction == "hacher";
+			printf("Couper arbre \n");
 		// c'est un rocher ?
+		} else if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 2) {
+			*playerCurrentAction == "miner";
+			printf("Miner roche \n");
+		}
+		tpsStartActionRecolte = ofGetElapsedTimeMillis();
+
 	}
-	else if (*(ptrTabContentCase + x + y * 120 - 1)) {
-		*playerCurrentAction == "miner";
+
+}
+
+bool moving::actionRecolteEnd(){
+	printf(actionRecolteEnCours ? "actionRecolteEnCours => true" : "actionRecolteEnCours => false\n");
+	if (actionRecolteEnCours) {
+
+		if (ofGetElapsedTimeMillis() - tpsStartActionRecolte > 5000 ){
+			// on corrige la map
+			// PUTAIN on passe par le pointeur de l'instance ! C'est trop énorme !
+			ptrInstanceGestionMap->restoreTerrainWithoutRessource(posXActionRecolte, posYActionRecolte);
+			
+			// +1 arbre ?
+			if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 1) {
+				*(ptrTabContentRessourcePlayer)+=1;
+			// + 1 rocher ?
+			} else if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 2) {
+				*(ptrTabContentRessourcePlayer+1)+=1;
+			}
+			// on remets l'action par defaut
+			*playerCurrentAction == "repos";
+			// on cloture l'action en cours
+			actionRecolteEnCours = false;
+			// action fini plus de verif necessaire
+			return false;
+			printf("ACTION RECOLTE TERMINE\n");
+		} else {
+			printf("Timer => %d - %d > %d\n", ofGetElapsedTimeMillis(),tpsStartActionRecolte,5000);
+			// action en cours, verif nécessaire dans ofApp
+			return true;
+		}
+
 	}
-	tpsStartActionRecolte = ofGetElapsedTimeMillis();
+
 }

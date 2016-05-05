@@ -1,3 +1,4 @@
+#pragma once
 #include "ofApp.h"
 #include "classeMoving.h"
 
@@ -24,7 +25,7 @@ void ofApp::setup(){
 	// map
 	gestionMap.init(&positionJoueurX,&positionJoueurY,&widthScreen,&heightScreen, tabContentCase, tabContentTerrain);
 	// animation personnage
-	movePersonnage.init(&positionJoueurX, &positionJoueurY,&widthScreen, &heightScreen, &playerCurrentAction, tabContentCase, tabContentTerrain);
+	movePersonnage.init(&positionJoueurX, &positionJoueurY,&widthScreen, &heightScreen, &playerCurrentAction, tabContentCase, tabContentTerrain, tabContentRessourcePlayer, &gestionMap);
 
 	movePersonnage.setTimerStart();
 }
@@ -53,6 +54,12 @@ void ofApp::update(){
 
 
 	}
+
+	// Si une récolte est en cours
+	if (actionRecolteActive){
+		actionRecolteActive = movePersonnage.actionRecolteEnd();
+	}
+
 }
 
 //--------------------------------------------------------------
@@ -77,7 +84,8 @@ void ofApp::draw(){
 	fpsStr = "Origin(pied): " + ofToString((positionJoueurX+32) / 64) + ";" + ofToString((positionJoueurY+60) / 64);
 	ofDrawBitmapString(fpsStr, 20, 225);
 	pathLineHorizontal.draw();
-	movePersonnage.actionRecolte();
+
+
 }
 
 //--------------------------------------------------------------
@@ -122,7 +130,8 @@ void ofApp::keyReleased(int key){
 			heightScreen = ofGetWindowHeight();
 			break;
 		case 'e':
-			playerCurrentAction = "miner";
+			movePersonnage.actionRecolteStart();
+			actionRecolteActive = true;
 			break;
 	}
 

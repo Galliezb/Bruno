@@ -1,14 +1,19 @@
 #pragma once
 #include "ofMain.h"
+#include "classMap.h"
+
 class moving {
 
-public:
 	// pointeur valeur variable ofapp
 	int *ptrPositionJoueurX, *ptrPositionJoueurY;
 	int *ptrWidthScreen, *ptrHeightScreen;
 	// pointeur tab content map
 	int *ptrTabContentCase;
 	int *ptrTabContentTerrain;
+	// pointeur tab ressource joueur
+	int *ptrTabContentRessourcePlayer;
+	// instance classmap
+	classMap *ptrInstanceGestionMap;
 
 	// incrementation pour l'animation
 	int startCycleAnimationTop = 0;
@@ -30,7 +35,6 @@ public:
 
 	// variable de temps
 	int tpsStart, tpsStop, tpsDiff;
-	int tpsStartActionRecolte;
 
 	// ralentissement du a la boue
 	int slowMudCase = 10; // => /2 = 50% de vitesse en moins
@@ -51,10 +55,11 @@ public:
 	// fonction pour le mouvement
 	ofImage marche, courir, repos, construire, degat, hacher, miner, mort, action, attaquer;
 
+public:
+
 	moving();
-	void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain);
+	void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap);
 	void playerAction();
-	void actionRecolte();
 	// méthode de gestion du déplacement joueur
 	void movePlayer();
 	void setBoolMovePlayerTop(bool b);
@@ -81,6 +86,15 @@ public:
 	void setTimerStart();
 	int getDiffTime();
 
-	// vérifie et lance la récolte de bois et pierre
+	// vérifie et lance la récolte pierre et roche
+	void actionRecolteStart();
+	// finalise l'action / ajoute les ressources / update la map + tab
+	bool actionRecolteEnd();
+	// variable des récoltes
+	bool actionRecolteEnCours = false;
+	int tpsStartActionRecolte;
+	int posXActionRecolte, posYActionRecolte;
+	// 5 sec de recolte.
+	int tpsRecolte = 5; 
 
 };
