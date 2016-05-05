@@ -542,10 +542,18 @@ void moving::actionRecolteStart() {
 			posYActionRecolte = (*ptrPositionJoueurY+50)/64;
 		}
 
+		// retire une bug de sens du personnage lorsqu'il coupe un arbre ou mine
+		if ((lastmoveLeft || lastmoveRight) && (*ptrPositionJoueurX - (*ptrPositionJoueurX / 64) * 64) < 32) {
+			lastmoveLeft = true;
+		}
+		else if ((lastmoveLeft || lastmoveRight) && (*ptrPositionJoueurX - (*ptrPositionJoueurX / 64) * 64) > 32) {
+			lastmoveRight = true;
+		}
+
 		printf("START action recolte\n");
 		// c'est un arbre ?
 		if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 1 && !lastmoveDown) {
-
+			
 			*playerCurrentAction = "hacher";
 			tpsStartActionRecolte = ofGetElapsedTimeMillis();
 			actionRecolteEnCours = true;
