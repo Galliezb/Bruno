@@ -107,7 +107,7 @@ void classMap::restoreTerrainWithoutRessource(int posX, int posY){
 		} else {
 			herbe.draw(posX * 64, posY * 64);
 		}
-		*(ptrTabContentTerrain + posX + posY * 120 - 1) = 0;
+		*(ptrTabContentCase + posX + posY * 120 - 1) = 0;
 		fbo.end();
 
 	}

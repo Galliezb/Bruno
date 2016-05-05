@@ -54,6 +54,8 @@ class moving {
 
 	// fonction pour le mouvement
 	ofImage marche, courir, repos, construire, degat, hacher, miner, mort, action, attaquer;
+	// leçon ! bordel de merde !
+	ofSoundPlayer leSonMinage, leSonArbre;
 
 public:
 
@@ -96,5 +98,6 @@ public:
 	int posXActionRecolte, posYActionRecolte;
 	// 5 sec de recolte.
 	int tpsRecolte = 5; 
+	int tpsLastSoundPlayed;
 
 };

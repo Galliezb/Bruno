@@ -13,6 +13,9 @@ moving::moving() {
 	attaquer.loadImage("animattaquer.png");
 
 	sound.load("aie.mp3");
+	leSonMinage.load("mining.mp3");
+	leSonArbre.load("coupeArbre.mp3");
+
 }
 // initialisation de la classe ( OF dispo ici, pas dans le constructeur )
 void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap) {
@@ -125,6 +128,22 @@ void moving::playerAction() {
 	else {
 		action = repos;
 		speedAnim = 50;
+	}
+
+	// joue les son récolte arbre et minage
+	if (actionRecolteEnCours && (startCycleAnimationLeft == 57
+		|| startCycleAnimationRight == 25
+		|| startCycleAnimationTop == 9
+		|| startCycleAnimationDown == 41)) {
+		printf("Hit son action\n");
+		if (*playerCurrentAction == "miner"){
+			printf("Son minage\n");
+			leSonMinage.play();
+		} else if (*playerCurrentAction == "hacher") {
+			printf("son coupe arbre\n");
+			leSonArbre.play();
+		}
+
 	}
 
 	// Right and left prioritaire !
@@ -512,32 +531,39 @@ int moving::returnPosJoueurX(string ancre) {
 void moving::actionRecolteStart() {
 
 	if ( !actionRecolteEnCours ){
-		// empeche de lancer 2 fois une récolte au même instant
-		actionRecolteEnCours = true;
 
 		// 1° on récupère les coordonnées
 		posXActionRecolte = returnPosCaseX("center");
-		// le top = haut de ses pieds, OUI C'EST BIZARRE ET ALORS ? T'ES DANS MA TETE ?
-		posYActionRecolte = returnPosCaseY("top");
-
-		printf("START ACTION : ");
-		// c'est un arbre ?
-		if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 1) {
-			*playerCurrentAction == "hacher";
-			printf("Couper arbre \n");
-		// c'est un rocher ?
-		} else if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 2) {
-			*playerCurrentAction == "miner";
-			printf("Miner roche \n");
+		// le top = haut de ses pieds
+		if ( lastmoveDown ){
+			posYActionRecolte = returnPosCaseY("bottom");
+		} else {
+			printf("posYjoueur => %d \n case => %d", *ptrPositionJoueurY,(*ptrPositionJoueurY+50) / 64);
+			posYActionRecolte = (*ptrPositionJoueurY+50)/64;
 		}
-		tpsStartActionRecolte = ofGetElapsedTimeMillis();
+
+		printf("START action recolte\n");
+		// c'est un arbre ?
+		if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 1 && !lastmoveDown) {
+
+			*playerCurrentAction = "hacher";
+			tpsStartActionRecolte = ofGetElapsedTimeMillis();
+			actionRecolteEnCours = true;
+
+			// c'est un rocher ?
+		} else if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 2) {
+			*playerCurrentAction = "miner";
+			tpsStartActionRecolte = ofGetElapsedTimeMillis();
+			actionRecolteEnCours = true;
+		}
+		
 
 	}
 
 }
 
 bool moving::actionRecolteEnd(){
-	printf(actionRecolteEnCours ? "actionRecolteEnCours => true" : "actionRecolteEnCours => false\n");
+
 	if (actionRecolteEnCours) {
 
 		if (ofGetElapsedTimeMillis() - tpsStartActionRecolte > 5000 ){
@@ -553,18 +579,22 @@ bool moving::actionRecolteEnd(){
 				*(ptrTabContentRessourcePlayer+1)+=1;
 			}
 			// on remets l'action par defaut
-			*playerCurrentAction == "repos";
+			*playerCurrentAction = "repos";
 			// on cloture l'action en cours
 			actionRecolteEnCours = false;
+
+			printf("END action recolte\n");
+
 			// action fini plus de verif necessaire
 			return false;
-			printf("ACTION RECOLTE TERMINE\n");
 		} else {
-			printf("Timer => %d - %d > %d\n", ofGetElapsedTimeMillis(),tpsStartActionRecolte,5000);
 			// action en cours, verif nécessaire dans ofApp
 			return true;
 		}
 
+	} else {
+		// previens ofApp que l'action est annulé
+		return false;
 	}
 
 }
