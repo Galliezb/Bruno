@@ -558,7 +558,7 @@ void moving::actionRecolteStart() {
 			tpsStartActionRecolte = ofGetElapsedTimeMillis();
 			actionRecolteEnCours = true;
 
-			// c'est un rocher ?
+		// c'est un rocher ?
 		} else if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 2) {
 			*playerCurrentAction = "miner";
 			tpsStartActionRecolte = ofGetElapsedTimeMillis();

@@ -2,6 +2,8 @@
 #include "ofMain.h"
 #include "classMap.h"
 #include "classeMoving.h"
+#include "classInventaire.h"
+#include "classZombis.h"
 
 class ofApp : public ofBaseApp{
 
@@ -25,8 +27,15 @@ class ofApp : public ofBaseApp{
 		// Utilisation des classes
 		classMap gestionMap;
 		moving movePersonnage; 
+		classInventaire inventaire;
+		ClassZombi zombis[50];
 
 		// variable
+		// temps gérant les zombis
+		int tpsSpawnZombi = ofGetElapsedTimeMillis();
+
+		// inventaire actuellement affiché ?
+		bool affInventaire = false;
 		// taille ecran utilisateur
 		int widthScreen,heightScreen;
 		// position de la caméra

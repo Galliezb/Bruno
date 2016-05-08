@@ -37,6 +37,12 @@
     <ClCompile Include="src\classMap.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\classInventaire.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\classZombis.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -87,6 +93,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\classMap.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\classInventaire.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\classZombis.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

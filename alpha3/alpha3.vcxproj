@@ -172,7 +172,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\classeMoving.cpp" />
+    <ClCompile Include="src\classInventaire.cpp" />
     <ClCompile Include="src\classMap.cpp" />
+    <ClCompile Include="src\classZombis.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxBaseGui.cpp" />
@@ -186,7 +188,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\classeMoving.h" />
+    <ClInclude Include="src\classInventaire.h" />
     <ClInclude Include="src\classMap.h" />
+    <ClInclude Include="src\classZombis.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxBaseGui.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxButton.h" />

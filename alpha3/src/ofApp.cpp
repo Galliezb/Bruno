@@ -17,8 +17,8 @@ void ofApp::setup(){
 
 
 	// C'est la position actuel de l'origin 0 - 0 = haut coin haut gauche.
-	positionJoueurX = 450;
-	positionJoueurY = 450;
+	positionJoueurX = 1000;
+	positionJoueurY = 1000;
 
 
 	// initialisation des classes ( pour passer les valeurs par pointeur surtout )
@@ -26,8 +26,13 @@ void ofApp::setup(){
 	gestionMap.init(&positionJoueurX,&positionJoueurY,&widthScreen,&heightScreen, tabContentCase, tabContentTerrain);
 	// animation personnage
 	movePersonnage.init(&positionJoueurX, &positionJoueurY,&widthScreen, &heightScreen, &playerCurrentAction, tabContentCase, tabContentTerrain, tabContentRessourcePlayer, &gestionMap);
-
 	movePersonnage.setTimerStart();
+	// inventaire
+	inventaire.init(tabContentRessourcePlayer, &widthScreen, &heightScreen);
+	// zombis
+	for (int i=0; i<5; i++){
+		zombis[i].init(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen, tabContentCase, tabContentTerrain);
+	}
 }
 
 
@@ -60,6 +65,24 @@ void ofApp::update(){
 		actionRecolteActive = movePersonnage.actionRecolteEnd();
 	}
 
+	// fait spawn du zombis toutes les 15 sec
+	if ( tpsSpawnZombi - ofGetElapsedTimeMillis() > 15000 ){
+		for(int i =0; i<50; i++){
+			// si cette unité n'est pas affecté
+			if ( !zombis[i].isSpawnZombi ){
+				zombis[i].spawnZombi();
+			}
+		}
+	}
+
+	// effectue les traitements sur les zombis
+	for (int i = 0; i<50; i++) {
+		// si cette unité n'est pas affecté
+		if (zombis[i].isSpawnZombi) {
+			zombis[i].moveZombi();
+		}
+	}
+
 }
 
 //--------------------------------------------------------------
@@ -84,6 +107,10 @@ void ofApp::draw(){
 	fpsStr = "Origin(pied): " + ofToString((positionJoueurX+32) / 64) + ";" + ofToString((positionJoueurY+60) / 64);
 	ofDrawBitmapString(fpsStr, 20, 225);
 	pathLineHorizontal.draw();
+
+	if (affInventaire){
+		inventaire.affichage();
+	}
 
 
 }
@@ -133,6 +160,9 @@ void ofApp::keyReleased(int key){
 			movePersonnage.actionRecolteStart();
 			actionRecolteActive = true;
 			break;
+		case 'i':
+			(affInventaire)? affInventaire=false: affInventaire=true;
+			break;
 	}
 
 	// deplacement position joueur + animation
@@ -174,7 +204,13 @@ void ofApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-	printf("X => %d\tY=>%d\n",movePersonnage.returnPosCaseX("center"), movePersonnage.returnPosCaseY("top"));
+	// inventaire affiché, si clique en dehors, on stop l'affichage
+	printf("%d < %d || %d > %d || %d < %d || %d > %d\n", x,inventaire.returnPosXWindow(),x,inventaire.returnPosXWindow()+1024,y,inventaire.returnPosYWindow(),y,inventaire.returnPosYWindow()+642);
+	if (affInventaire && ( x<inventaire.returnPosXWindow() || x>inventaire.returnPosXWindow()+1024 || y<inventaire.returnPosYWindow() || y>inventaire.returnPosYWindow()+642) ){
+		affInventaire = false;
+	} else {
+		printf("X => %d\tY=>%d\n", movePersonnage.returnPosCaseX("center"), movePersonnage.returnPosCaseY("top"));
+	}
 }
 
 //--------------------------------------------------------------
