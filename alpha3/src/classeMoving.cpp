@@ -493,6 +493,7 @@ int moving::returnPosCaseX(string ancre) {
 	else {
 		return *ptrPositionJoueurX / 64;
 	}
+
 }
 // origin / bottom / top
 int moving::returnPosCaseY(string ancre) {

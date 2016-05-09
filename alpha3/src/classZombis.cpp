@@ -15,6 +15,11 @@ void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptr
 	this->ptrTabContentCase = ptrTabContentCase;
 	this->ptrTabContentTerrain = ptrTabContentTerrain;
 
+	printf("interne : %d \t externe : %d\n", this->ptrPositionJoueurX,ptrPositionJoueurX);
+	printf("interne : %d \t externe : %d\n", this->ptrPositionJoueurY, ptrPositionJoueurY);
+	printf("interne : %d \t externe : %d\n", this->ptrWidthScreen, ptrWidthScreen);
+	printf("interne : %d \t externe : %d\n", this->ptrHeightScreen, ptrHeightScreen);
+
 }
 
 void ClassZombi::displayZombi() {
