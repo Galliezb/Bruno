@@ -30,7 +30,7 @@ void ofApp::setup(){
 	// inventaire
 	inventaire.init(tabContentRessourcePlayer, &widthScreen, &heightScreen);
 	// zombis
-	for (int i=0; i<5; i++){
+	for (int i=0; i<=maxZombi; i++){
 		zombis[i].init(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen, tabContentCase, tabContentTerrain);
 	}
 }
@@ -67,7 +67,7 @@ void ofApp::update(){
 
 	// fait spawn du zombis toutes les 15 sec
 	if ( tpsSpawnZombi - ofGetElapsedTimeMillis() > 15000 ){
-		for(int i =0; i<50; i++){
+		for(int i=0; i<=maxZombi; i++){
 			// si cette unité n'est pas affecté
 			if ( !zombis[i].isSpawnZombi ){
 				zombis[i].spawnZombi();
@@ -76,7 +76,7 @@ void ofApp::update(){
 	}
 
 	// effectue les traitements sur les zombis
-	for (int i = 0; i<50; i++) {
+	for (int i = 0; i<=maxZombi; i++) {
 		// si cette unité n'est pas affecté
 		if (zombis[i].isSpawnZombi) {
 			zombis[i].moveZombi();
@@ -112,7 +112,12 @@ void ofApp::draw(){
 		inventaire.affichage();
 	}
 
-
+	for (int i = 0; i<= maxZombi; i++) {
+		// si cette unité n'est pas affecté
+		if (zombis[i].isSpawnZombi) {
+			zombis[i].displayZombi();
+		}
+	}
 }
 
 //--------------------------------------------------------------

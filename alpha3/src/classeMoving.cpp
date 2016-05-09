@@ -97,6 +97,13 @@ void moving::movePlayer() {
 // Gère les animations du personnage au repos.
 void moving::playerAction() {
 
+	// rectangle autour du joueur
+	ofSetColor(255, 0, 0);
+	ofDrawRectangle(midX(), midY(), 64, 64);
+	ofNoFill();
+	ofSetColor(255, 255, 255);
+
+
 	if (*playerCurrentAction == "construire") {
 		action = construire;
 		speedAnim = 50;

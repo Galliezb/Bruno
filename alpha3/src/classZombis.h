@@ -56,7 +56,7 @@ class ClassZombi {
 		void spawnZombi();
 
 		/****************************************** VARIABLE PUBLIC *****************************************/
-		int speedZombi = 5;
+		int speedZombi = 1;
 		// vitesse d'animation en ms
 		int speedAnim = 50;
 		bool boolMoveZombiLeft = false;

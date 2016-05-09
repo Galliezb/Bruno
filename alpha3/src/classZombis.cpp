@@ -15,18 +15,18 @@ void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptr
 	this->ptrTabContentCase = ptrTabContentCase;
 	this->ptrTabContentTerrain = ptrTabContentTerrain;
 
-	printf("interne : %d \t externe : %d\n", this->ptrPositionJoueurX,ptrPositionJoueurX);
-	printf("interne : %d \t externe : %d\n", this->ptrPositionJoueurY, ptrPositionJoueurY);
-	printf("interne : %d \t externe : %d\n", this->ptrWidthScreen, ptrWidthScreen);
-	printf("interne : %d \t externe : %d\n", this->ptrHeightScreen, ptrHeightScreen);
-
 }
 
 void ClassZombi::displayZombi() {
 
+	// rectangle autour du joueur
+	ofSetColor(255,0,0);
+	ofDrawRectangle(posAffichageX(),posAffichageY(),64,64);
+	ofNoFill();
+	ofSetColor(255, 255, 255);
+
 	// *positionJoueurX, *positionJoueurY affiche le coin haut gauche de la caméra
 	// Bizarrement le joueur est affiché à la moitié de l'écran +32 pixel ?
-
 	// en dehors de la caméra, on affiche pas
 	if ( posAffichageX() != -1 && posAffichageY() != -1 ){
 
@@ -75,10 +75,8 @@ void ClassZombi::displayZombi() {
 }
 // Gère les animations du personnage au repos.
 void ClassZombi::displayAttackZombi() {
-
 	// Right and left prioritaire !
 	if (lastmoveRight == true) {
-
 		zombiAttaque.drawSubsection(posAffichageX(), posAffichageY(), 64, 64, 64 * startCycleAnimationRight, 0, 64, 64);
 
 		if (getDiffTime() > speedAnim) {
@@ -89,7 +87,6 @@ void ClassZombi::displayAttackZombi() {
 
 
 	}else if (lastmoveLeft == true) {
-
 		zombiAttaque.drawSubsection(posAffichageX(), posAffichageY(), 64, 64, 64 * startCycleAnimationLeft, 0, 64, 64);
 		if (getDiffTime() > speedAnim) {
 			startCycleAnimationLeft++;
@@ -99,7 +96,6 @@ void ClassZombi::displayAttackZombi() {
 
 
 	}else if (lastmoveTop == true) {
-
 		zombiAttaque.drawSubsection(posAffichageX(), posAffichageY(), 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
 		if (getDiffTime() > speedAnim) {
 			startCycleAnimationTop++;
@@ -109,7 +105,6 @@ void ClassZombi::displayAttackZombi() {
 
 		// position repos de base, face vers l'utilisateur pardi !
 	}else {
-
 		zombiAttaque.drawSubsection(posAffichageX(), posAffichageY(), 64, 64, 64 * startCycleAnimationDown, 0, 64, 64);
 		if (getDiffTime() > speedAnim) {
 			startCycleAnimationDown++;
@@ -123,6 +118,15 @@ void ClassZombi::displayAttackZombi() {
 void ClassZombi::moveZombi(){
 	
 	/************************* AXE Y *************************/
+	/*
+	int posYjoueur = *ptrPositionJoueurY + *ptrHeightScreen / 2 - 32;
+	// gestion des bords de map
+	if ( *ptrPositionJoueurY < *ptrHeightScreen/2 ){
+		posYjoueur = *ptrPositionJoueurY;
+	} else if ( *ptrPositionJoueurY > 5120 - *ptrHeightScreen/2){
+		posYjoueur = *ptrPositionJoueurY - 5120;
+	}*/
+
 	if (*ptrPositionJoueurY > posYZombi) {
 		posYZombi += speedZombi;
 		boolMoveZombiDown = true;
@@ -139,21 +143,28 @@ void ClassZombi::moveZombi(){
 
 	/************************* AXE X *************************/
 	// après pour écraser les booléen si nécessaire
+	/*
+	int posXjoueur = *ptrPositionJoueurX + *ptrWidthScreen / 2 - 32;
+	// gestion des bords de map
+	if (*ptrPositionJoueurX < *ptrWidthScreen/2) {
+		posXjoueur = *ptrPositionJoueurX;
+	} else if (*ptrPositionJoueurX > 5120 - *ptrWidthScreen/2) {
+		posXjoueur = *ptrPositionJoueurX - 5120;
+	}
+	*/
 	if (*ptrPositionJoueurX > posXZombi) {
 		posXZombi += speedZombi;
 		boolMoveZombiDown = false;
 		boolMoveZombiLeft = false;
 		boolMoveZombiRight = true;
 		boolMoveZombiTop = false;
-	}
-	else if (*ptrPositionJoueurX < posXZombi) {
+	}else if (*ptrPositionJoueurX < posXZombi) {
 		posXZombi -= speedZombi;
 		boolMoveZombiDown = false;
 		boolMoveZombiLeft = true;
 		boolMoveZombiRight = false;
 		boolMoveZombiTop = false;
 	}
-
 }
 void ClassZombi::setTimerStart() {
 	tpsStart = ofGetElapsedTimeMillis();
@@ -163,11 +174,21 @@ int ClassZombi::getDiffTime() {
 }
 int ClassZombi::posAffichageX() {
 
-	// si la position X du zombi est supérieur a la caméra
-	// et la position du zombi inférieur à la camera + widthscree
-	// alors on l'affiche a l'écran
-	if ( posXZombi > *ptrPositionJoueurX && posXZombi < *ptrPositionJoueurX ){
-		return *ptrPositionJoueurX - posXZombi;
+	//position par défaut de la caméra : *ptrPositionJoueurX + 32 - *ptrWidthScreen / 2;
+
+	int posXcamera = *ptrPositionJoueurX + 32 - *ptrWidthScreen / 2;
+	if (posXcamera<1) {
+		posXcamera= 0;
+	} else if (posXcamera> 7680 - *ptrWidthScreen) {
+		posXcamera = 7680 - *ptrWidthScreen;
+	}
+
+
+	if ( posXZombi > posXcamera && posXZombi < posXcamera +*ptrWidthScreen ){
+
+		// par defaut posZombi - cote gauche de l'affichage
+		return posXZombi - posXcamera;
+
 	} else {
 		// donc on affiche pas
 		return -1;
@@ -176,10 +197,21 @@ int ClassZombi::posAffichageX() {
 }
 int ClassZombi::posAffichageY() {
 
-	if (posYZombi > *ptrPositionJoueurY && posYZombi < *ptrPositionJoueurY) {
-		return *ptrPositionJoueurY - posYZombi;
+	int posYcamera = *ptrPositionJoueurY + 32 - *ptrHeightScreen / 2;
+	if (posYcamera<1) {
+		posYcamera = 0;
 	}
-	else {
+	else if (posYcamera> 5120 - *ptrHeightScreen) {
+		posYcamera = 5120 - *ptrHeightScreen;
+	}
+
+
+	if (posYZombi > posYcamera && posYZombi < posYcamera+*ptrHeightScreen) {
+
+		// par defaut posZombi - cote haut de l'affichage
+		return posYZombi-posYcamera;
+
+	} else {
 		// donc on affiche pas
 		return -1;
 	}
@@ -192,5 +224,7 @@ void ClassZombi::spawnZombi(){
 	// on fait spawn en dehors de la carte
 	posXZombi = 7680+x;
 	posYZombi = 5120+y;
+	posXZombi = 1250;
+	posYZombi = 1250;
 	isSpawnZombi = true;
 }

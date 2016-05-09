@@ -33,6 +33,8 @@ class ofApp : public ofBaseApp{
 		// variable
 		// temps gérant les zombis
 		int tpsSpawnZombi = ofGetElapsedTimeMillis();
+		// nombre max de zombi
+		int maxZombi = 1;
 
 		// inventaire actuellement affiché ?
 		bool affInventaire = false;
