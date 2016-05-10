@@ -82,12 +82,7 @@ void ClassZombi::displayZombi() {
 }
 // Gère les animations du personnage au repos.
 void ClassZombi::displayAttackZombi() {
-	
-	// metes l'action joueur en degat s'il n'y est pas.
-	if (*ptrPlayerCurrentAction != "degat"){
-		*ptrPlayerCurrentAction = "degat";
-	}
-	
+		
 	// Right and left prioritaire !
 	if (lastmoveRight == true) {
 		zombiAttaque.drawSubsection(posAffichageX(), posAffichageY(), 64, 64, 64 * startCycleAnimationRight, 0, 64, 64);

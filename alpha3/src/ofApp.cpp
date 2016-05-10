@@ -81,6 +81,12 @@ void ofApp::update(){
 		if (zombis[i].isSpawnZombi) {
 			zombis[i].moveZombi();
 		}
+		// si un zombi est a distance action joueur = attaqué
+		if (playerCurrentAction != "degat" && zombis[i].distanceBetweenPLayerAndZombi() <= 32){
+			// metes l'action joueur en degat s'il n'y est pas.
+			printf("%d => degats", ofGetElapsedTimeMillis());
+			playerCurrentAction = "degat";
+		}
 	}
 
 }
@@ -174,18 +180,22 @@ void ofApp::keyReleased(int key){
 	if (key == OF_KEY_UP) {
 		playerMoveTop = false;
 		if ( movePersonnage.getBoolMovePlayerTop() ){ movePersonnage.setBoolMovePlayerTop(false); }
+		playerCurrentAction = "repos";
 	}
 	if (key == OF_KEY_RIGHT) {
 		playerMoveRight = false;
 		if (movePersonnage.getBoolMovePlayerRight()) { movePersonnage.setBoolMovePlayerRight(false); }
+		playerCurrentAction = "repos";
 	}
 	if (key == OF_KEY_DOWN) {
 		playerMoveDown = false;
 		if (movePersonnage.getBoolMovePlayerDown()) { movePersonnage.setBoolMovePlayerDown(false); }
+		playerCurrentAction = "repos";
 	}
 	if (key == OF_KEY_LEFT) {
 		playerMoveLeft = false;
 		if (movePersonnage.getBoolMovePlayerLeft()) { movePersonnage.setBoolMovePlayerLeft(false); }
+		playerCurrentAction = "repos";
 	}
 	// si aucun mouvement en cours, on repasse a false pour éviter les traitements.
 	if (!playerMoveTop && !playerMoveRight && !playerMoveDown && !playerMoveLeft) { playerHasMove = false; }

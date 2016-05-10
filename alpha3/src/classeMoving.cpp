@@ -589,24 +589,38 @@ void moving::actionRecolteStart() {
 
 bool moving::actionRecolteEnd(){
 
+	// si le joueur prend des dégâts, la récolte s'interrompt
+	if (*ptrPlayerCurrentAction == "degat"){
+		actionRecolteEnCours = false;
+	}
+
 	if (actionRecolteEnCours) {
 
-		if (ofGetElapsedTimeMillis() - tpsStartActionRecolte > 5000 ){
-			// on corrige la map
-			// PUTAIN on passe par le pointeur de l'instance ! C'est trop énorme !
-			ptrInstanceGestionMap->restoreTerrainWithoutRessource(posXActionRecolte, posYActionRecolte);
-			
+		if (ofGetElapsedTimeMillis() - tpsStartActionRecolte > 5000 ){			
 			// +1 arbre ?
+			printf("tabcontentCASE => %d\n", *(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1));
+			printf("X : %d    Y : %d\n", posXActionRecolte, posYActionRecolte);
 			if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 1) {
 				*(ptrTabContentRessourcePlayer)+=1;
+				printf("arbre => %d", *(ptrTabContentRessourcePlayer));
 			// + 1 rocher ?
 			} else if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 2) {
 				*(ptrTabContentRessourcePlayer+1)+=1;
+				printf("rocher => %d", *(ptrTabContentRessourcePlayer+1));
 			}
 			// on remets l'action par defaut
 			*ptrPlayerCurrentAction = "repos";
 			// on cloture l'action en cours
 			actionRecolteEnCours = false;
+
+			// on corrige la map
+			// PUTAIN on passe par le pointeur de l'instance ! C'est trop énorme !
+			// BORDEL ON VIDE LA CASE APRES LES CONDITIONS BORDEL DE MERDE !
+			// Tu la passe a 0 et tu vérifie si elle vaut 1 ou 2 ?
+			// T'es sérieux la ? péttttaaaaaaggggeeee dddeeee pplllooommmmmbbb
+			// Oui toi, mon futur moi qui lira ça, tu te rend compte de comment tu peux être con parfois ?
+			ptrInstanceGestionMap->restoreTerrainWithoutRessource(posXActionRecolte, posYActionRecolte);
+
 
 			printf("END action recolte\n");
 
