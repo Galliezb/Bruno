@@ -26,19 +26,14 @@ void ClassZombi::displayZombi() {
 	ofDrawRectangle(posAffichageX(),posAffichageY(),64,64);
 	ofNoFill();
 	ofSetColor(255, 255, 255);
-	printf("****** BoolMoveZombiDirection *****\n");
-	printf("Right : %s\tLeft : %s\tTop : %s\tDown : %s\n", boolMoveZombiRight ? "true":"false",
-		boolMoveZombiLeft ? "true" : "false",
-		boolMoveZombiTop ? "true" : "false",
-		boolMoveZombiTop ? "true" : "false" );
-	
+		
 
 	// *positionJoueurX, *positionJoueurY affiche le coin haut gauche de la caméra
 	// Bizarrement le joueur est affiché à la moitié de l'écran +32 pixel ?
 	// en dehors de la caméra, on affiche pas
-	printf("*****************************************************\n");
-	printf("%d != -1 && %d != -1 && %d <= 32\n", posAffichageX(),posAffichageY(),distanceBetweenPLayerAndZombi());
-	printf("*****************************************************\n");
+	
+	
+	
 	if ( posAffichageX() != -1 && posAffichageY() != -1 && distanceBetweenPLayerAndZombi() > 32){
 
 		// Right and left prioritaire !
@@ -92,11 +87,7 @@ void ClassZombi::displayAttackZombi() {
 	if (*ptrPlayerCurrentAction != "degat"){
 		*ptrPlayerCurrentAction = "degat";
 	}
-	printf("****** lastMoveDirection *****\n");
-	printf("Right : %s\tLeft : %s\tTop : %s\tDown : %s\n", lastmoveRight ? "true" : "false",
-		lastmoveLeft ? "true" : "false",
-		lastmoveTop ? "true" : "false",
-		lastmoveLeft ? "true" : "false");
+	
 	// Right and left prioritaire !
 	if (lastmoveRight == true) {
 		zombiAttaque.drawSubsection(posAffichageX(), posAffichageY(), 64, 64, 64 * startCycleAnimationRight, 0, 64, 64);
@@ -272,7 +263,7 @@ void ClassZombi::spawnZombi(){
 }
 int ClassZombi::distanceBetweenPLayerAndZombi(){
 	
-	printf("%d-%d + %d-%d = %d\n", *ptrPositionJoueurX,posXZombi,*ptrPositionJoueurY,posYZombi, abs((*ptrPositionJoueurX - posXZombi) + (*ptrPositionJoueurY - posYZombi)));
+	
 	return abs((*ptrPositionJoueurX - posXZombi) + (*ptrPositionJoueurY - posYZombi)); 
 
 }

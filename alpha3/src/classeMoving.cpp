@@ -50,9 +50,10 @@ void moving::movePlayer() {
 	//Animation marche
 
 	// metes l'action joueur en repos s'il n'y est pas
+	/*
 	if (*ptrPlayerCurrentAction != "repos") {
 		*ptrPlayerCurrentAction = "repos";
-	}
+	}*/
 
 
 	// Right and left prioritaire !

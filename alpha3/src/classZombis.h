@@ -62,7 +62,7 @@ class ClassZombi {
 		/****************************************** VARIABLE PUBLIC *****************************************/
 		int speedZombi = 1;
 		// vitesse d'animation en ms
-		int speedAnim = 50;
+		int speedAnim = 55;
 		bool boolMoveZombiLeft = false;
 		bool boolMoveZombiRight = false;
 		bool boolMoveZombiTop = false;
