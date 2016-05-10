@@ -1,12 +1,13 @@
 #pragma once
 #include "classZombis.h"
 
+
 ClassZombi::ClassZombi(){
 	zombiMarche.load("animmarchezombi.png");
 	zombiAttaque.load("animattaquezombi.png");
 }
 
-void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain){
+void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction){
 
 	this->ptrPositionJoueurX = ptrPositionJoueurX;
 	this->ptrPositionJoueurY = ptrPositionJoueurY;
@@ -14,6 +15,7 @@ void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptr
 	this->ptrHeightScreen = ptrHeightScreen;
 	this->ptrTabContentCase = ptrTabContentCase;
 	this->ptrTabContentTerrain = ptrTabContentTerrain;
+	this->ptrPlayerCurrentAction = ptrPlayerCurrentAction;
 
 }
 
@@ -24,11 +26,20 @@ void ClassZombi::displayZombi() {
 	ofDrawRectangle(posAffichageX(),posAffichageY(),64,64);
 	ofNoFill();
 	ofSetColor(255, 255, 255);
+	printf("****** BoolMoveZombiDirection *****\n");
+	printf("Right : %s\tLeft : %s\tTop : %s\tDown : %s\n", boolMoveZombiRight ? "true":"false",
+		boolMoveZombiLeft ? "true" : "false",
+		boolMoveZombiTop ? "true" : "false",
+		boolMoveZombiTop ? "true" : "false" );
+	
 
 	// *positionJoueurX, *positionJoueurY affiche le coin haut gauche de la caméra
 	// Bizarrement le joueur est affiché à la moitié de l'écran +32 pixel ?
 	// en dehors de la caméra, on affiche pas
-	if ( posAffichageX() != -1 && posAffichageY() != -1 ){
+	printf("*****************************************************\n");
+	printf("%d != -1 && %d != -1 && %d <= 32\n", posAffichageX(),posAffichageY(),distanceBetweenPLayerAndZombi());
+	printf("*****************************************************\n");
+	if ( posAffichageX() != -1 && posAffichageY() != -1 && distanceBetweenPLayerAndZombi() > 32){
 
 		// Right and left prioritaire !
 		if (boolMoveZombiLeft == true) {
@@ -68,13 +79,24 @@ void ClassZombi::displayZombi() {
 			}
 			if (startCycleAnimationDown == 48) { startCycleAnimationDown = 32; }
 			//Animation repos
-		} else {
-			displayAttackZombi();
 		}
+
+	} else if (distanceBetweenPLayerAndZombi() <= 32) {
+		displayAttackZombi();
 	}
 }
 // Gère les animations du personnage au repos.
 void ClassZombi::displayAttackZombi() {
+	
+	// metes l'action joueur en degat s'il n'y est pas.
+	if (*ptrPlayerCurrentAction != "degat"){
+		*ptrPlayerCurrentAction = "degat";
+	}
+	printf("****** lastMoveDirection *****\n");
+	printf("Right : %s\tLeft : %s\tTop : %s\tDown : %s\n", lastmoveRight ? "true" : "false",
+		lastmoveLeft ? "true" : "false",
+		lastmoveTop ? "true" : "false",
+		lastmoveLeft ? "true" : "false");
 	// Right and left prioritaire !
 	if (lastmoveRight == true) {
 		zombiAttaque.drawSubsection(posAffichageX(), posAffichageY(), 64, 64, 64 * startCycleAnimationRight, 0, 64, 64);
@@ -117,53 +139,74 @@ void ClassZombi::displayAttackZombi() {
 }
 void ClassZombi::moveZombi(){
 	
-	/************************* AXE Y *************************/
-	/*
-	int posYjoueur = *ptrPositionJoueurY + *ptrHeightScreen / 2 - 32;
-	// gestion des bords de map
-	if ( *ptrPositionJoueurY < *ptrHeightScreen/2 ){
-		posYjoueur = *ptrPositionJoueurY;
-	} else if ( *ptrPositionJoueurY > 5120 - *ptrHeightScreen/2){
-		posYjoueur = *ptrPositionJoueurY - 5120;
-	}*/
+	// s'il est a portée, attaque, donc plus de déplacement.
+	if (distanceBetweenPLayerAndZombi() > 32){
+		/************************* AXE Y *************************/
+		if (*ptrPositionJoueurY > posYZombi) {
 
-	if (*ptrPositionJoueurY > posYZombi) {
-		posYZombi += speedZombi;
-		boolMoveZombiDown = true;
-		boolMoveZombiLeft = false;
-		boolMoveZombiRight = false;
-		boolMoveZombiTop = false;
-	} else if (*ptrPositionJoueurY < posYZombi) {
-		posYZombi -= speedZombi;
-		boolMoveZombiDown = false;
-		boolMoveZombiLeft = false;
-		boolMoveZombiRight = false;
-		boolMoveZombiTop = true;
-	}
+			posYZombi += speedZombi;
 
-	/************************* AXE X *************************/
-	// après pour écraser les booléen si nécessaire
-	/*
-	int posXjoueur = *ptrPositionJoueurX + *ptrWidthScreen / 2 - 32;
-	// gestion des bords de map
-	if (*ptrPositionJoueurX < *ptrWidthScreen/2) {
-		posXjoueur = *ptrPositionJoueurX;
-	} else if (*ptrPositionJoueurX > 5120 - *ptrWidthScreen/2) {
-		posXjoueur = *ptrPositionJoueurX - 5120;
-	}
-	*/
-	if (*ptrPositionJoueurX > posXZombi) {
-		posXZombi += speedZombi;
-		boolMoveZombiDown = false;
-		boolMoveZombiLeft = false;
-		boolMoveZombiRight = true;
-		boolMoveZombiTop = false;
-	}else if (*ptrPositionJoueurX < posXZombi) {
-		posXZombi -= speedZombi;
-		boolMoveZombiDown = false;
-		boolMoveZombiLeft = true;
-		boolMoveZombiRight = false;
-		boolMoveZombiTop = false;
+			boolMoveZombiDown = true;
+			boolMoveZombiLeft = false;
+			boolMoveZombiRight = false;
+			boolMoveZombiTop = false;
+
+			lastmoveRight = true;
+			lastmoveLeft = false;
+			lastmoveTop = false;
+			lastmoveDown = false;
+
+
+		} else if (*ptrPositionJoueurY < posYZombi) {
+
+			posYZombi -= speedZombi;
+
+			boolMoveZombiDown = false;
+			boolMoveZombiLeft = false;
+			boolMoveZombiRight = false;
+			boolMoveZombiTop = true;
+
+			lastmoveRight = false;
+			lastmoveLeft = false;
+			lastmoveTop = true;
+			lastmoveDown = false;
+
+
+		}
+
+		/************************* AXE X *************************/
+		// après pour écraser les booléen si nécessaire
+		if (*ptrPositionJoueurX > posXZombi) {
+
+			posXZombi += speedZombi;
+
+			boolMoveZombiDown = false;
+			boolMoveZombiLeft = false;
+			boolMoveZombiRight = true;
+			boolMoveZombiTop = false;
+
+			lastmoveRight = true;
+			lastmoveLeft = false;
+			lastmoveTop = false;
+			lastmoveDown = false;
+
+
+		}else if (*ptrPositionJoueurX < posXZombi) {
+
+			posXZombi -= speedZombi;
+
+			boolMoveZombiDown = false;
+			boolMoveZombiLeft = true;
+			boolMoveZombiRight = false;
+			boolMoveZombiTop = false;
+
+			lastmoveRight = false;
+			lastmoveLeft = true;
+			lastmoveTop = false;
+			lastmoveDown = false;
+
+
+		}
 	}
 }
 void ClassZombi::setTimerStart() {
@@ -175,7 +218,6 @@ int ClassZombi::getDiffTime() {
 int ClassZombi::posAffichageX() {
 
 	//position par défaut de la caméra : *ptrPositionJoueurX + 32 - *ptrWidthScreen / 2;
-
 	int posXcamera = *ptrPositionJoueurX + 32 - *ptrWidthScreen / 2;
 	if (posXcamera<1) {
 		posXcamera= 0;
@@ -227,4 +269,10 @@ void ClassZombi::spawnZombi(){
 	posXZombi = 1250;
 	posYZombi = 1250;
 	isSpawnZombi = true;
+}
+int ClassZombi::distanceBetweenPLayerAndZombi(){
+	
+	printf("%d-%d + %d-%d = %d\n", *ptrPositionJoueurX,posXZombi,*ptrPositionJoueurY,posYZombi, abs((*ptrPositionJoueurX - posXZombi) + (*ptrPositionJoueurY - posYZombi)));
+	return abs((*ptrPositionJoueurX - posXZombi) + (*ptrPositionJoueurY - posYZombi)); 
+
 }

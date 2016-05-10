@@ -10,7 +10,12 @@ int main( ){
 	// this kicks off the running of my app
 	// can be OF_WINDOW or OF_FULLSCREEN
 	// pass in width and height too:
-	ofSetWindowPosition(2300,50);
+
+	// fixe
+	//ofSetWindowPosition(2300,50);
+	// portable
+	ofSetWindowPosition(1600-ofGetWindowWidth(),0);
+
 	ofRunApp(new ofApp());
 
 }

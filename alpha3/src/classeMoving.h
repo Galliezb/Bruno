@@ -39,8 +39,8 @@ class moving {
 	// ralentissement du a la boue
 	int slowMudCase = 10; // => /2 = 50% de vitesse en moins
 
-						  // Action en cours du personnage
-	string  * playerCurrentAction;
+	// Action en cours du personnage
+	string  * ptrPlayerCurrentAction;
 
 	// vitesse de défilement
 	int scrollingSpeed = 6;
@@ -60,7 +60,7 @@ class moving {
 public:
 
 	moving();
-	void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap);
+	void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *ptrPlayerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap);
 	void playerAction();
 	// méthode de gestion du déplacement joueur
 	void movePlayer();

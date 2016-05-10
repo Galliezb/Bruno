@@ -18,7 +18,7 @@ moving::moving() {
 
 }
 // initialisation de la classe ( OF dispo ici, pas dans le constructeur )
-void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *playerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap) {
+void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *ptrPlayerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap) {
 
 	// pointeur tab content map
 	this->ptrTabContentCase = ptrTabContentCase;
@@ -35,7 +35,7 @@ void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidt
 	this->ptrInstanceGestionMap=ptrInstanceGestionMap;
 
 	// action en cours du joueur
-	this->playerCurrentAction = playerCurrentAction;
+	this->ptrPlayerCurrentAction = ptrPlayerCurrentAction;
 
 	// tableau contenant le ressource joueur
 	this->ptrTabContentRessourcePlayer = ptrTabContentRessourcePlayer;
@@ -44,9 +44,17 @@ void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidt
 
 void moving::movePlayer() {
 
+	
 	// vitesse d'animation
 	speedAnim = 50;
 	//Animation marche
+
+	// metes l'action joueur en repos s'il n'y est pas
+	if (*ptrPlayerCurrentAction != "repos") {
+		*ptrPlayerCurrentAction = "repos";
+	}
+
+
 	// Right and left prioritaire !
 	if (boolMovePlayerLeft == true) {
 
@@ -104,31 +112,31 @@ void moving::playerAction() {
 	ofSetColor(255, 255, 255);
 
 
-	if (*playerCurrentAction == "construire") {
+	if (*ptrPlayerCurrentAction == "construire") {
 		action = construire;
 		speedAnim = 50;
 	}
-	else if (*playerCurrentAction == "courir") {
+	else if (*ptrPlayerCurrentAction == "courir") {
 		action = courir;
 		speedAnim = 75;
 	}
-	else if (*playerCurrentAction == "degat") {
+	else if (*ptrPlayerCurrentAction == "degat") {
 		action = degat;
-		speedAnim = 90;
+		speedAnim = 50;
 	}
-	else if (*playerCurrentAction == "hacher") {
+	else if (*ptrPlayerCurrentAction == "hacher") {
 		action = hacher;
 		speedAnim = 80;
 	}
-	else if (*playerCurrentAction == "miner") {
+	else if (*ptrPlayerCurrentAction == "miner") {
 		action = miner;
 		speedAnim = 80;
 	}
-	else if (*playerCurrentAction == "mort") {
+	else if (*ptrPlayerCurrentAction == "mort") {
 		action = mort;
 		speedAnim = 100;
 	}
-	else if (*playerCurrentAction == "attaquer") {
+	else if (*ptrPlayerCurrentAction == "attaquer") {
 		action = attaquer;
 		speedAnim = 50;
 	}
@@ -143,10 +151,10 @@ void moving::playerAction() {
 		|| startCycleAnimationTop == 9
 		|| startCycleAnimationDown == 41)) {
 		printf("Hit son action\n");
-		if (*playerCurrentAction == "miner"){
+		if (*ptrPlayerCurrentAction == "miner"){
 			printf("Son minage\n");
 			leSonMinage.play();
-		} else if (*playerCurrentAction == "hacher") {
+		} else if (*ptrPlayerCurrentAction == "hacher") {
 			printf("son coupe arbre\n");
 			leSonArbre.play();
 		}
@@ -295,7 +303,7 @@ void moving::updatePositionJoueur() {
 	// si on se déplace mais qu'une action de récolte en cours, on la stop
 	if (actionRecolteEnCours){
 		actionRecolteEnCours = false;
-		*playerCurrentAction = "repos";
+		*ptrPlayerCurrentAction = "repos";
 	}
 
 	// Calcul de case pour les colisions !
@@ -562,13 +570,13 @@ void moving::actionRecolteStart() {
 		// c'est un arbre ?
 		if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 1 && !lastmoveDown) {
 			
-			*playerCurrentAction = "hacher";
+			*ptrPlayerCurrentAction = "hacher";
 			tpsStartActionRecolte = ofGetElapsedTimeMillis();
 			actionRecolteEnCours = true;
 
 		// c'est un rocher ?
 		} else if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 2) {
-			*playerCurrentAction = "miner";
+			*ptrPlayerCurrentAction = "miner";
 			tpsStartActionRecolte = ofGetElapsedTimeMillis();
 			actionRecolteEnCours = true;
 		}
@@ -595,7 +603,7 @@ bool moving::actionRecolteEnd(){
 				*(ptrTabContentRessourcePlayer+1)+=1;
 			}
 			// on remets l'action par defaut
-			*playerCurrentAction = "repos";
+			*ptrPlayerCurrentAction = "repos";
 			// on cloture l'action en cours
 			actionRecolteEnCours = false;
 

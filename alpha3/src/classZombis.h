@@ -1,5 +1,6 @@
 #pragma once
 #include "ofMain.h"
+#include <cmath> 
 
 class ClassZombi {
 
@@ -12,6 +13,7 @@ class ClassZombi {
 	int *ptrHeightScreen;
 	int *ptrTabContentCase;
 	int *ptrTabContentTerrain;
+	string *ptrPlayerCurrentAction;
 
 	// ofimage
 	ofImage zombiMarche, zombiAttaque;
@@ -47,13 +49,15 @@ class ClassZombi {
 
 		/****************************************** METHODE PUBLIC *****************************************/
 		ClassZombi();
-		void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain);
+		void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction);
 		// affichage des zombis présent à l'écran
 		void displayZombi();
 		// déplace le zombi
 		void moveZombi();
 		// active le zombi et défini ses paramètres
 		void spawnZombi();
+		// vérifie la distance entre joueur et zombi
+		int distanceBetweenPLayerAndZombi();
 
 		/****************************************** VARIABLE PUBLIC *****************************************/
 		int speedZombi = 1;
