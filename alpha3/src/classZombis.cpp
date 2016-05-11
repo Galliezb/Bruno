@@ -252,8 +252,6 @@ void ClassZombi::spawnZombi(){
 	// on fait spawn en dehors de la carte
 	posXZombi = 7680+x;
 	posYZombi = 5120+y;
-	posXZombi = 1250;
-	posYZombi = 1250;
 	isSpawnZombi = true;
 }
 int ClassZombi::distanceBetweenPLayerAndZombi(){

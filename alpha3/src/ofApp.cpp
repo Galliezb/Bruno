@@ -30,8 +30,12 @@ void ofApp::setup(){
 	// inventaire
 	inventaire.init(tabContentRessourcePlayer, &widthScreen, &heightScreen);
 	// zombis
+	printf("maxzombi => %d",maxZombi);
+	Sleep(15);
 	for (int i=0; i<maxZombi; i++){
 		zombis[i].init(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen, tabContentCase, tabContentTerrain, &playerCurrentAction);
+		printf("i => %i\t maxzombi => %d\n",i,maxZombi);
+		Sleep(100);
 	}
 }
 
@@ -39,54 +43,59 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 
-	// si le joueur a bougé, on met à jour l'info
-	if(playerHasMove){
-		// Gestion des colisions INTEGRE avec les objets présent et les cases d'eau
-		movePersonnage.updatePositionJoueur();
+	if (affInventaire) {
+		inventaire.affichage();
+	} else {
 
-		// Le quadrillage Horizontal
-		pathLineHorizontal.clear();
-		pathLineHorizontal.moveTo(movePersonnage.midX(), movePersonnage.midY());
-		pathLineHorizontal.lineTo(movePersonnage.midX()+64, movePersonnage.midY());
-		pathLineHorizontal.lineTo(movePersonnage.midX()+64, movePersonnage.midY() + 64);
-		pathLineHorizontal.lineTo(movePersonnage.midX(), movePersonnage.midY()+64);
-		pathLineHorizontal.lineTo(movePersonnage.midX(), movePersonnage.midY());
+		// si le joueur a bougé, on met à jour l'info
+		if(playerHasMove){
+			// Gestion des colisions INTEGRE avec les objets présent et les cases d'eau
+			movePersonnage.updatePositionJoueur();
 
-		pathLineHorizontal.close();
-		pathLineHorizontal.setStrokeColor(ofColor::red);
-		pathLineHorizontal.setFilled(false);
-		pathLineHorizontal.setStrokeWidth(1);
+			// Le quadrillage Horizontal
+			pathLineHorizontal.clear();
+			pathLineHorizontal.moveTo(movePersonnage.midX(), movePersonnage.midY());
+			pathLineHorizontal.lineTo(movePersonnage.midX()+64, movePersonnage.midY());
+			pathLineHorizontal.lineTo(movePersonnage.midX()+64, movePersonnage.midY() + 64);
+			pathLineHorizontal.lineTo(movePersonnage.midX(), movePersonnage.midY()+64);
+			pathLineHorizontal.lineTo(movePersonnage.midX(), movePersonnage.midY());
+
+			pathLineHorizontal.close();
+			pathLineHorizontal.setStrokeColor(ofColor::red);
+			pathLineHorizontal.setFilled(false);
+			pathLineHorizontal.setStrokeWidth(1);
 
 
-	}
+		}
 
-	// Si une récolte est en cours
-	if (actionRecolteActive){
-		actionRecolteActive = movePersonnage.actionRecolteEnd();
-	}
+		// Si une récolte est en cours
+		if (actionRecolteActive){
+			actionRecolteActive = movePersonnage.actionRecolteEnd();
+		}
 
-	// fait spawn du zombis toutes les 15 sec
-	if ( tpsSpawnZombi - ofGetElapsedTimeMillis() > 15000 ){
-		for(int i=0; i<maxZombi; i++){
-			// si cette unité n'est pas affecté
-			if ( !zombis[i].isSpawnZombi ){
-				zombis[i].spawnZombi();
+		// fait spawn du zombis toutes les 15 sec
+		if ( tpsSpawnZombi - ofGetElapsedTimeMillis() > timerSpawnZombi ){
+			for(int i=0; i<maxZombi; i++){
+				// si cette unité n'est pas affecté
+				if ( !zombis[i].isSpawnZombi ){
+					zombis[i].spawnZombi();
+				}
 			}
 		}
-	}
 
-	// effectue les traitements sur les zombis
-	for (int i = 0; i<maxZombi; i++) {
-		// si cette unité n'est pas affecté
-		if (zombis[i].isSpawnZombi) {
-			zombis[i].moveZombi();
-		}
-		// si un zombi est a distance action joueur = attaqué
-		printf("%d <= 32\n", zombis[i].distanceBetweenPLayerAndZombi(),32);
-		if (playerCurrentAction != "degat" && zombis[i].distanceBetweenPLayerAndZombi() <= 32){
-			// metes l'action joueur en degat s'il n'y est pas.
-			printf("%d => degats\n", ofGetElapsedTimeMillis());
-			playerCurrentAction = "degat";
+		// effectue les traitements sur les zombis
+		for (int i = 0; i<maxZombi; i++) {
+			// si cette unité n'est pas affecté
+			if (zombis[i].isSpawnZombi) {
+				zombis[i].moveZombi();
+			}
+			// si un zombi est a distance action joueur = attaqué
+			printf("%d <= 32\n", zombis[i].distanceBetweenPLayerAndZombi(),32);
+			if (playerCurrentAction != "degat" && zombis[i].distanceBetweenPLayerAndZombi() <= 32){
+				// metes l'action joueur en degat s'il n'y est pas.
+				printf("%d => degats\n", ofGetElapsedTimeMillis());
+				playerCurrentAction = "degat";
+			}
 		}
 	}
 
@@ -95,34 +104,35 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 
-
 	// affiche a l'écran
 	gestionMap.displayMap();
-	// affichage du personnage
-	movePersonnage.movePlayer();
 
-	string fpsStr = "positionJoueurX => " + ofToString(positionJoueurX);
-	ofDrawBitmapString(fpsStr, 20, 100);
-	fpsStr = "positionJoueurY => " + ofToString(positionJoueurY);
-	ofDrawBitmapString(fpsStr, 20, 125);
-	fpsStr = "positionCameraX => " + ofToString(positionJoueurX-widthScreen/2);
-	ofDrawBitmapString(fpsStr, 20, 150);
-	fpsStr = "positionCameraY => " + ofToString(positionJoueurY-heightScreen/2);
-	ofDrawBitmapString(fpsStr, 20, 175);
-	fpsStr = "Origin: " + ofToString(positionJoueurX/64)+";"+ofToString(positionJoueurY/64);
-	ofDrawBitmapString(fpsStr, 20, 200);
-	fpsStr = "Origin(pied): " + ofToString((positionJoueurX+32) / 64) + ";" + ofToString((positionJoueurY+60) / 64);
-	ofDrawBitmapString(fpsStr, 20, 225);
-	pathLineHorizontal.draw();
-
-	if (affInventaire){
+	if (affInventaire) {
 		inventaire.affichage();
-	}
+	} else {
 
-	for (int i = 0; i<maxZombi; i++) {
-		// si cette unité n'est pas affecté
-		if (zombis[i].isSpawnZombi) {
-			zombis[i].displayZombi();
+		// affichage du personnage
+		movePersonnage.movePlayer();
+
+		string fpsStr = "positionJoueurX => " + ofToString(positionJoueurX);
+		ofDrawBitmapString(fpsStr, 20, 100);
+		fpsStr = "positionJoueurY => " + ofToString(positionJoueurY);
+		ofDrawBitmapString(fpsStr, 20, 125);
+		fpsStr = "positionCameraX => " + ofToString(positionJoueurX-widthScreen/2);
+		ofDrawBitmapString(fpsStr, 20, 150);
+		fpsStr = "positionCameraY => " + ofToString(positionJoueurY-heightScreen/2);
+		ofDrawBitmapString(fpsStr, 20, 175);
+		fpsStr = "Origin: " + ofToString(positionJoueurX/64)+";"+ofToString(positionJoueurY/64);
+		ofDrawBitmapString(fpsStr, 20, 200);
+		fpsStr = "Origin(pied): " + ofToString((positionJoueurX+32) / 64) + ";" + ofToString((positionJoueurY+60) / 64);
+		ofDrawBitmapString(fpsStr, 20, 225);
+		pathLineHorizontal.draw();
+
+		for (int i = 0; i<maxZombi; i++) {
+			// si cette unité n'est pas affecté
+			if (zombis[i].isSpawnZombi) {
+				zombis[i].displayZombi();
+			}
 		}
 	}
 }
