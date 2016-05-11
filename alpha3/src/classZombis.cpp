@@ -258,7 +258,20 @@ void ClassZombi::spawnZombi(){
 }
 int ClassZombi::distanceBetweenPLayerAndZombi(){
 	
-	
-	return abs((*ptrPositionJoueurX - posXZombi) + (*ptrPositionJoueurY - posYZombi)); 
+	int ecartX,ecartY;
+
+	if (*ptrPositionJoueurX < posXZombi){
+		ecartX = posXZombi - *ptrPositionJoueurX;
+	} else {
+		ecartX = *ptrPositionJoueurX - posXZombi;
+	}
+
+	if (*ptrPositionJoueurY < posYZombi) {
+		ecartY = posYZombi - *ptrPositionJoueurY;
+	} else {
+		ecartY = *ptrPositionJoueurY - posYZombi;
+	}
+
+	return ecartX+ecartY; 
 
 }

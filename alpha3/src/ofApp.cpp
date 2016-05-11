@@ -82,9 +82,10 @@ void ofApp::update(){
 			zombis[i].moveZombi();
 		}
 		// si un zombi est a distance action joueur = attaqué
+		printf("%d <= 32\n", zombis[i].distanceBetweenPLayerAndZombi(),32);
 		if (playerCurrentAction != "degat" && zombis[i].distanceBetweenPLayerAndZombi() <= 32){
 			// metes l'action joueur en degat s'il n'y est pas.
-			printf("%d => degats", ofGetElapsedTimeMillis());
+			printf("%d => degats\n", ofGetElapsedTimeMillis());
 			playerCurrentAction = "degat";
 		}
 	}
