@@ -30,12 +30,8 @@ void ofApp::setup(){
 	// inventaire
 	inventaire.init(tabContentRessourcePlayer, &widthScreen, &heightScreen);
 	// zombis
-	printf("maxzombi => %d",maxZombi);
-	Sleep(15);
 	for (int i=0; i<maxZombi; i++){
 		zombis[i].init(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen, tabContentCase, tabContentTerrain, &playerCurrentAction);
-		printf("i => %i\t maxzombi => %d\n",i,maxZombi);
-		Sleep(100);
 	}
 }
 
@@ -90,10 +86,8 @@ void ofApp::update(){
 				zombis[i].moveZombi();
 			}
 			// si un zombi est a distance action joueur = attaqué
-			printf("%d <= 32\n", zombis[i].distanceBetweenPLayerAndZombi(),32);
 			if (playerCurrentAction != "degat" && zombis[i].distanceBetweenPLayerAndZombi() <= 32){
 				// metes l'action joueur en degat s'il n'y est pas.
-				printf("%d => degats\n", ofGetElapsedTimeMillis());
 				playerCurrentAction = "degat";
 			}
 		}
@@ -231,11 +225,8 @@ void ofApp::mousePressed(int x, int y, int button){
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
 	// inventaire affiché, si clique en dehors, on stop l'affichage
-	printf("%d < %d || %d > %d || %d < %d || %d > %d\n", x,inventaire.returnPosXWindow(),x,inventaire.returnPosXWindow()+1024,y,inventaire.returnPosYWindow(),y,inventaire.returnPosYWindow()+642);
 	if (affInventaire && ( x<inventaire.returnPosXWindow() || x>inventaire.returnPosXWindow()+1024 || y<inventaire.returnPosYWindow() || y>inventaire.returnPosYWindow()+642) ){
 		affInventaire = false;
-	} else {
-		printf("X => %d\tY=>%d\n", movePersonnage.returnPosCaseX("center"), movePersonnage.returnPosCaseY("top"));
 	}
 }
 

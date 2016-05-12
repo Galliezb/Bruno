@@ -28,8 +28,6 @@ void classMap::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWi
 	this->ptrHeightScreen = ptrHeightScreen;
 	this->ptrWidthScreen = ptrWidthScreen;
 
-	printf("Initialisation MAP :  \n");
-
 	this->ptrPositionJoueurX = ptrPositionJoueurX;
 	this->ptrPositionJoueurY = ptrPositionJoueurY;
 
@@ -81,7 +79,6 @@ bool classMap::remplirHerbe() {
 bool classMap::restoreGrass(int posX, int posY) {
 
 	if (posX > 119 || posX < 0 || posY > 79 || posY < 0) {
-		printf("restoreGrass => Coordonnees incorrect, la case sort de la map\n");
 		return false;
 	}
 	else {
@@ -95,9 +92,7 @@ bool classMap::restoreGrass(int posX, int posY) {
 // permet de recréer une case sans un arbre ou de la roche
 void classMap::restoreTerrainWithoutRessource(int posX, int posY){
 
-	if (posX > 119 || posX < 0 || posY > 79 || posY < 0) {
-		printf("restoreTerrainWithoutRessource => Coordonnees incorrect, la case sort de la map\n");
-	} else {
+	if (posX < 119 || posX > 0 || posY < 79 || posY > 0) {
 
 		fbo.begin();
 		// c'est de la boue ?
@@ -117,10 +112,8 @@ bool classMap::changeCaseWater(unsigned int posX, unsigned int posY) {
 
 	// on verifie que le lac sort pas de la map
 	if (posX > 119 || posX < 0 || posY > 79 || posY < 0) {
-		printf("Coordonnees incorrect, le lac sort de la map\n");
 		return false;
-	}
-	else {
+	} else {
 		fbo.begin();
 		eau.draw(posX * 64, posY * 64);
 		*(ptrTabContentTerrain + posX + posY * 120 - 1) = 1;
@@ -134,10 +127,8 @@ bool classMap::changeCaseMud(unsigned int posX, unsigned int posY) {
 
 	// on verifie que le lac sort pas de la map
 	if (posX > 119 || posX < 0 || posY > 79 || posY < 0) {
-		printf("Coordonnees incorrect, le lac sort de la map\n");
 		return false;
-	}
-	else {
+	} else {
 		fbo.begin();
 		boue.draw(posX * 64, posY * 64);
 		*(ptrTabContentTerrain + posX + posY * 120 - 1) = 2;
@@ -151,12 +142,6 @@ bool classMap::addRessource(unsigned int posX, unsigned int posY, bool arbre, bo
 
 	// on verifie que l'arbre sort pas de la map
 	if (posX > 119 || posX < 0 || posY > 79 || posY < 0) {
-		if (arbre && !rocher) {
-			printf("Coordonnees incorrect, le rocher sort de la map");
-		}
-		else if (!arbre && rocher) {
-			printf("Coordonnees incorrect, l'arbre sort de la map");
-		}
 		return false;
 	}
 	else {
@@ -176,9 +161,7 @@ bool classMap::addRessource(unsigned int posX, unsigned int posY, bool arbre, bo
 				// on ajoute la disponibilité du rocher dans le tableau de donnée
 				*(ptrTabContentCase + posX + posY * 120 - 1) = 2;
 			}
-		} /*else {
-		  printf("[ERROR][%d][%d]\t T:%d\t C:%d\n", posX, posY, *(ptrTabContentTerrain + posX + posY * 120 - 1), *(ptrTabContentCase + posX + posY * 120 - 1));
-		  }*/
+		}
 		fbo.end();
 		affichage.update();
 		return true;
@@ -250,18 +233,5 @@ void classMap::returnPosCase(int coordX, int coordY) {
 
 	caseX = floor((caseX + coordX) / 64);
 	caseY = floor((caseY + coordY) / 64);
-
-	printf("Case X => %d \tCase Y => %d\t Case => %d \t Terrain =>%d \n", caseX, caseY, *(ptrTabContentCase + caseX + caseY * 120 - 1), *(ptrTabContentTerrain + caseX + caseY * 120 - 1));
-}
-
-// Oui WTF, quand ça merde, ca fait chier. Mais bon c'est toujours
-// mieux que d'être constipé non ?
-void classMap::seeDataOfThisFuckingTab() {
-
-	for (int x = 0; x<120; x++) {
-		for (int y = 0; y<80; y++) {
-			//printf("[%d/%d] : C:%d T:%d\n",x,y, *(ptrTabContentCase + x + y * 120 - 1), *(ptrTabContentTerrain + x + y * 120 - 1));
-		}
-	}
 
 }

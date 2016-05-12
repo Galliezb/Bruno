@@ -151,12 +151,9 @@ void moving::playerAction() {
 		|| startCycleAnimationRight == 25
 		|| startCycleAnimationTop == 9
 		|| startCycleAnimationDown == 41)) {
-		printf("Hit son action\n");
 		if (*ptrPlayerCurrentAction == "miner"){
-			printf("Son minage\n");
 			leSonMinage.play();
 		} else if (*ptrPlayerCurrentAction == "hacher") {
-			printf("son coupe arbre\n");
 			leSonArbre.play();
 		}
 
@@ -386,9 +383,7 @@ void moving::updatePositionJoueur() {
 		}
 		else if (*(ptrTabContentTerrain + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 2) {
 
-			printf("%d>%d\n", *ptrPositionJoueurX + 32, ((*ptrPositionJoueurX) / 64) * 64);
 			if (*ptrPositionJoueurX + 32 > ((*ptrPositionJoueurX) / 64) * 64) {
-				printf("HIT BOUE DROITE\n");
 				// on reviens en arrière
 				*ptrPositionJoueurX -= scrollingSpeed;
 				// on affecte le déplacement ralenti
@@ -472,9 +467,7 @@ void moving::updatePositionJoueur() {
 		}
 		else if (*(ptrTabContentTerrain + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 2) {
 
-			printf("%d<%d\n", *ptrPositionJoueurX + 32, ((*ptrPositionJoueurX + 32) / 64) * 64 + 64);
 			if (*ptrPositionJoueurX + 32 < ((*ptrPositionJoueurX + 32) / 64) * 64 + 64) {
-				printf("HIT BOUE GAUCHE\n");
 				// on reviens en arrière
 				*ptrPositionJoueurX += scrollingSpeed;
 				// on affecte le déplacement ralenti
@@ -555,7 +548,6 @@ void moving::actionRecolteStart() {
 		if ( lastmoveDown ){
 			posYActionRecolte = returnPosCaseY("bottom");
 		} else {
-			printf("posYjoueur => %d \n case => %d", *ptrPositionJoueurY,(*ptrPositionJoueurY+50) / 64);
 			posYActionRecolte = (*ptrPositionJoueurY+50)/64;
 		}
 
@@ -567,7 +559,6 @@ void moving::actionRecolteStart() {
 			lastmoveRight = true;
 		}
 
-		printf("START action recolte\n");
 		// c'est un arbre ?
 		if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 1 && !lastmoveDown) {
 			
@@ -598,15 +589,11 @@ bool moving::actionRecolteEnd(){
 
 		if (ofGetElapsedTimeMillis() - tpsStartActionRecolte > 5000 ){			
 			// +1 arbre ?
-			printf("tabcontentCASE => %d\n", *(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1));
-			printf("X : %d    Y : %d\n", posXActionRecolte, posYActionRecolte);
 			if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 1) {
 				*(ptrTabContentRessourcePlayer)+=1;
-				printf("arbre => %d", *(ptrTabContentRessourcePlayer));
 			// + 1 rocher ?
 			} else if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 2) {
 				*(ptrTabContentRessourcePlayer+1)+=1;
-				printf("rocher => %d", *(ptrTabContentRessourcePlayer+1));
 			}
 			// on remets l'action par defaut
 			*ptrPlayerCurrentAction = "repos";
@@ -620,9 +607,6 @@ bool moving::actionRecolteEnd(){
 			// T'es sérieux la ? péttttaaaaaaggggeeee dddeeee pplllooommmmmbbb
 			// Oui toi, mon futur moi qui lira ça, tu te rend compte de comment tu peux être con parfois ?
 			ptrInstanceGestionMap->restoreTerrainWithoutRessource(posXActionRecolte, posYActionRecolte);
-
-
-			printf("END action recolte\n");
 
 			// action fini plus de verif necessaire
 			return false;

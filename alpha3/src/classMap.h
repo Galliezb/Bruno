@@ -42,5 +42,4 @@ public :
 		int limitCameraY();
 
 		void returnPosCase(int coordX, int coordY);
-		void seeDataOfThisFuckingTab();
 };

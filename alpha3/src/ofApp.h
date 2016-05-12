@@ -28,13 +28,13 @@ class ofApp : public ofBaseApp{
 		classMap gestionMap;
 		moving movePersonnage; 
 		classInventaire inventaire;
-		ClassZombi zombis[500];
+		ClassZombi zombis[100];
 
 		// variable
 		// temps gérant les zombis
 		int tpsSpawnZombi = ofGetElapsedTimeMillis();
 		// nombre max de zombi
-		int maxZombi = 100;
+		int maxZombi = 3;
 		// en milliseconde
 		int timerSpawnZombi=2500;
 
