@@ -53,9 +53,6 @@ void classMap::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWi
 	// test ajoute des rochers de manière aleatoire
 	succes = addRessourceRandom(false, true);
 
-
-	seeDataOfThisFuckingTab();
-
 }
 /******************************* HERBE ************************************/
 bool classMap::remplirHerbe() {

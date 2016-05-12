@@ -17,8 +17,8 @@ void ofApp::setup(){
 
 
 	// C'est la position actuel de l'origin 0 - 0 = haut coin haut gauche.
-	positionJoueurX = 1000;
-	positionJoueurY = 1000;
+	positionJoueurX = 448;
+	positionJoueurY = 384;
 
 
 	// initialisation des classes ( pour passer les valeurs par pointeur surtout )

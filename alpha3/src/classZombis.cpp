@@ -166,6 +166,19 @@ void ClassZombi::moveZombi(){
 
 			posXZombi += speedZombi;
 
+			// colision
+			// hit arbre
+			if ( *(ptrTabContentCase + returnIndexCaseZombi() -1) == 1 || *(ptrTabContentCase + returnIndexCaseZombi() - 1) == 2){
+				printf("%d > 10 && %d < 60\n", returnPosOnTheCaseY(),returnPosOnTheCaseY());
+				if ( posXZombi > returnPositionCaseZombiX()*64 - 20 && returnPosOnTheCaseX() < 32 && returnPosOnTheCaseY() > 10 && returnPosOnTheCaseY() < 60 ){
+					posXZombi = returnPositionCaseZombiX()*64 - 20;
+				}
+			} else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0) {
+				if (posXZombi > returnPositionCaseZombiX()*64 - 32) {
+					posXZombi = returnPositionCaseZombiX()*64 - 32;
+				}
+			}
+
 			boolMoveZombiDown = false;
 			boolMoveZombiLeft = false;
 			boolMoveZombiRight = true;
@@ -195,6 +208,27 @@ void ClassZombi::moveZombi(){
 		}
 	}
 }
+// renvoi l'index de la case ou se trouve le zombi par rapport aux pieds du zombi
+int ClassZombi::returnIndexCaseZombi(){
+	return ((posXZombi + 32)/64) + ((posYZombi + 60)/64)*120;
+}
+// renvoi la case X ou se trouve le zombi
+int ClassZombi::returnPositionCaseZombiX(){
+	return ( posXZombi + 32 ) / 64; 
+}
+// renvoi la case Y ou se trouve le zombi
+int ClassZombi::returnPositionCaseZombiY(){
+	return (posYZombi + 60) / 64;
+}
+// renvoi la position X du zombi par rapport à sa case en cours
+int ClassZombi::returnPosOnTheCaseX(){
+	return returnPositionCaseZombiX()*64 - ( posXZombi + 32 );
+}
+// renvoi la position Y du zombi par rapport à sa case Y en cours
+int ClassZombi::returnPosOnTheCaseY(){
+	return returnPositionCaseZombiY() * 64 - (posYZombi + 60);
+}
+
 void ClassZombi::setTimerStart() {
 	tpsStart = ofGetElapsedTimeMillis();
 }
@@ -252,8 +286,8 @@ void ClassZombi::spawnZombi(){
 	// on fait spawn en dehors de la carte
 	posXZombi = 7680+x;
 	posYZombi = 5120+y;
-	posXZombi = 1000 + x;
-	posYZombi = 1000 + y;
+	posXZombi = 448;
+	posYZombi = 384;
 	isSpawnZombi = true;
 }
 int ClassZombi::distanceBetweenPLayerAndZombi(){

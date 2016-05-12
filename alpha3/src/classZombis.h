@@ -68,4 +68,12 @@ class ClassZombi {
 		bool boolMoveZombiDown = false;
 		// le zombis est-il spawn ?
 		bool isSpawnZombi = false;
+		// renvoi l'index de la case ou le zombi sera après déplacement
+		int returnIndexCaseZombi();
+		int returnPositionCaseZombiX();
+		int returnPositionCaseZombiY();
+		// voit le position X du zombi sur la case en cours.
+		int returnPosOnTheCaseX();
+		// voit le position Y du zombi sur la case en cours.
+		int returnPosOnTheCaseY();
 };
