@@ -1,6 +1,6 @@
 #pragma once
 #include "classZombis.h"
-
+//ZombiEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE LOL
 
 ClassZombi::ClassZombi(){
 	zombiMarche.load("animmarchezombi.png");
@@ -132,6 +132,19 @@ void ClassZombi::moveZombi(){
 
 			posYZombi += speedZombi;
 
+			// collision haut vers bas
+			// arbre ou rocher
+			if ( *(ptrTabContentCase + returnIndexCaseZombi() -1) == 1 || *(ptrTabContentCase + returnIndexCaseZombi() - 1) == 2){
+				// si on est assez centré sur la sprite pour gérer le colision
+				if ( returnPosOnTheCaseX() > 12 && returnPosOnTheCaseX() < 52 ){
+					posYZombi = returnPositionCaseZombiY()*64-62;
+				}
+
+			// case pleine
+			} else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0) {
+				posYZombi = returnPositionCaseZombiY() * 64-62;
+			}
+
 			boolMoveZombiDown = true;
 			boolMoveZombiLeft = false;
 			boolMoveZombiRight = false;
@@ -162,6 +175,7 @@ void ClassZombi::moveZombi(){
 
 		/************************* AXE X *************************/
 		// après pour écraser les booléen si nécessaire
+		// va vers la droite
 		if (*ptrPositionJoueurX > posXZombi) {
 
 			posXZombi += speedZombi;
@@ -169,13 +183,12 @@ void ClassZombi::moveZombi(){
 			// colision
 			// hit arbre
 			if ( *(ptrTabContentCase + returnIndexCaseZombi() -1) == 1 || *(ptrTabContentCase + returnIndexCaseZombi() - 1) == 2){
-				printf("%d > 10 && %d < 60\n", returnPosOnTheCaseY(),returnPosOnTheCaseY());
-				if ( posXZombi > returnPositionCaseZombiX()*64 - 20 && returnPosOnTheCaseX() < 32 && returnPosOnTheCaseY() > 10 && returnPosOnTheCaseY() < 60 ){
-					posXZombi = returnPositionCaseZombiX()*64 - 20;
+				if ( posXZombi > returnPositionCaseZombiX()*64-17 && returnPosOnTheCaseX() < 32 && returnPosOnTheCaseY() > 10 && returnPosOnTheCaseY() < 55 ){
+					posXZombi = returnPositionCaseZombiX()*64-17;
 				}
 			} else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0) {
-				if (posXZombi > returnPositionCaseZombiX()*64 - 32) {
-					posXZombi = returnPositionCaseZombiX()*64 - 32;
+				if (posXZombi > returnPositionCaseZombiX()*64) {
+					posXZombi = returnPositionCaseZombiX()*64;
 				}
 			}
 
@@ -189,10 +202,24 @@ void ClassZombi::moveZombi(){
 			lastmoveTop = false;
 			lastmoveDown = false;
 
-
+		// va vers la gauche
 		}else if (*ptrPositionJoueurX < posXZombi) {
 
 			posXZombi -= speedZombi;
+
+			// colision
+			// hit arbre
+			if (*(ptrTabContentCase + returnIndexCaseZombi() - 1) == 1 || *(ptrTabContentCase + returnIndexCaseZombi() - 1) == 2) {
+				if (posXZombi < returnPositionCaseZombiX() * 64 + 18 && returnPosOnTheCaseX() > 32 && returnPosOnTheCaseY() > 10 && returnPosOnTheCaseY() < 55) {
+					posXZombi = returnPositionCaseZombiX() * 64 + 18;
+				}
+			}
+			else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0) {
+				if (posXZombi < returnPositionCaseZombiX() * 64 + 32) {
+					posXZombi = returnPositionCaseZombiX() * 64 + 32;
+				}
+			}
+
 
 			boolMoveZombiDown = false;
 			boolMoveZombiLeft = true;
@@ -208,25 +235,26 @@ void ClassZombi::moveZombi(){
 		}
 	}
 }
-// renvoi l'index de la case ou se trouve le zombi par rapport aux pieds du zombi
+// renvoi l'index de la case ou se trouve le zombie par rapport aux pieds du zombie
 int ClassZombi::returnIndexCaseZombi(){
 	return ((posXZombi + 32)/64) + ((posYZombi + 60)/64)*120;
 }
-// renvoi la case X ou se trouve le zombi
+// renvoi la case X ou se trouve le zombie
 int ClassZombi::returnPositionCaseZombiX(){
 	return ( posXZombi + 32 ) / 64; 
 }
-// renvoi la case Y ou se trouve le zombi
+// renvoi la case Y ou se trouve le zombie
 int ClassZombi::returnPositionCaseZombiY(){
 	return (posYZombi + 60) / 64;
 }
-// renvoi la position X du zombi par rapport à sa case en cours
+// renvoi la position X du zombie par rapport à sa case en cours
 int ClassZombi::returnPosOnTheCaseX(){
-	return returnPositionCaseZombiX()*64 - ( posXZombi + 32 );
+	return (posXZombi + 32) - returnPositionCaseZombiX()*64;
 }
-// renvoi la position Y du zombi par rapport à sa case Y en cours
+// renvoi la position Y du zombie par rapport à sa case Y en cours
+// et ce par rapport a ses pieds
 int ClassZombi::returnPosOnTheCaseY(){
-	return returnPositionCaseZombiY() * 64 - (posYZombi + 60);
+	return (posYZombi + 60) - returnPositionCaseZombiY() * 64;
 }
 
 void ClassZombi::setTimerStart() {
@@ -252,7 +280,7 @@ int ClassZombi::posAffichageX() {
 		return posXZombi - posXcamera;
 
 	} else {
-		// donc on affiche pas
+		// donc on affiche pas le zombi
 		return -1;
 	}
 
