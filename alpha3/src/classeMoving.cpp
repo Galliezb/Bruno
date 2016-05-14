@@ -602,10 +602,6 @@ bool moving::actionRecolteEnd(){
 
 			// on corrige la map
 			// PUTAIN on passe par le pointeur de l'instance ! C'est trop énorme !
-			// BORDEL ON VIDE LA CASE APRES LES CONDITIONS BORDEL DE MERDE !
-			// Tu la passe a 0 et tu vérifie si elle vaut 1 ou 2 ?
-			// T'es sérieux la ? péttttaaaaaaggggeeee dddeeee pplllooommmmmbbb
-			// Oui toi, mon futur moi qui lira ça, tu te rend compte de comment tu peux être con parfois ?
 			ptrInstanceGestionMap->restoreTerrainWithoutRessource(posXActionRecolte, posYActionRecolte);
 
 			// action fini plus de verif necessaire

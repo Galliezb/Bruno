@@ -134,15 +134,16 @@ void ClassZombi::moveZombi(){
 
 			// collision haut vers bas
 			// arbre ou rocher
-			if ( *(ptrTabContentCase + returnIndexCaseZombi() -1) == 1 || *(ptrTabContentCase + returnIndexCaseZombi() - 1) == 2){
+			printf("%d < 5 \n", returnPositionCaseZombiY());
+			if (*(ptrTabContentCase + returnIndexCaseZombi() -1) == 1 || *(ptrTabContentCase + returnIndexCaseZombi() - 1) == 2){
 				// si on est assez centré sur la sprite pour gérer le colision
-				if ( returnPosOnTheCaseX() > 12 && returnPosOnTheCaseX() < 52 ){
-					posYZombi = returnPositionCaseZombiY()*64-62;
+				if ( returnPosOnTheCaseX() > 12 && returnPosOnTheCaseX() < 52 && returnPosOnTheCaseY() < 5 ){
+					posYZombi = returnPositionCaseZombiY()*64-60;
 				}
 
 			// case pleine
-			} else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0) {
-				posYZombi = returnPositionCaseZombiY() * 64-62;
+			} else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0 && returnPosOnTheCaseY() < 5) {
+				posYZombi = returnPositionCaseZombiY() * 64-60;
 			}
 
 			boolMoveZombiDown = true;
@@ -159,6 +160,20 @@ void ClassZombi::moveZombi(){
 		} else if (*ptrPositionJoueurY < posYZombi) {
 
 			posYZombi -= speedZombi;
+
+			// collision bas vers le haut
+			// arbre ou rocher
+			if (*(ptrTabContentCase + returnIndexCaseZombi() - 1) == 1 || *(ptrTabContentCase + returnIndexCaseZombi() - 1) == 2 && returnPosOnTheCaseX() > 60) {
+				// si on est assez centré sur la sprite pour gérer le colision
+				if (returnPosOnTheCaseX() > 12 && returnPosOnTheCaseX() < 52 && returnPosOnTheCaseY() > 60) {
+					posYZombi = returnPositionCaseZombiY() * 64 + 4;
+				}
+
+			// case pleine
+			}else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0) {
+				posYZombi = returnPositionCaseZombiY() * 64+4;
+			}
+
 
 			boolMoveZombiDown = false;
 			boolMoveZombiLeft = false;
@@ -186,9 +201,10 @@ void ClassZombi::moveZombi(){
 				if ( posXZombi > returnPositionCaseZombiX()*64-17 && returnPosOnTheCaseX() < 32 && returnPosOnTheCaseY() > 10 && returnPosOnTheCaseY() < 55 ){
 					posXZombi = returnPositionCaseZombiX()*64-17;
 				}
-			} else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0) {
-				if (posXZombi > returnPositionCaseZombiX()*64) {
-					posXZombi = returnPositionCaseZombiX()*64;
+			// hit case pleine
+			} else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0 && returnPosOnTheCaseX()<5 && returnPosOnTheCaseY()>3 ) {
+				if (posXZombi > returnPositionCaseZombiX()*64-32) {
+					posXZombi = returnPositionCaseZombiX()*64-32;
 				}
 			}
 
@@ -214,7 +230,7 @@ void ClassZombi::moveZombi(){
 					posXZombi = returnPositionCaseZombiX() * 64 + 18;
 				}
 			}
-			else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0) {
+			else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0 && returnPosOnTheCaseX() > 59) {
 				if (posXZombi < returnPositionCaseZombiX() * 64 + 32) {
 					posXZombi = returnPositionCaseZombiX() * 64 + 32;
 				}

@@ -46,12 +46,15 @@ void classMap::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWi
 	changeCaseWater(7, 7);
 	changeCaseMud(8, 8);
 
+	addRessource(6 ,6 ,true, false);
+	addRessource(7, 7, false, true);
+
 	// ajoute des arbres de manière aleatoire
-	succes = addRessourceRandom(true, false);
+	//succes = addRessourceRandom(true, false);
 
 
 	// test ajoute des rochers de manière aleatoire
-	succes = addRessourceRandom(false, true);
+	//succes = addRessourceRandom(false, true);
 
 }
 /******************************* HERBE ************************************/
