@@ -7,7 +7,7 @@ ClassZombi::ClassZombi(){
 	zombiAttaque.load("animattaquezombi.png");
 }
 
-void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis){
+void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis, BarreDeVie *ptrInstancebarreDeVie){
 
 	this->ptrPositionJoueurX = ptrPositionJoueurX;
 	this->ptrPositionJoueurY = ptrPositionJoueurY;
@@ -18,6 +18,10 @@ void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptr
 	this->ptrPlayerCurrentAction = ptrPlayerCurrentAction;
 	this->ptrTabZombis = ptrTabZombis;
 	this->ptrMaxIndexPtrTabZombis = ptrMaxIndexPtrTabZombis;
+
+	// instance barre de vie
+	this->ptrInstancebarreDeVie = ptrInstancebarreDeVie;
+
 
 }
 
@@ -92,6 +96,11 @@ void ClassZombi::displayAttackZombi() {
 		if (getDiffTime() > speedAnim) {
 			startCycleAnimationRight++;
 			setTimerStart();
+
+			if (startCycleAnimationRight == 31) {
+				ptrInstancebarreDeVie->modifiePointDeVie(damage);
+			}
+
 		}
 		if (startCycleAnimationRight == 32) { startCycleAnimationRight = 16; }
 
@@ -101,6 +110,11 @@ void ClassZombi::displayAttackZombi() {
 		if (getDiffTime() > speedAnim) {
 			startCycleAnimationLeft++;
 			setTimerStart();
+
+			if (startCycleAnimationLeft == 63) {
+				ptrInstancebarreDeVie->modifiePointDeVie(damage);
+			}
+
 		}
 		if (startCycleAnimationLeft == 64) { startCycleAnimationLeft = 48; }
 
@@ -110,6 +124,11 @@ void ClassZombi::displayAttackZombi() {
 		if (getDiffTime() > speedAnim) {
 			startCycleAnimationTop++;
 			setTimerStart();
+
+			if (startCycleAnimationTop == 15) {
+				ptrInstancebarreDeVie->modifiePointDeVie(damage);
+			}
+
 		}
 		if (startCycleAnimationTop == 16) { startCycleAnimationTop = 0; }
 
@@ -119,6 +138,11 @@ void ClassZombi::displayAttackZombi() {
 		if (getDiffTime() > speedAnim) {
 			startCycleAnimationDown++;
 			setTimerStart();
+
+			if (startCycleAnimationDown == 47) {
+				ptrInstancebarreDeVie->modifiePointDeVie(damage);
+			}
+
 		}
 		if (startCycleAnimationDown == 48) { startCycleAnimationDown = 32; }
 

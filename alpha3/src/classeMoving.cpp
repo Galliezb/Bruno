@@ -181,8 +181,6 @@ void moving::playerAction() {
 				leSonDegatRecu[cptSoundAie].play();
 				cptSoundAie++;
 				if (cptSoundAie == 17) { cptSoundAie = 1; }
-				// on descend la vie du joueur et on mets à jours la barre de vie
-				ptrInstancebarreDeVie->modifiePointDeVie(-10);
 			}
 
 
@@ -201,8 +199,6 @@ void moving::playerAction() {
 				leSonDegatRecu[cptSoundAie].play();
 				cptSoundAie++;
 				if (cptSoundAie == 17) { cptSoundAie = 1; }
-				// on descend la vie du joueur et on mets à jours la barre de vie
-				ptrInstancebarreDeVie->modifiePointDeVie(-10);
 			}
 
 
@@ -222,8 +218,6 @@ void moving::playerAction() {
 				leSonDegatRecu[cptSoundAie].play();
 				cptSoundAie++;
 				if (cptSoundAie == 17) { cptSoundAie = 1; }
-				// on descend la vie du joueur et on mets à jours la barre de vie
-				ptrInstancebarreDeVie->modifiePointDeVie(-10);
 			}
 
 
@@ -243,8 +237,6 @@ void moving::playerAction() {
 				leSonDegatRecu[cptSoundAie].play();
 				cptSoundAie++;
 				if (cptSoundAie == 17) { cptSoundAie = 1; }
-				// on descend la vie du joueur et on mets à jours la barre de vie
-				ptrInstancebarreDeVie->modifiePointDeVie(-10);
 			}
 
 

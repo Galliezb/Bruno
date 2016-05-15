@@ -1,5 +1,6 @@
 #pragma once
 #include "ofMain.h"
+#include "BarreDeVie.h"
 
 class ClassZombi {
 
@@ -15,6 +16,9 @@ class ClassZombi {
 	string *ptrPlayerCurrentAction;
 	ClassZombi *ptrTabZombis;
 	int *ptrMaxIndexPtrTabZombis;
+	// instance barre de vie
+	BarreDeVie *ptrInstancebarreDeVie;
+
 
 	// ofimage
 	ofImage zombiMarche, zombiAttaque;
@@ -39,6 +43,9 @@ class ClassZombi {
 	// ecart entre les collisions de zombis
 	int ecartDeCollision = 25;
 
+	// dommage zombes, negatif car on retire de la barre de vie
+	int damage = -5;
+
 
 
 	/****************************************** METHODE PRIVATE *****************************************/
@@ -54,7 +61,7 @@ class ClassZombi {
 
 		/****************************************** METHODE PUBLIC *****************************************/
 		ClassZombi();
-		void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis);
+		void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis, BarreDeVie *ptrInstancebarreDeVie);
 		// affichage des zombis présent à l'écran
 		void displayZombi();
 		// déplace le zombi
