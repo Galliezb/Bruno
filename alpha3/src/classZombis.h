@@ -37,7 +37,7 @@ class ClassZombi {
 	int startCycleAnimationLeft = 48;
 
 	// ecart entre les collisions de zombis
-	int ecartDeCollision = 10;
+	int ecartDeCollision = 25;
 
 
 

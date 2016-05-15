@@ -246,7 +246,7 @@ void ClassZombi::moveZombi(){
 			posXZombi -= speedZombi;
 
 			// collision zombi ?
-			if (!returnZombiCollisionProximity(false, true, false, false)) {
+			if (!returnZombiCollisionProximity(false, false, false, true)) {
 
 				// colision
 				// hit arbre
@@ -424,8 +424,9 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 			int maxYcol = (ptrTabZombis + i)->posYZombi + ecartDeCollision;
 
 			if ((ptrTabZombis + i)->posYZombi != posYZombi && (ptrTabZombis + i)->posYZombi != posYZombi &&
-				futurPosYZombi > minYcol && futurPosYZombi < minYcol &&
-				futurPosXZombi > minXactiveCol && futurPosXZombi < maxXactiveCol) {
+				futurPosYZombi - (ptrTabZombis + i)->posYZombi > 0 && futurPosYZombi - (ptrTabZombis + i)->posYZombi < ecartDeCollision &&
+				posXZombi > (ptrTabZombis + i)->posXZombi - ecartDeCollision && posXZombi < (ptrTabZombis + i)->posXZombi + ecartDeCollision) {
+
 				retour = true;
 				break;
 			}
@@ -441,8 +442,9 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 			int maxYcol = (ptrTabZombis + i)->posYZombi + ecartDeCollision;
 
 			if ((ptrTabZombis + i)->posYZombi != posYZombi && (ptrTabZombis + i)->posYZombi != posYZombi &&
-				futurPosYZombi > minYcol && futurPosYZombi < minYcol &&
-				futurPosXZombi > minXactiveCol && futurPosXZombi < maxXactiveCol) {
+				(ptrTabZombis + i)->posYZombi - futurPosYZombi  > 0 && (ptrTabZombis + i)->posYZombi - futurPosYZombi  < ecartDeCollision &&
+				posXZombi >(ptrTabZombis + i)->posXZombi - ecartDeCollision && posXZombi < (ptrTabZombis + i)->posXZombi + ecartDeCollision) {
+				printf("Col => down \n");
 				retour = true;
 				break;
 			}
@@ -462,8 +464,10 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 
 			// un zombi aura une zone de 10*10 autour du centre de ses pieds qui gère la collision
 			if ((ptrTabZombis + i)->posXZombi != posXZombi && (ptrTabZombis + i)->posXZombi != posXZombi &&
-				futurPosXZombi > minXcol && futurPosXZombi < maxXcol &&
-				futurPosYZombi > minYactiveCol && futurPosYZombi < maxYactiveCol ){
+				(ptrTabZombis + i)->posXZombi - futurPosXZombi  > 0 && (ptrTabZombis + i)->posXZombi - futurPosXZombi < ecartDeCollision &&
+				posYZombi >(ptrTabZombis + i)->posYZombi - ecartDeCollision && posYZombi < (ptrTabZombis + i)->posYZombi + ecartDeCollision) {
+				printf("Col => right \n");
+				printf("%d>%d && %d<%d && %d>%d && %d<%d\n", (ptrTabZombis + i)->posXZombi - futurPosXZombi,0, (ptrTabZombis + i)->posXZombi - futurPosXZombi,ecartDeCollision,posYZombi,(ptrTabZombis + i)->posYZombi - ecartDeCollision,posYZombi,(ptrTabZombis + i)->posYZombi + ecartDeCollision);
 				retour = true;
 				break;
 			}
@@ -482,8 +486,8 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 
 			// un zombi aura une zone de 10*10 autour du centre de ses pieds qui gère la collision
 			if ((ptrTabZombis + i)->posXZombi != posXZombi && (ptrTabZombis + i)->posXZombi != posXZombi &&
-				futurPosXZombi > minXcol && futurPosXZombi < maxXcol &&
-				futurPosYZombi > minYactiveCol && futurPosYZombi < maxYactiveCol) {
+				futurPosXZombi - (ptrTabZombis + i)->posXZombi > 0 && futurPosXZombi - (ptrTabZombis + i)->posXZombi < ecartDeCollision &&
+				posYZombi >(ptrTabZombis + i)->posYZombi - ecartDeCollision && posYZombi < (ptrTabZombis + i)->posYZombi + ecartDeCollision) {
 				retour = true;
 				break;
 			}
