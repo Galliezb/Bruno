@@ -1,13 +1,13 @@
 #pragma once
 #include "classZombis.h"
-//ZombiEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE LOL
+
 
 ClassZombi::ClassZombi(){
 	zombiMarche.load("animmarchezombi.png");
 	zombiAttaque.load("animattaquezombi.png");
 }
 
-void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction){
+void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis){
 
 	this->ptrPositionJoueurX = ptrPositionJoueurX;
 	this->ptrPositionJoueurY = ptrPositionJoueurY;
@@ -16,6 +16,8 @@ void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptr
 	this->ptrTabContentCase = ptrTabContentCase;
 	this->ptrTabContentTerrain = ptrTabContentTerrain;
 	this->ptrPlayerCurrentAction = ptrPlayerCurrentAction;
+	this->ptrTabZombis = ptrTabZombis;
+	this->ptrMaxIndexPtrTabZombis = ptrMaxIndexPtrTabZombis;
 
 }
 
@@ -126,24 +128,30 @@ void ClassZombi::displayAttackZombi() {
 void ClassZombi::moveZombi(){
 	
 	// s'il est a portée, attaque, donc plus de déplacement.
-	if (distanceBetweenPLayerAndZombi() > 32){
+	if (distanceBetweenPLayerAndZombi() > 32 ){
 		/************************* AXE Y *************************/
 		if (*ptrPositionJoueurY > posYZombi) {
 
 			posYZombi += speedZombi;
 
-			// collision haut vers bas
-			// arbre ou rocher
-			printf("%d < 5 \n", returnPositionCaseZombiY());
-			if (*(ptrTabContentCase + returnIndexCaseZombi() -1) == 1 || *(ptrTabContentCase + returnIndexCaseZombi() - 1) == 2){
-				// si on est assez centré sur la sprite pour gérer le colision
-				if ( returnPosOnTheCaseX() > 12 && returnPosOnTheCaseX() < 52 && returnPosOnTheCaseY() < 5 ){
-					posYZombi = returnPositionCaseZombiY()*64-60;
+			// collision zombi ?
+			if ( !returnZombiCollisionProximity(false,false,true,false) ){
+
+				// collision haut vers bas
+				// arbre ou rocher
+				if (*(ptrTabContentCase + returnIndexCaseZombi() -1) == 1 || *(ptrTabContentCase + returnIndexCaseZombi() - 1) == 2){
+					// si on est assez centré sur la sprite pour gérer le colision
+					if ( returnPosOnTheCaseX() > 12 && returnPosOnTheCaseX() < 52 && returnPosOnTheCaseY() < 5 ){
+						posYZombi = returnPositionCaseZombiY()*64-60;
+					}
+
+				// case pleine
+				} else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0 && returnPosOnTheCaseY() < 5) {
+					posYZombi = returnPositionCaseZombiY() * 64-60;
 				}
 
-			// case pleine
-			} else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0 && returnPosOnTheCaseY() < 5) {
-				posYZombi = returnPositionCaseZombiY() * 64-60;
+			} else {
+				posYZombi -= speedZombi;
 			}
 
 			boolMoveZombiDown = true;
@@ -161,17 +169,24 @@ void ClassZombi::moveZombi(){
 
 			posYZombi -= speedZombi;
 
-			// collision bas vers le haut
-			// arbre ou rocher
-			if (*(ptrTabContentCase + returnIndexCaseZombi() - 1) == 1 || *(ptrTabContentCase + returnIndexCaseZombi() - 1) == 2 && returnPosOnTheCaseX() > 60) {
-				// si on est assez centré sur la sprite pour gérer le colision
-				if (returnPosOnTheCaseX() > 12 && returnPosOnTheCaseX() < 52 && returnPosOnTheCaseY() > 60) {
-					posYZombi = returnPositionCaseZombiY() * 64 + 4;
+			// collision zombi ?
+			if ( !returnZombiCollisionProximity(true, false, false, false)) {
+
+				// collision bas vers le haut
+				// arbre ou rocher
+				if (*(ptrTabContentCase + returnIndexCaseZombi() - 1) == 1 || *(ptrTabContentCase + returnIndexCaseZombi() - 1) == 2 && returnPosOnTheCaseX() > 60) {
+					// si on est assez centré sur la sprite pour gérer le colision
+					if (returnPosOnTheCaseX() > 12 && returnPosOnTheCaseX() < 52 && returnPosOnTheCaseY() > 60) {
+						posYZombi = returnPositionCaseZombiY() * 64 + 4;
+					}
+
+				// case pleine
+				}else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0) {
+					posYZombi = returnPositionCaseZombiY() * 64+4;
 				}
 
-			// case pleine
-			}else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0) {
-				posYZombi = returnPositionCaseZombiY() * 64+4;
+			} else {
+				posYZombi += speedZombi;
 			}
 
 
@@ -195,17 +210,24 @@ void ClassZombi::moveZombi(){
 
 			posXZombi += speedZombi;
 
-			// colision
-			// hit arbre
-			if ( *(ptrTabContentCase + returnIndexCaseZombi() -1) == 1 || *(ptrTabContentCase + returnIndexCaseZombi() - 1) == 2){
-				if ( posXZombi > returnPositionCaseZombiX()*64-17 && returnPosOnTheCaseX() < 32 && returnPosOnTheCaseY() > 10 && returnPosOnTheCaseY() < 55 ){
-					posXZombi = returnPositionCaseZombiX()*64-17;
+			// collision zombi ?
+			if (!returnZombiCollisionProximity(false, true, false, false)) {
+
+				// colision
+				// hit arbre
+				if ( *(ptrTabContentCase + returnIndexCaseZombi() -1) == 1 || *(ptrTabContentCase + returnIndexCaseZombi() - 1) == 2){
+					if ( posXZombi > returnPositionCaseZombiX()*64-17 && returnPosOnTheCaseX() < 32 && returnPosOnTheCaseY() > 10 && returnPosOnTheCaseY() < 55 ){
+						posXZombi = returnPositionCaseZombiX()*64-17;
+					}
+				// hit case pleine
+				} else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0 && returnPosOnTheCaseX()<5 && returnPosOnTheCaseY()>3 ) {
+					if (posXZombi > returnPositionCaseZombiX()*64-32) {
+						posXZombi = returnPositionCaseZombiX()*64-32;
+					}
 				}
-			// hit case pleine
-			} else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0 && returnPosOnTheCaseX()<5 && returnPosOnTheCaseY()>3 ) {
-				if (posXZombi > returnPositionCaseZombiX()*64-32) {
-					posXZombi = returnPositionCaseZombiX()*64-32;
-				}
+
+			} else {
+				posXZombi -= speedZombi;
 			}
 
 			boolMoveZombiDown = false;
@@ -223,19 +245,24 @@ void ClassZombi::moveZombi(){
 
 			posXZombi -= speedZombi;
 
-			// colision
-			// hit arbre
-			if (*(ptrTabContentCase + returnIndexCaseZombi() - 1) == 1 || *(ptrTabContentCase + returnIndexCaseZombi() - 1) == 2) {
-				if (posXZombi < returnPositionCaseZombiX() * 64 + 18 && returnPosOnTheCaseX() > 32 && returnPosOnTheCaseY() > 10 && returnPosOnTheCaseY() < 55) {
-					posXZombi = returnPositionCaseZombiX() * 64 + 18;
-				}
-			}
-			else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0 && returnPosOnTheCaseX() > 59) {
-				if (posXZombi < returnPositionCaseZombiX() * 64 + 32) {
-					posXZombi = returnPositionCaseZombiX() * 64 + 32;
-				}
-			}
+			// collision zombi ?
+			if (!returnZombiCollisionProximity(false, true, false, false)) {
 
+				// colision
+				// hit arbre
+				if (*(ptrTabContentCase + returnIndexCaseZombi() - 1) == 1 || *(ptrTabContentCase + returnIndexCaseZombi() - 1) == 2) {
+					if (posXZombi < returnPositionCaseZombiX() * 64 + 18 && returnPosOnTheCaseX() > 32 && returnPosOnTheCaseY() > 10 && returnPosOnTheCaseY() < 55) {
+						posXZombi = returnPositionCaseZombiX() * 64 + 18;
+					}
+				}
+				else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0 && returnPosOnTheCaseX() > 59) {
+					if (posXZombi < returnPositionCaseZombiX() * 64 + 32) {
+						posXZombi = returnPositionCaseZombiX() * 64 + 32;
+					}
+				}
+			} else {
+				posXZombi += speedZombi;
+			}
 
 			boolMoveZombiDown = false;
 			boolMoveZombiLeft = true;
@@ -330,8 +357,30 @@ void ClassZombi::spawnZombi(){
 	// on fait spawn en dehors de la carte
 	posXZombi = 7680+x;
 	posYZombi = 5120+y;
-	posXZombi = 448;
-	posYZombi = 384;
+	posXZombi = 448+x;
+	posYZombi = 384+y;
+
+	bool verification = false;
+	// pour éviter les zombis buggé l'un sur l'autre, on spawn pas sur un autre zombi SVP !!!
+	for (int i = 0; i<*ptrMaxIndexPtrTabZombis; i++) {
+
+		int minYcol = (ptrTabZombis + i)->posYZombi - ecartDeCollision;
+		int maxYcol = (ptrTabZombis + i)->posYZombi + ecartDeCollision;
+		int minXcol = (ptrTabZombis + i)->posXZombi - ecartDeCollision;
+		int maxXcol = (ptrTabZombis + i)->posXZombi + ecartDeCollision;
+
+		if ((ptrTabZombis + i)->posYZombi != posYZombi && (ptrTabZombis + i)->posYZombi != posYZombi &&
+			posYZombi > minYcol && posYZombi < minYcol &&
+			posXZombi > minXcol && posXZombi < maxXcol) {
+			verification = true;
+			break;
+		}
+
+	}
+
+	if(verification){ spawnZombi();}
+
+
 	isSpawnZombi = true;
 }
 int ClassZombi::distanceBetweenPLayerAndZombi(){
@@ -351,5 +400,99 @@ int ClassZombi::distanceBetweenPLayerAndZombi(){
 	}
 
 	return ecartX+ecartY; 
+}
+
+// verification qu'un autre zombi n'est pas à portée pour bloquer le déplacement
+bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, bool left){
+	
+	int futurPosXZombi = posXZombi;
+	int futurPosYZombi = posYZombi;
+	int retour = false;
+
+	int minXactiveCol = futurPosXZombi - ecartDeCollision;
+	int maxXactiveCol = futurPosXZombi + ecartDeCollision;
+	int minYactiveCol = futurPosYZombi - ecartDeCollision;
+	int maxYactiveCol = futurPosYZombi + ecartDeCollision;
+
+	if(top){
+
+		futurPosYZombi-=speedZombi;
+
+		for (int i = 0; i<*ptrMaxIndexPtrTabZombis; i++) {
+
+			int minYcol = (ptrTabZombis + i)->posYZombi - ecartDeCollision;
+			int maxYcol = (ptrTabZombis + i)->posYZombi + ecartDeCollision;
+
+			if ((ptrTabZombis + i)->posYZombi != posYZombi && (ptrTabZombis + i)->posYZombi != posYZombi &&
+				futurPosYZombi > minYcol && futurPosYZombi < minYcol &&
+				futurPosXZombi > minXactiveCol && futurPosXZombi < maxXactiveCol) {
+				retour = true;
+				break;
+			}
+
+		}
+	} else if ( down ){
+
+		futurPosYZombi += speedZombi;
+
+		for (int i = 0; i<*ptrMaxIndexPtrTabZombis; i++) {
+
+			int minYcol = (ptrTabZombis + i)->posYZombi - ecartDeCollision;
+			int maxYcol = (ptrTabZombis + i)->posYZombi + ecartDeCollision;
+
+			if ((ptrTabZombis + i)->posYZombi != posYZombi && (ptrTabZombis + i)->posYZombi != posYZombi &&
+				futurPosYZombi > minYcol && futurPosYZombi < minYcol &&
+				futurPosXZombi > minXactiveCol && futurPosXZombi < maxXactiveCol) {
+				retour = true;
+				break;
+			}
+
+		}
+
+	} else if (right) {
+
+		futurPosXZombi += speedZombi;
+
+
+		
+		for (int i = 0; i<*ptrMaxIndexPtrTabZombis; i++) {
+
+			int minXcol = (ptrTabZombis + i)->posXZombi - ecartDeCollision;
+			int maxXcol = (ptrTabZombis + i)->posXZombi + ecartDeCollision;
+
+			// un zombi aura une zone de 10*10 autour du centre de ses pieds qui gère la collision
+			if ((ptrTabZombis + i)->posXZombi != posXZombi && (ptrTabZombis + i)->posXZombi != posXZombi &&
+				futurPosXZombi > minXcol && futurPosXZombi < maxXcol &&
+				futurPosYZombi > minYactiveCol && futurPosYZombi < maxYactiveCol ){
+				retour = true;
+				break;
+			}
+
+		}
+
+
+	} else if( left ){
+	
+		futurPosXZombi -= speedZombi;
+
+		for (int i = 0; i<*ptrMaxIndexPtrTabZombis; i++) {
+
+			int minXcol = (ptrTabZombis + i)->posXZombi - ecartDeCollision;
+			int maxXcol = (ptrTabZombis + i)->posXZombi + ecartDeCollision;
+
+			// un zombi aura une zone de 10*10 autour du centre de ses pieds qui gère la collision
+			if ((ptrTabZombis + i)->posXZombi != posXZombi && (ptrTabZombis + i)->posXZombi != posXZombi &&
+				futurPosXZombi > minXcol && futurPosXZombi < maxXcol &&
+				futurPosYZombi > minYactiveCol && futurPosYZombi < maxYactiveCol) {
+				retour = true;
+				break;
+			}
+
+		}
+
+	}
+
+
+	return retour;
 
 }

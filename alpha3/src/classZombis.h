@@ -13,6 +13,8 @@ class ClassZombi {
 	int *ptrTabContentCase;
 	int *ptrTabContentTerrain;
 	string *ptrPlayerCurrentAction;
+	ClassZombi *ptrTabZombis;
+	int *ptrMaxIndexPtrTabZombis;
 
 	// ofimage
 	ofImage zombiMarche, zombiAttaque;
@@ -34,6 +36,9 @@ class ClassZombi {
 	int startCycleAnimationDown = 32;
 	int startCycleAnimationLeft = 48;
 
+	// ecart entre les collisions de zombis
+	int ecartDeCollision = 10;
+
 
 
 	/****************************************** METHODE PRIVATE *****************************************/
@@ -49,7 +54,7 @@ class ClassZombi {
 
 		/****************************************** METHODE PUBLIC *****************************************/
 		ClassZombi();
-		void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction);
+		void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis);
 		// affichage des zombis présent à l'écran
 		void displayZombi();
 		// déplace le zombi
@@ -77,4 +82,7 @@ class ClassZombi {
 		int returnPosOnTheCaseX();
 		// voit le position Y du zombi sur la case en cours.
 		int returnPosOnTheCaseY();
+		// verification qu'un autre zombi n'est pas à portée pour bloquer le déplacement
+		bool returnZombiCollisionProximity(bool top, bool right, bool down, bool left);
+
 };

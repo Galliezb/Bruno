@@ -34,7 +34,7 @@ class ofApp : public ofBaseApp{
 		// temps gérant les zombis
 		int tpsSpawnZombi = ofGetElapsedTimeMillis();
 		// nombre max de zombi
-		int maxZombi = 1;
+		int maxZombi = 10;
 		// en milliseconde
 		int timerSpawnZombi=2500;
 
