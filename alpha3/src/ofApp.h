@@ -4,6 +4,7 @@
 #include "classeMoving.h"
 #include "classInventaire.h"
 #include "classZombis.h"
+#include "BarreDeVie.h"
 
 class ofApp : public ofBaseApp{
 
@@ -29,6 +30,7 @@ class ofApp : public ofBaseApp{
 		moving movePersonnage; 
 		classInventaire inventaire;
 		ClassZombi zombis[10];
+		BarreDeVie barreDeVie;
 
 		// variable
 		// temps gérant les zombis

@@ -25,7 +25,7 @@ void ofApp::setup(){
 	// map
 	gestionMap.init(&positionJoueurX,&positionJoueurY,&widthScreen,&heightScreen, tabContentCase, tabContentTerrain);
 	// animation personnage
-	movePersonnage.init(&positionJoueurX, &positionJoueurY,&widthScreen, &heightScreen, &playerCurrentAction, tabContentCase, tabContentTerrain, tabContentRessourcePlayer, &gestionMap);
+	movePersonnage.init(&positionJoueurX, &positionJoueurY,&widthScreen, &heightScreen, &playerCurrentAction, tabContentCase, tabContentTerrain, tabContentRessourcePlayer, &gestionMap, &barreDeVie);
 	movePersonnage.setTimerStart();
 	// inventaire
 	inventaire.init(tabContentRessourcePlayer, &widthScreen, &heightScreen);
@@ -33,6 +33,9 @@ void ofApp::setup(){
 	for (int i=0; i<maxZombi; i++){
 		zombis[i].init(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen, tabContentCase, tabContentTerrain, &playerCurrentAction, zombis, &maxZombi);
 	}
+
+	// init gestion des barre
+	barreDeVie.init(&widthScreen, &heightScreen);
 
 }
 
@@ -129,6 +132,9 @@ void ofApp::draw(){
 				zombis[i].displayZombi();
 			}
 		}
+
+		// barre de vie, sprint et energie
+		barreDeVie.displayBarreVie();
 	}
 }
 
@@ -159,7 +165,6 @@ void ofApp::keyPressed(int key){
 		if (!playerHasMove) { playerHasMove = true; }
 		if (!movePersonnage.getBoolMovePlayerLeft()) { movePersonnage.setBoolMovePlayerLeft(true); }
 	}
-
 }
 
 //--------------------------------------------------------------

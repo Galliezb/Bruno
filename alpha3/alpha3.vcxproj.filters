@@ -43,6 +43,9 @@
     <ClCompile Include="src\classZombis.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\BarreDeVie.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -99,6 +102,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\classZombis.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BarreDeVie.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

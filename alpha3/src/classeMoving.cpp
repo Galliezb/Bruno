@@ -12,13 +12,19 @@ moving::moving() {
 	mort.loadImage("animmort.png");
 	attaquer.loadImage("animattaquer.png");
 
-	sound.load("aie.mp3");
+	for (int i=1; i<18; i++){
+		string str = "aie";
+		string num = ofToString(i);
+		string extension = ".mp3";
+		string file = str + num + extension;
+		leSonDegatRecu[i].load(file);
+	}
 	leSonMinage.load("mining.mp3");
 	leSonArbre.load("coupeArbre.mp3");
 
 }
 // initialisation de la classe ( OF dispo ici, pas dans le constructeur )
-void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *ptrPlayerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap) {
+void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *ptrPlayerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap, BarreDeVie *ptrInstancebarreDeVie) {
 
 	// pointeur tab content map
 	this->ptrTabContentCase = ptrTabContentCase;
@@ -40,6 +46,8 @@ void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidt
 	// tableau contenant le ressource joueur
 	this->ptrTabContentRessourcePlayer = ptrTabContentRessourcePlayer;
 
+	// instance barre de vie
+	this->ptrInstancebarreDeVie = ptrInstancebarreDeVie;
 }
 
 void moving::movePlayer() {
@@ -167,39 +175,79 @@ void moving::playerAction() {
 		if (getDiffTime() > speedAnim) {
 			startCycleAnimationRight++;
 			setTimerStart();
+
+			// joue le son aie et retire les PV
+			if (*ptrPlayerCurrentAction == "degat" && startCycleAnimationRight == 31) {
+				leSonDegatRecu[cptSoundAie].play();
+				cptSoundAie++;
+				if (cptSoundAie == 17) { cptSoundAie = 1; }
+				// on descend la vie du joueur et on mets à jours la barre de vie
+				ptrInstancebarreDeVie->modifiePointDeVie(-10);
+			}
+
+
 		}
 		if (startCycleAnimationRight == 32) { startCycleAnimationRight = 16; }
 
-
-	}
-	else if (lastmoveLeft == true) {
+	} else if (lastmoveLeft == true) {
 
 		action.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationLeft, 0, 64, 64);
 		if (getDiffTime() > speedAnim) {
 			startCycleAnimationLeft++;
 			setTimerStart();
+
+			// joue le son aie et retire les PV
+			if (*ptrPlayerCurrentAction == "degat" && startCycleAnimationLeft == 63) {
+				leSonDegatRecu[cptSoundAie].play();
+				cptSoundAie++;
+				if (cptSoundAie == 17) { cptSoundAie = 1; }
+				// on descend la vie du joueur et on mets à jours la barre de vie
+				ptrInstancebarreDeVie->modifiePointDeVie(-10);
+			}
+
+
 		}
 		if (startCycleAnimationLeft == 64) { startCycleAnimationLeft = 48; }
 
 
-	}
-	else if (lastmoveTop == true) {
+	} else if (lastmoveTop == true) {
 
 		action.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
 		if (getDiffTime() > speedAnim) {
 			startCycleAnimationTop++;
 			setTimerStart();
+
+			// joue le son aie et retire les PV
+			if (*ptrPlayerCurrentAction == "degat" && startCycleAnimationTop == 15) {
+				leSonDegatRecu[cptSoundAie].play();
+				cptSoundAie++;
+				if (cptSoundAie == 17) { cptSoundAie = 1; }
+				// on descend la vie du joueur et on mets à jours la barre de vie
+				ptrInstancebarreDeVie->modifiePointDeVie(-10);
+			}
+
+
 		}
 		if (startCycleAnimationTop == 16) { startCycleAnimationTop = 0; }
 
 		// position repos de base, face vers l'utilisateur pardi !
-	}
-	else {
+	} else {
 
 		action.drawSubsection(midX(), midY(), 64, 64, 64 * startCycleAnimationDown, 0, 64, 64);
 		if (getDiffTime() > speedAnim) {
 			startCycleAnimationDown++;
 			setTimerStart();
+
+			// joue le son aie et retire les PV
+			if (*ptrPlayerCurrentAction == "degat" && startCycleAnimationDown == 47) {
+				leSonDegatRecu[cptSoundAie].play();
+				cptSoundAie++;
+				if (cptSoundAie == 17) { cptSoundAie = 1; }
+				// on descend la vie du joueur et on mets à jours la barre de vie
+				ptrInstancebarreDeVie->modifiePointDeVie(-10);
+			}
+
+
 		}
 		if (startCycleAnimationDown == 48) { startCycleAnimationDown = 32; }
 
@@ -315,7 +363,7 @@ void moving::updatePositionJoueur() {
 			*ptrPositionJoueurY = -39;
 
 			if ((ofGetElapsedTimeMillis() - timerTrollAie) / 1000 > 5) {
-				sound.play();
+				leSonDegatRecu[cptSoundAie].play();
 				timerTrollAie = ofGetElapsedTimeMillis();
 			}
 

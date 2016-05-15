@@ -171,6 +171,7 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\BarreDeVie.cpp" />
     <ClCompile Include="src\classeMoving.cpp" />
     <ClCompile Include="src\classInventaire.cpp" />
     <ClCompile Include="src\classMap.cpp" />
@@ -187,6 +188,7 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\BarreDeVie.h" />
     <ClInclude Include="src\classeMoving.h" />
     <ClInclude Include="src\classInventaire.h" />
     <ClInclude Include="src\classMap.h" />

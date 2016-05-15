@@ -444,7 +444,6 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 			if ((ptrTabZombis + i)->posYZombi != posYZombi && (ptrTabZombis + i)->posYZombi != posYZombi &&
 				(ptrTabZombis + i)->posYZombi - futurPosYZombi  > 0 && (ptrTabZombis + i)->posYZombi - futurPosYZombi  < ecartDeCollision &&
 				posXZombi >(ptrTabZombis + i)->posXZombi - ecartDeCollision && posXZombi < (ptrTabZombis + i)->posXZombi + ecartDeCollision) {
-				printf("Col => down \n");
 				retour = true;
 				break;
 			}
@@ -466,8 +465,6 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 			if ((ptrTabZombis + i)->posXZombi != posXZombi && (ptrTabZombis + i)->posXZombi != posXZombi &&
 				(ptrTabZombis + i)->posXZombi - futurPosXZombi  > 0 && (ptrTabZombis + i)->posXZombi - futurPosXZombi < ecartDeCollision &&
 				posYZombi >(ptrTabZombis + i)->posYZombi - ecartDeCollision && posYZombi < (ptrTabZombis + i)->posYZombi + ecartDeCollision) {
-				printf("Col => right \n");
-				printf("%d>%d && %d<%d && %d>%d && %d<%d\n", (ptrTabZombis + i)->posXZombi - futurPosXZombi,0, (ptrTabZombis + i)->posXZombi - futurPosXZombi,ecartDeCollision,posYZombi,(ptrTabZombis + i)->posYZombi - ecartDeCollision,posYZombi,(ptrTabZombis + i)->posYZombi + ecartDeCollision);
 				retour = true;
 				break;
 			}

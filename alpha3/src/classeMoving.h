@@ -1,6 +1,7 @@
 #pragma once
 #include "ofMain.h"
 #include "classMap.h"
+#include "BarreDeVie.h"
 
 class moving {
 
@@ -14,6 +15,8 @@ class moving {
 	int *ptrTabContentRessourcePlayer;
 	// instance classmap
 	classMap *ptrInstanceGestionMap;
+	// instance barre de vie
+	BarreDeVie *ptrInstancebarreDeVie;
 
 	// incrementation pour l'animation
 	int startCycleAnimationTop = 0;
@@ -31,7 +34,8 @@ class moving {
 
 	// bool timer troll Aie
 	int timerTrollAie = 0;
-	ofSoundPlayer sound;
+	int cptSoundAie = 1;
+	int cptTest = 0;
 
 	// variable de temps
 	int tpsStart, tpsStop, tpsDiff;
@@ -55,12 +59,12 @@ class moving {
 	// fonction pour le mouvement
 	ofImage marche, courir, repos, construire, degat, hacher, miner, mort, action, attaquer;
 	// leçon ! bordel de merde !
-	ofSoundPlayer leSonMinage, leSonArbre;
+	ofSoundPlayer leSonMinage, leSonArbre, leSonDegatRecu[18];
 
 public:
 
 	moving();
-	void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *ptrPlayerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap);
+	void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *ptrPlayerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap, BarreDeVie *ptrInstancebarreDeVie);
 	void playerAction();
 	// méthode de gestion du déplacement joueur
 	void movePlayer();

@@ -12,7 +12,7 @@ int main( ){
 	// pass in width and height too:
 
 	// fixe
-	ofSetWindowPosition(2300,50);
+	ofSetWindowPosition(2150,50);
 	// portable
 	//ofSetWindowPosition(1600-ofGetWindowWidth(),25);
 
