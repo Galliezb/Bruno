@@ -37,6 +37,7 @@ void ofApp::setup(){
 	// init gestion des barre
 	barreDeVie.init(&widthScreen, &heightScreen);
 
+	font.load("arialR.ttf", 15);
 }
 
 
@@ -107,6 +108,7 @@ void ofApp::draw(){
 
 	if (affInventaire) {
 		inventaire.affichage();
+		font.drawString(strSurvolInventaire, inventaire.returnPosXWindow() + 225, inventaire.returnPosYWindow()+290);
 	} else {
 
 		// affichage du personnage
@@ -215,6 +217,36 @@ void ofApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
+	
+	// affiche les message d'aide au survol de l'intaire
+	if (affInventaire && x>inventaire.returnPosXWindow() && x<inventaire.returnPosXWindow() + 1024 && y>inventaire.returnPosYWindow() && y<inventaire.returnPosYWindow() + 642) {
+		
+		if (x>inventaire.returnPosXWindow() + 225 && x<inventaire.returnPosXWindow() + 280 &&
+			y>inventaire.returnPosYWindow() + 325 && y<inventaire.returnPosYWindow() + 380) {
+			strSurvolInventaire = "Votre stock de bois";
+		} else if (x>inventaire.returnPosXWindow() + 298 && x<inventaire.returnPosXWindow() + 353 &&
+			y>inventaire.returnPosYWindow() + 325 && y<inventaire.returnPosYWindow() + 380) {
+			strSurvolInventaire = "Votre stock de roche";
+		} else if (x>inventaire.returnPosXWindow() + 371 && x<inventaire.returnPosXWindow() + 426 &&
+			y>inventaire.returnPosYWindow() + 325 && y<inventaire.returnPosYWindow() + 380) {
+			strSurvolInventaire = "Balancez les sur les zombies !";
+		} else if (x>inventaire.returnPosXWindow() + 444 && x<inventaire.returnPosXWindow() + 499 &&
+			y>inventaire.returnPosYWindow() + 325 && y<inventaire.returnPosYWindow() + 380) {
+			strSurvolInventaire = "Balancez les sur les zombies !";
+		} else if (x>inventaire.returnPosXWindow() + 517 && x<inventaire.returnPosXWindow() + 572 &&
+			y>inventaire.returnPosYWindow() + 325 && y<inventaire.returnPosYWindow() + 380) {
+			strSurvolInventaire = "Balancez les sur les zombies !";
+		} else if (x>inventaire.returnPosXWindow() + 590 && x<inventaire.returnPosXWindow() + 645 &&
+			y>inventaire.returnPosYWindow() + 325 && y<inventaire.returnPosYWindow() + 380) {
+			strSurvolInventaire = "5 Pierres pour 1 roche, cliquez pour construire";
+		} else if (x>inventaire.returnPosXWindow() + 663 && x<inventaire.returnPosXWindow() + 718 &&
+			y>inventaire.returnPosYWindow() + 325 && y<inventaire.returnPosYWindow() + 380) {
+			strSurvolInventaire = "5 Lances pour 1 bois, cliquez pour construire";
+		} else {
+			strSurvolInventaire="";
+		}
+
+	}
 
 }
 
@@ -233,6 +265,17 @@ void ofApp::mouseReleased(int x, int y, int button){
 	// inventaire affiché, si clique en dehors, on stop l'affichage
 	if (affInventaire && ( x<inventaire.returnPosXWindow() || x>inventaire.returnPosXWindow()+1024 || y<inventaire.returnPosYWindow() || y>inventaire.returnPosYWindow()+642) ){
 		affInventaire = false;
+	// clic dans l'inventaire pour la construction
+	} else if (affInventaire && x>inventaire.returnPosXWindow() && x<inventaire.returnPosXWindow() + 1024 && y>inventaire.returnPosYWindow() && y<inventaire.returnPosYWindow() + 642 ) {
+		
+		if ( x>inventaire.returnPosXWindow() + 590 && x<inventaire.returnPosXWindow() + 648 &&
+		     y>inventaire.returnPosYWindow() + 325 && y<inventaire.returnPosYWindow() + 380 ){
+			inventaire.fabriqueRoche();
+		} else if (x>inventaire.returnPosXWindow() + 663 && x<inventaire.returnPosXWindow() + 718 &&
+			y>inventaire.returnPosYWindow() + 325 && y<inventaire.returnPosYWindow() + 380) {
+			inventaire.fabriqueLance();
+		}
+
 	}
 }
 

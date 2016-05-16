@@ -45,3 +45,21 @@ int classInventaire::returnPosXWindow(){
 int classInventaire::returnPosYWindow(){
 	return (*ptrHeightScreen - 642) / 2;
 }
+void classInventaire::fabriqueRoche(){
+	
+	if (*(ptrTabContentRessourcePlayer+1) > 0 ){
+		printf("Lance fabriquee");
+		*(ptrTabContentRessourcePlayer + 1) -= 1;
+		*(ptrTabContentRessourcePlayer + 5) += 5;
+	}
+
+}
+void classInventaire::fabriqueLance() {
+
+	if (*(ptrTabContentRessourcePlayer) > 0) {
+		printf("Lance fabriquee");
+		*(ptrTabContentRessourcePlayer) -= 1;
+		*(ptrTabContentRessourcePlayer + 6) += 5;
+	}
+
+}

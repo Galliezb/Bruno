@@ -16,4 +16,6 @@ class classInventaire  {
 		void affichage();
 		int returnPosXWindow();
 		int returnPosYWindow();
+		void fabriqueRoche();
+		void fabriqueLance();
 };

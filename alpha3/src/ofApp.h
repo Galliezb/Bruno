@@ -36,7 +36,7 @@ class ofApp : public ofBaseApp{
 		// temps gérant les zombis
 		int tpsSpawnZombi = ofGetElapsedTimeMillis();
 		// nombre max de zombi
-		int maxZombi = 10;
+		int maxZombi = 1;
 		// en milliseconde
 		int timerSpawnZombi=2500;
 
@@ -80,5 +80,8 @@ class ofApp : public ofBaseApp{
 
 		// variable de récolte
 		bool actionRecolteActive = false;
+
+		ofTrueTypeFont font;
+		string strSurvolInventaire = "";
 
 };

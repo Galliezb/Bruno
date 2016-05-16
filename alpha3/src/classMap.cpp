@@ -47,7 +47,17 @@ void classMap::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWi
 	changeCaseMud(8, 8);
 
 	addRessource(6 ,6 ,true, false);
+	Sleep(1);
 	addRessource(7, 7, false, true);
+	Sleep(1);
+	addRessource(6, 7, true, false);
+	Sleep(1);
+	addRessource(7, 8, false, true);
+	Sleep(1);
+	addRessource(8, 8, true, false);
+	Sleep(1);
+	addRessource(8, 9, false, true);
+	Sleep(1);
 
 	// ajoute des arbres de manière aleatoire
 	//succes = addRessourceRandom(true, false);
