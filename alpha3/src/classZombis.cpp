@@ -97,7 +97,7 @@ void ClassZombi::displayAttackZombi() {
 			startCycleAnimationRight++;
 			setTimerStart();
 
-			if (startCycleAnimationRight == 31) {
+			if (startCycleAnimationRight == 17) {
 				ptrInstancebarreDeVie->modifiePointDeVie(damage);
 			}
 
@@ -111,7 +111,7 @@ void ClassZombi::displayAttackZombi() {
 			startCycleAnimationLeft++;
 			setTimerStart();
 
-			if (startCycleAnimationLeft == 63) {
+			if (startCycleAnimationLeft == 49) {
 				ptrInstancebarreDeVie->modifiePointDeVie(damage);
 			}
 
@@ -125,7 +125,7 @@ void ClassZombi::displayAttackZombi() {
 			startCycleAnimationTop++;
 			setTimerStart();
 
-			if (startCycleAnimationTop == 15) {
+			if (startCycleAnimationTop == 1) {
 				ptrInstancebarreDeVie->modifiePointDeVie(damage);
 			}
 
@@ -139,7 +139,7 @@ void ClassZombi::displayAttackZombi() {
 			startCycleAnimationDown++;
 			setTimerStart();
 
-			if (startCycleAnimationDown == 47) {
+			if (startCycleAnimationDown == 33) {
 				ptrInstancebarreDeVie->modifiePointDeVie(damage);
 			}
 
@@ -404,6 +404,9 @@ void ClassZombi::spawnZombi(){
 
 	if(verification){ spawnZombi();}
 
+	// donne un différence de vitesse au zombie
+	// BUG, il faut améliorer la collisions inter-zombis pour pouvoir se le permettre
+	//this->speedZombi = ofRandom(1,3);
 
 	isSpawnZombi = true;
 }
