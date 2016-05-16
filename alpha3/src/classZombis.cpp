@@ -170,7 +170,7 @@ void ClassZombi::moveZombi(){
 					}
 
 				// case pleine
-				} else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0 && returnPosOnTheCaseY() < 5) {
+				} else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) == 1 && returnPosOnTheCaseY() < 5) {
 					posYZombi = returnPositionCaseZombiY() * 64-60;
 				}
 
@@ -205,7 +205,7 @@ void ClassZombi::moveZombi(){
 					}
 
 				// case pleine
-				}else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0) {
+				}else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) == 1) {
 					posYZombi = returnPositionCaseZombiY() * 64+4;
 				}
 
@@ -244,7 +244,7 @@ void ClassZombi::moveZombi(){
 						posXZombi = returnPositionCaseZombiX()*64-17;
 					}
 				// hit case pleine
-				} else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0 && returnPosOnTheCaseX()<5 && returnPosOnTheCaseY()>3 ) {
+				} else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) == 1 && returnPosOnTheCaseX()<5 && returnPosOnTheCaseY()>3 ) {
 					if (posXZombi > returnPositionCaseZombiX()*64-32) {
 						posXZombi = returnPositionCaseZombiX()*64-32;
 					}
@@ -279,7 +279,7 @@ void ClassZombi::moveZombi(){
 						posXZombi = returnPositionCaseZombiX() * 64 + 18;
 					}
 				}
-				else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) != 0 && returnPosOnTheCaseX() > 59) {
+				else if (*(ptrTabContentTerrain + returnIndexCaseZombi() - 1) == 1 && returnPosOnTheCaseX() > 59) {
 					if (posXZombi < returnPositionCaseZombiX() * 64 + 32) {
 						posXZombi = returnPositionCaseZombiX() * 64 + 32;
 					}

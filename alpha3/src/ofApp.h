@@ -69,8 +69,13 @@ class ofApp : public ofBaseApp{
 		/* Tableau contenant le stock du joueur
 		0 => bois
 		1 => roche
+		2 => tête de zombie
+		3 => pied de zombie
+		4 => bras de zombie
+		5 => pierre à lancer
+		6 => lance
 		*/
-		int tabContentRessourcePlayer[2] = {0};
+		int tabContentRessourcePlayer[7] = {0};
 		ofPath pathLineHorizontal;
 
 		// variable de récolte

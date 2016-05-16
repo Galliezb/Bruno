@@ -13,9 +13,9 @@ classMap::classMap() {
 }
 void classMap::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTtabContentTerrain) {
 	arbre.loadImage("arbre.png");
-	herbe.loadImage("herbe.jpg");
-	boue.loadImage("boue.jpg");
-	eau.loadImage("eau.jpg");
+	herbe.loadImage("herbe.png");
+	boue.loadImage("boue.png");
+	eau.loadImage("eau.png");
 	rocher.loadImage("rochert.png");
 	cadre.loadImage("cadre.png");
 	fbo.allocate(widthImage, heightImage);

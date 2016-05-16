@@ -36,7 +36,7 @@ void classInventaire::affichage(){
 		icon.drawSubsection(startX+i*18+i*55,startY+hauteur*19,55,55,i*55,0,55,55);
 		font.drawString(ofToString(*(ptrTabContentRessourcePlayer + i)), startX + i * 18 + i * 55 + 5, startY + hauteur * 19 + 52);
 		i++;
-	} while( i < 2 );
+	} while( i < 7 );
 
 }
 int classInventaire::returnPosXWindow(){
