@@ -36,8 +36,15 @@ void ofApp::setup(){
 
 	// init gestion des barre
 	barreDeVie.init(&widthScreen, &heightScreen);
-
 	font.load("arialR.ttf", 15);
+
+	// init projectile
+	for (int i = 0; i<maxZombi; i++) {
+		projectile[i].init(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen, tabContentRessourcePlayer);
+	}
+
+	// meteo
+	meteo.initMeteo();
 }
 
 
@@ -96,8 +103,14 @@ void ofApp::update(){
 				playerCurrentAction = "degat";
 			}
 		}
+
+		// gestion meteo
+		meteo.majNuage();
+		meteo.majPluie();
+
 	}
 
+	
 }
 
 //--------------------------------------------------------------
@@ -137,6 +150,11 @@ void ofApp::draw(){
 
 		// barre de vie, sprint et energie
 		barreDeVie.displayBarreVie();
+
+		// meteo
+		meteo.dessineNuage();
+		if (meteo.pluieEnCours){ meteo.tombePluie();}
+
 	}
 }
 
@@ -187,6 +205,15 @@ void ofApp::keyReleased(int key){
 		case 'i':
 			(affInventaire)? affInventaire=false: affInventaire=true;
 			break;
+		case 'a':
+			if (meteo.tmpOrage == 1) {
+				meteo.orage.play();
+				meteo.tmpOrage++;
+			} else {
+				meteo.tmpOrage = 1;
+			}
+			meteo.pluieEnCours = !meteo.pluieEnCours;
+
 	}
 
 	// deplacement position joueur + animation

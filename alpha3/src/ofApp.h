@@ -5,6 +5,8 @@
 #include "classInventaire.h"
 #include "classZombis.h"
 #include "BarreDeVie.h"
+#include "ClassMeteo.h"
+#include "ClassProjectile.h"
 
 class ofApp : public ofBaseApp{
 
@@ -31,6 +33,8 @@ class ofApp : public ofBaseApp{
 		classInventaire inventaire;
 		ClassZombi zombis[10];
 		BarreDeVie barreDeVie;
+		Meteo meteo;
+		Projectile projectile[5];
 
 		// variable
 		// temps gérant les zombis
@@ -75,7 +79,7 @@ class ofApp : public ofBaseApp{
 		5 => pierre à lancer
 		6 => lance
 		*/
-		int tabContentRessourcePlayer[7] = {0};
+		int tabContentRessourcePlayer[7] = {10,10,10,10,10,10,10};
 		ofPath pathLineHorizontal;
 
 		// variable de récolte
