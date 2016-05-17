@@ -5,7 +5,7 @@
 class ClassZombi {
 
 	/****************************************** VARIABLE PRIVATE *****************************************/
-
+	bool AnimMortEnCours=false;
 	// pointeurs
 	int *ptrPositionJoueurX;
 	int *ptrPositionJoueurY;
@@ -21,7 +21,7 @@ class ClassZombi {
 
 
 	// ofimage
-	ofImage zombiMarche, zombiAttaque;
+	ofImage zombiMarche, zombiAttaque, zombiMort;
 	ofPath repere;
 
 	// variable de temps pour l'animation
@@ -46,7 +46,7 @@ class ClassZombi {
 	// dommage zombes, negatif car on retire de la barre de vie
 	int damage = -5;
 
-
+	int pointDeVie = 10;
 
 	/****************************************** METHODE PRIVATE *****************************************/
 	void setTimerStart();
@@ -56,7 +56,8 @@ class ClassZombi {
 
 	// affiche l'animation d'attaque
 	void displayAttackZombi();
-
+	int isZombieDead();
+	bool animDeathZombiDone = false;
 	public :
 
 		/****************************************** METHODE PUBLIC *****************************************/
@@ -91,5 +92,8 @@ class ClassZombi {
 		int returnPosOnTheCaseY();
 		// verification qu'un autre zombi n'est pas à portée pour bloquer le déplacement
 		bool returnZombiCollisionProximity(bool top, bool right, bool down, bool left);
-
+		//animation mort du zombie
+		void AnimDeathZombie();
+		void receiveDamage(int damage);
+		bool getAnimMort();
 };

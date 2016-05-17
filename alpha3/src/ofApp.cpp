@@ -94,6 +94,8 @@ void ofApp::update(){
 			if (playerCurrentAction != "degat" && zombis[i].distanceBetweenPLayerAndZombi() <= 32){
 				// metes l'action joueur en degat s'il n'y est pas.
 				playerCurrentAction = "degat";
+				cout << "coucou";
+				zombis[i].receiveDamage(5);
 			}
 		}
 	}
@@ -131,6 +133,7 @@ void ofApp::draw(){
 		for (int i = 0; i<maxZombi; i++) {
 			// si cette unité n'est pas affecté
 			if (zombis[i].isSpawnZombi) {
+				if(zombis[i].getAnimMort()==false)
 				zombis[i].displayZombi();
 			}
 		}
