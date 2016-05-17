@@ -17,7 +17,7 @@ void ofApp::setup(){
 
 
 	// C'est la position actuel de l'origin 0 - 0 = haut coin haut gauche.
-	positionJoueurX = 7400;
+	positionJoueurX = 384;
 	positionJoueurY = 384;
 
 
@@ -105,24 +105,23 @@ void ofApp::update(){
 				playerCurrentAction = "degat";
 			}
 		}
-	}
-	//mouvements des nuages
-	for (int i = 0; i <= 49; i++) {
-		lancementMeteo[i].majNuage();
-	}
-}
+
+		//mouvements des nuages
+		for (int i = 0; i <= 49; i++) {
+			lancementMeteo[i].majNuage();
+		}
 
 		// gestion des projectiles
 		for (int i = 0; i<5; i++) {
 			if (projectile[i].isActive) {
-				printf("Projectile[%d] (Active)\n",i);
+				printf("Projectile[%d] (Active)\n", i);
 				projectile[i].updatePosition();
 			}
 		}
 
+
 	}
 
-	
 }
 
 //--------------------------------------------------------------
