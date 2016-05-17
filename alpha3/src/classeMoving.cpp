@@ -303,7 +303,7 @@ bool moving::getBoolMovePlayerLeft() {
 }
 int moving::midX() {
 
-	int posXCamera = *ptrPositionJoueurX + 32 - *ptrWidthScreen / 2;
+	int  posXCamera = *ptrPositionJoueurX + 32 - *ptrWidthScreen / 2;
 
 	if (posXCamera<1) {
 		posXCamera = 0;
@@ -657,3 +657,5 @@ bool moving::actionRecolteEnd(){
 	}
 
 }
+
+

@@ -103,5 +103,5 @@ public:
 	// 5 sec de recolte.
 	int tpsRecolte = 5; 
 	int tpsLastSoundPlayed;
-
+	
 };

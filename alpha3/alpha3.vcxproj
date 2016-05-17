@@ -171,10 +171,12 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Meteo.cpp" />
     <ClCompile Include="src\BarreDeVie.cpp" />
     <ClCompile Include="src\classeMoving.cpp" />
     <ClCompile Include="src\classInventaire.cpp" />
     <ClCompile Include="src\classMap.cpp" />
+    <ClCompile Include="src\ClassProjectile.cpp" />
     <ClCompile Include="src\classZombis.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
@@ -188,10 +190,12 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Meteo.h" />
     <ClInclude Include="src\BarreDeVie.h" />
     <ClInclude Include="src\classeMoving.h" />
     <ClInclude Include="src\classInventaire.h" />
     <ClInclude Include="src\classMap.h" />
+    <ClInclude Include="src\ClassProjectile.h" />
     <ClInclude Include="src\classZombis.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxBaseGui.h" />

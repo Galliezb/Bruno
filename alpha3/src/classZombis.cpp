@@ -43,7 +43,6 @@ void ClassZombi::displayZombi() {
 		AnimDeathZombie();
 	}
 	else if ( posAffichageX() != -1 && posAffichageY() != -1 && distanceBetweenPLayerAndZombi() > 32){
-
 		// Right and left prioritaire !
 		if (boolMoveZombiLeft == true) {
 

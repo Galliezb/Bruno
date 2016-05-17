@@ -5,32 +5,36 @@
 #include "classInventaire.h"
 #include "classZombis.h"
 #include "BarreDeVie.h"
+#include "ClassProjectile.h"
+#include "../Meteo.h"
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofBaseApp {
 
-	public:
-		void setup();
-		void update();
-		void draw();
+public:
+	void setup();
+	void update();
+	void draw();
 
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mouseMoved(int x, int y );
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void mouseEntered(int x, int y);
-		void mouseExited(int x, int y);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);
+	void keyPressed(int key);
+	void keyReleased(int key);
+	void mouseMoved(int x, int y);
+	void mouseDragged(int x, int y, int button);
+	void mousePressed(int x, int y, int button);
+	void mouseReleased(int x, int y, int button);
+	void mouseEntered(int x, int y);
+	void mouseExited(int x, int y);
+	void windowResized(int w, int h);
+	void dragEvent(ofDragInfo dragInfo);
+	void gotMessage(ofMessage msg);
 
-		// Utilisation des classes
-		classMap gestionMap;
-		moving movePersonnage; 
-		classInventaire inventaire;
-		ClassZombi zombis[10];
-		BarreDeVie barreDeVie;
+	// Utilisation des classes
+	classMap gestionMap;
+	moving movePersonnage;
+	classInventaire inventaire;
+	ClassZombi zombis[10];
+	BarreDeVie barreDeVie;
+	Meteo lancementMeteo[50];
+	Projectile projectile[5];
 
 		// variable
 		// temps gérant les zombis
@@ -75,7 +79,7 @@ class ofApp : public ofBaseApp{
 		5 => pierre à lancer
 		6 => lance
 		*/
-		int tabContentRessourcePlayer[7] = {0};
+		int tabContentRessourcePlayer[7] = {10,10,10,10,10,10,10};
 		ofPath pathLineHorizontal;
 
 		// variable de récolte
@@ -83,5 +87,7 @@ class ofApp : public ofBaseApp{
 
 		ofTrueTypeFont font;
 		string strSurvolInventaire = "";
+
+		
 
 };
