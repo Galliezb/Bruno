@@ -103,8 +103,6 @@ void ofApp::update(){
 			if (playerCurrentAction != "degat" && zombis[i].distanceBetweenPLayerAndZombi() <= 32 && zombis[i].isSpawnZombi){
 				// metes l'action joueur en degat s'il n'y est pas.
 				playerCurrentAction = "degat";
-				cout << "coucou";
-				zombis[i].receiveDamage(5);
 			}
 		}
 
