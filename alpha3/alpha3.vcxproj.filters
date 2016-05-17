@@ -47,6 +47,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="Meteo.cpp" />
+    <ClCompile Include="src\ClassProjectile.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -109,6 +112,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="Meteo.h" />
+    <ClInclude Include="src\ClassProjectile.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

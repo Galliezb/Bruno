@@ -36,12 +36,17 @@ void ofApp::setup(){
 
 	// init gestion des barre
 	barreDeVie.init(&widthScreen, &heightScreen);
+	font.load("arialR.ttf", 15);
 
 	//init gestion des méteo
 	for (int i = 0; i <= 49; i++) {
 		lancementMeteo[i].initMeteo(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen);
 	}
 	font.load("arialR.ttf", 15);
+	// init projectile
+	for (int i = 0; i<5; i++) {
+		projectile[i].init(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen, tabContentRessourcePlayer);
+	}
 }
 
 
@@ -107,6 +112,19 @@ void ofApp::update(){
 	}
 }
 
+		// gestion des projectiles
+		for (int i = 0; i<5; i++) {
+			if (projectile[i].isActive) {
+				printf("Projectile[%d] (Active)\n",i);
+				projectile[i].updatePosition();
+			}
+		}
+
+	}
+
+	
+}
+
 //--------------------------------------------------------------
 void ofApp::draw(){
 
@@ -147,6 +165,15 @@ void ofApp::draw(){
 		}
 		// barre de vie, sprint et energie
 		barreDeVie.displayBarreVie();
+
+		// gestion des projectiles
+		for (int i = 0; i<5; i++) {
+			if (projectile[i].isActive) {
+				projectile[i].displayProjectile();
+			}
+		}
+
+
 	}
 }
 
@@ -182,23 +209,6 @@ void ofApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-
-	switch (key) {
-		// Fullscreen touche F
-		case 'f':
-
-			ofToggleFullscreen();
-			widthScreen = ofGetWindowWidth();
-			heightScreen = ofGetWindowHeight();
-			break;
-		case 'e':
-			movePersonnage.actionRecolteStart();
-			actionRecolteActive = true;
-			break;
-		case 'i':
-			(affInventaire)? affInventaire=false: affInventaire=true;
-			break;
-	}
 
 	// deplacement position joueur + animation
 	if (key == OF_KEY_UP) {
@@ -287,6 +297,22 @@ void ofApp::mouseReleased(int x, int y, int button){
 			inventaire.fabriqueLance();
 		}
 
+	} else {
+	
+		// init projectile
+		for (int i = 0; i<5; i++) {
+
+			string retour = "[";
+			retour += i;
+			(projectile[i].isActive)?retour+="] Active\n" : retour+=" ] NON actif\n";
+			printf("%s",retour);
+			if (!projectile[i].isActive){
+				projectile[i].initDirectionProjectile(x,y);
+				break;
+			}
+		}
+
+	
 	}
 }
 
