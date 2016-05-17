@@ -46,6 +46,7 @@
     <ClCompile Include="src\BarreDeVie.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="Meteo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -107,6 +108,7 @@
     <ClInclude Include="src\BarreDeVie.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="Meteo.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

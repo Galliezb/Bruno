@@ -17,7 +17,7 @@ void ofApp::setup(){
 
 
 	// C'est la position actuel de l'origin 0 - 0 = haut coin haut gauche.
-	positionJoueurX = 448;
+	positionJoueurX = 7400;
 	positionJoueurY = 384;
 
 
@@ -37,6 +37,10 @@ void ofApp::setup(){
 	// init gestion des barre
 	barreDeVie.init(&widthScreen, &heightScreen);
 
+	//init gestion des méteo
+	for (int i = 0; i <= 49; i++) {
+		lancementMeteo[i].initMeteo(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen);
+	}
 	font.load("arialR.ttf", 15);
 }
 
@@ -97,7 +101,10 @@ void ofApp::update(){
 			}
 		}
 	}
-
+	//mouvements des nuages
+	for (int i = 0; i <= 49; i++) {
+		lancementMeteo[i].majNuage();
+	}
 }
 
 //--------------------------------------------------------------
@@ -105,7 +112,7 @@ void ofApp::draw(){
 
 	// affiche a l'écran
 	gestionMap.displayMap();
-
+	
 	if (affInventaire) {
 		inventaire.affichage();
 		font.drawString(strSurvolInventaire, inventaire.returnPosXWindow() + 225, inventaire.returnPosYWindow()+290);
@@ -134,7 +141,10 @@ void ofApp::draw(){
 				zombis[i].displayZombi();
 			}
 		}
-
+		//Meteo
+		for (int i = 0; i <= 49; i++) {
+			lancementMeteo[i].dessineNuage();
+		}
 		// barre de vie, sprint et energie
 		barreDeVie.displayBarreVie();
 	}
@@ -167,6 +177,7 @@ void ofApp::keyPressed(int key){
 		if (!playerHasMove) { playerHasMove = true; }
 		if (!movePersonnage.getBoolMovePlayerLeft()) { movePersonnage.setBoolMovePlayerLeft(true); }
 	}
+	
 }
 
 //--------------------------------------------------------------

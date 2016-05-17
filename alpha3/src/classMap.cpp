@@ -217,6 +217,7 @@ int classMap::limitCameraX() {
 	else {
 		return posX;
 	}
+	
 }
 int classMap::limitCameraY() {
 
@@ -245,3 +246,4 @@ void classMap::returnPosCase(int coordX, int coordY) {
 	caseY = floor((caseY + coordY) / 64);
 
 }
+
