@@ -39,12 +39,9 @@ void ofApp::setup(){
 	font.load("arialR.ttf", 15);
 
 	// init projectile
-	for (int i = 0; i<maxZombi; i++) {
+	for (int i = 0; i<5; i++) {
 		projectile[i].init(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen, tabContentRessourcePlayer);
 	}
-
-	// meteo
-	meteo.initMeteo();
 }
 
 
@@ -104,9 +101,13 @@ void ofApp::update(){
 			}
 		}
 
-		// gestion meteo
-		meteo.majNuage();
-		meteo.majPluie();
+		// gestion des projectiles
+		for (int i = 0; i<5; i++) {
+			if (projectile[i].isActive) {
+				printf("Projectile[%d] (Active)\n",i);
+				projectile[i].updatePosition();
+			}
+		}
 
 	}
 
@@ -151,9 +152,13 @@ void ofApp::draw(){
 		// barre de vie, sprint et energie
 		barreDeVie.displayBarreVie();
 
-		// meteo
-		meteo.dessineNuage();
-		if (meteo.pluieEnCours){ meteo.tombePluie();}
+		// gestion des projectiles
+		for (int i = 0; i<5; i++) {
+			if (projectile[i].isActive) {
+				projectile[i].displayProjectile();
+			}
+		}
+
 
 	}
 }
@@ -189,32 +194,6 @@ void ofApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-
-	switch (key) {
-		// Fullscreen touche F
-		case 'f':
-
-			ofToggleFullscreen();
-			widthScreen = ofGetWindowWidth();
-			heightScreen = ofGetWindowHeight();
-			break;
-		case 'e':
-			movePersonnage.actionRecolteStart();
-			actionRecolteActive = true;
-			break;
-		case 'i':
-			(affInventaire)? affInventaire=false: affInventaire=true;
-			break;
-		case 'a':
-			if (meteo.tmpOrage == 1) {
-				meteo.orage.play();
-				meteo.tmpOrage++;
-			} else {
-				meteo.tmpOrage = 1;
-			}
-			meteo.pluieEnCours = !meteo.pluieEnCours;
-
-	}
 
 	// deplacement position joueur + animation
 	if (key == OF_KEY_UP) {
@@ -303,6 +282,22 @@ void ofApp::mouseReleased(int x, int y, int button){
 			inventaire.fabriqueLance();
 		}
 
+	} else {
+	
+		// init projectile
+		for (int i = 0; i<5; i++) {
+
+			string retour = "[";
+			retour += i;
+			(projectile[i].isActive)?retour+="] Active\n" : retour+=" ] NON actif\n";
+			printf("%s",retour);
+			if (!projectile[i].isActive){
+				projectile[i].initDirectionProjectile(x,y);
+				break;
+			}
+		}
+
+	
 	}
 }
 

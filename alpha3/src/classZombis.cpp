@@ -37,8 +37,7 @@ void ClassZombi::displayZombi() {
 	// *positionJoueurX, *positionJoueurY affiche le coin haut gauche de la caméra
 	// Bizarrement le joueur est affiché à la moitié de l'écran +32 pixel ?
 	// en dehors de la caméra, on affiche pas
-	
-	
+
 	
 	if ( posAffichageX() != -1 && posAffichageY() != -1 && distanceBetweenPLayerAndZombi() > 32){
 

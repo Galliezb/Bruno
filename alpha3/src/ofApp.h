@@ -5,7 +5,6 @@
 #include "classInventaire.h"
 #include "classZombis.h"
 #include "BarreDeVie.h"
-#include "ClassMeteo.h"
 #include "ClassProjectile.h"
 
 class ofApp : public ofBaseApp{
@@ -33,7 +32,6 @@ class ofApp : public ofBaseApp{
 		classInventaire inventaire;
 		ClassZombi zombis[10];
 		BarreDeVie barreDeVie;
-		Meteo meteo;
 		Projectile projectile[5];
 
 		// variable

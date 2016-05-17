@@ -12,6 +12,7 @@ class Projectile{
 
 	// gestion du son
 	ofSoundPlayer needAmmo;
+	ofImage iconProjectile;
 
 	// gère la direction des projectiles
 	// fonctionne en 8 quadrants : haut, haut droite, droite, droit bas, bas, bas gauche, gauche, haut gauche
@@ -38,7 +39,20 @@ class Projectile{
 		void init(int *ptrPositionJoueurX,int *ptrPositionJoueurY,int *ptrWidthScreen,int *ptrHeightScreen,int *ptrTabContentRessourcePlayer);
 		// la position du clic ( détermine la trajectoire à suivre )
 		void initDirectionProjectile(int destinationX,int destinationY);
-		void moveProjectile();
+		// mets à jours la position du projectile
+		void updatePosition();
+		// affiche le projectile si dans la zone d'affichage
+		void displayProjectile();
+		// calcul la position de depart du projectile et renvoi le X
+		int calculPositionXSpawn();
+		// calcul la position de depart du projectile et renvoi le Y
+		int calculPositionYSpawn();
+		// active le projectile et défini sa position de depart
+		void spanwProjectile();
+		// retourne la valeur X sur l'affichage
+		int posAffichageX();
+		// retourne la valeur Y sr l''affichage
+		int posAffichageY();
 		
 
 };
