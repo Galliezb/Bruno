@@ -100,7 +100,7 @@ void ofApp::update(){
 				zombis[i].moveZombi();
 			}
 			// si un zombi est a distance action joueur = attaqué
-			if (playerCurrentAction != "degat" && zombis[i].distanceBetweenPLayerAndZombi() <= 32){
+			if (playerCurrentAction != "degat" && zombis[i].distanceBetweenPLayerAndZombi() <= 32 && zombis[i].isSpawnZombi){
 				// metes l'action joueur en degat s'il n'y est pas.
 				playerCurrentAction = "degat";
 				cout << "coucou";
