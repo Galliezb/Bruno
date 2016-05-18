@@ -7,6 +7,7 @@
 #include "BarreDeVie.h"
 #include "ClassProjectile.h"
 #include "../Meteo.h"
+#include "MeneInGame.h"
 
 
 class ofApp : public ofBaseApp {
@@ -37,6 +38,7 @@ public:
 	Meteo lancementMeteo[50];
 	Projectile projectile[5];
 	Meteo lancementPluie;
+	MeneInGame LancementMenuInGame;
 
 		// variable
 		// temps gérant les zombis
@@ -89,7 +91,8 @@ public:
 
 		ofTrueTypeFont font;
 		string strSurvolInventaire = "";
-
+		//variable pour menu au dessus pluie
+		
 		
 
 };
