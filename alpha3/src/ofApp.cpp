@@ -51,8 +51,7 @@ void ofApp::setup(){
 	}
 
 	//Musique
-	musique.setMusic("Ambient");
-	musique.changeVolume(0.5);
+	musique.changeVolume(0.5,"ambient");
 }
 
 
@@ -262,6 +261,24 @@ void ofApp::keyReleased(int key){
 	// si aucun mouvement en cours, on repasse a false pour éviter les traitements.
 	if (!playerMoveTop && !playerMoveRight && !playerMoveDown && !playerMoveLeft) { playerHasMove = false; }
 	
+	switch (key){
+		case 'g':
+			musique.nextMusic("Horror");
+			break;
+		case 'h':
+			musique.nextMusic("Horror");
+			break;
+		case 'j':
+			musique.nextMusic("Horror");
+			break;
+		case 'i':
+			inventaire.affichage();
+			affInventaire = true;
+			break;
+		case 'f':
+			ofToggleFullscreen();
+			break;
+	}
 }
 
 //--------------------------------------------------------------
