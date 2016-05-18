@@ -145,7 +145,6 @@ void ofApp::update() {
 						// collision Roche ou arbre
 						// une fonction de classe qui retourne l'index voulu, c'est cool non ?
 						} else if ( tabContentCase[projectile[i].returnIndexOfCase()] == 1 || tabContentCase[projectile[i].returnIndexOfCase()] == 2 ){
-							printf("HIT ROCHE OU ARBRE\n");
 							projectile[i].isActive = false;
 						}
 					}
@@ -168,11 +167,11 @@ void ofApp::update() {
 		cptmusique = 0;
 	}*/
 
-}
-		//update du menu dans le jeu
-		LancementMenuInGame.MenuMajInGame();
-		//update de la barre de Musique et ambiance dans le menu jeu
-		LancementMenuInGame.majBarreMusique();
+	//update du menu dans le jeu
+	LancementMenuInGame.MenuMajInGame();
+	//update de la barre de Musique et ambiance dans le menu jeu
+	LancementMenuInGame.majBarreMusique();
+
 
 }
 
