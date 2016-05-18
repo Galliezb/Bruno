@@ -24,7 +24,7 @@ void Music::nextMusic(string typeTheme) {
 		ofSoundUpdate();
 
 	} else if (typeTheme == "Horror") {
-		cout << "coucou";
+		//cout << "coucou";
 		mainMusic.setPositionMS(305000);
 		cout << mainMusic.getPositionMS()  <<"\n";
 		ofSoundUpdate();
