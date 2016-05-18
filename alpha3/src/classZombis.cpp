@@ -5,6 +5,7 @@
 ClassZombi::ClassZombi(){
 	zombiMarche.load("animmarchezombi.png");
 	zombiAttaque.load("animattaquezombi.png");
+	zombiMort.load("animmortzombi.png");
 }
 
 void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis, BarreDeVie *ptrInstancebarreDeVie){
@@ -37,10 +38,11 @@ void ClassZombi::displayZombi() {
 	// *positionJoueurX, *positionJoueurY affiche le coin haut gauche de la caméra
 	// Bizarrement le joueur est affiché à la moitié de l'écran +32 pixel ?
 	// en dehors de la caméra, on affiche pas
-
 	
-	if ( posAffichageX() != -1 && posAffichageY() != -1 && distanceBetweenPLayerAndZombi() > 32){
-
+	if (AnimMortEnCours) {
+		AnimDeathZombie();
+	}
+	else if ( posAffichageX() != -1 && posAffichageY() != -1 && distanceBetweenPLayerAndZombi() > 32){
 		// Right and left prioritaire !
 		if (boolMoveZombiLeft == true) {
 
@@ -148,6 +150,7 @@ void ClassZombi::displayAttackZombi() {
 	}
 
 }
+
 void ClassZombi::moveZombi(){
 	
 	// s'il est a portée, attaque, donc plus de déplacement.
@@ -522,4 +525,62 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 
 	return retour;
 
+}
+
+void ClassZombi::AnimDeathZombie()
+{
+	if (pointDeVie <= 0) {
+
+		AnimMortEnCours = true;
+		if (lastmoveTop) {
+			cout << "test";
+			zombiMort.drawSubsection(posAffichageX(), posAffichageY(), 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
+			if (getDiffTime() > speedAnim) {
+				startCycleAnimationTop++;
+				setTimerStart();
+			}
+			if (startCycleAnimationTop == 16) { animDeathZombiDone = true; }
+		}
+		else if (lastmoveLeft) {
+			zombiMort.drawSubsection(posAffichageX(), posAffichageY(), 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
+			if (getDiffTime() > speedAnim) {
+				startCycleAnimationTop++;
+				setTimerStart();
+			}
+			if (startCycleAnimationTop == 16) { animDeathZombiDone = true; }
+		}
+		else if (lastmoveDown) {
+			zombiMort.drawSubsection(posAffichageX(), posAffichageY(), 64, 64, 64 * startCycleAnimationDown, 0, 64, 64);
+			if (getDiffTime() > speedAnim) {
+				startCycleAnimationDown++;
+				setTimerStart();
+			}
+			if (startCycleAnimationDown == 48) { animDeathZombiDone = true; }
+		}
+		else if (lastmoveRight) {
+			zombiMort.drawSubsection(posAffichageX(), posAffichageY(), 64, 64, 64 * startCycleAnimationRight, 0, 64, 64);
+			if (getDiffTime() > speedAnim) {
+				startCycleAnimationRight++;
+				setTimerStart();
+			}
+			if (startCycleAnimationRight == 32) { animDeathZombiDone = true; }
+		}
+	}
+	if (animDeathZombiDone == true) {
+		isSpawnZombi = false;
+	}
+}
+
+void ClassZombi::receiveDamage(int damage)
+{
+	pointDeVie -= damage;
+	AnimDeathZombie();
+}
+
+int ClassZombi::isZombieDead() {
+	return pointDeVie;
+}
+
+bool ClassZombi::getAnimMort() {
+	return animDeathZombiDone;
 }

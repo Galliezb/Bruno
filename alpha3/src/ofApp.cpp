@@ -17,7 +17,7 @@ void ofApp::setup(){
 
 
 	// C'est la position actuel de l'origin 0 - 0 = haut coin haut gauche.
-	positionJoueurX = 7400;
+	positionJoueurX = 384;
 	positionJoueurY = 384;
 
 
@@ -103,7 +103,7 @@ void ofApp::update() {
 				zombis[i].moveZombi();
 			}
 			// si un zombi est a distance action joueur = attaqué
-			if (playerCurrentAction != "degat" && zombis[i].distanceBetweenPLayerAndZombi() <= 32) {
+			if (playerCurrentAction != "degat" && zombis[i].distanceBetweenPLayerAndZombi() <= 32 && zombis[i].isSpawnZombi){
 				// metes l'action joueur en degat s'il n'y est pas.
 				playerCurrentAction = "degat";
 			}
@@ -124,7 +124,7 @@ void ofApp::update() {
 		// gestion des projectiles
 		for(int i = 0; i<5; i++) {
 			if (projectile[i].isActive) {
-				printf("Projectile[%d] (Active)\n",i);
+				printf("Projectile[%d] (Active)\n", i);
 				projectile[i].updatePosition();
 			}
 		}
@@ -162,6 +162,7 @@ void ofApp::draw(){
 		for (int i = 0; i<maxZombi; i++) {
 			// si cette unité n'est pas affecté
 			if (zombis[i].isSpawnZombi) {
+				if(zombis[i].getAnimMort()==false)
 				zombis[i].displayZombi();
 			}
 		}
