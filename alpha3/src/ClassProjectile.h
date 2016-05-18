@@ -65,8 +65,9 @@ class Projectile{
 		int posAffichageX();
 		// retourne la valeur Y sr l''affichage
 		int posAffichageY();
+		void drawHitSangZombie(bool affSang = true);
 
-		void drawHitSangZombie();
+		int returnIndexOfCase();
 
 		// calcul la position d'affichage du sang
 		int posAffichageSangX();

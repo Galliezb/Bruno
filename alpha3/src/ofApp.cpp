@@ -133,11 +133,16 @@ void ofApp::update() {
 				// gère les collisions avec les zombis
 				if (projectile[i].isActive){
 					for (int j = 0; j < maxZombi; j++) {
+						// collision Zombie
 						if (zombis[j].isSpawnZombi && !projectile[i].isHitZombie && abs( zombis[j].posXZombi - projectile[i].positionXOnTheMap ) < 24 && abs(zombis[j].posYZombi - projectile[i].positionYOnTheMap) < 24) {
-							printf("Hitzombi :\n Zombi\tX:%d\ty:%d\nProjectile\tX:%d\tY:%d\n",zombis[j].posXZombi, zombis[j].posYZombi, projectile[i].positionXOnTheMap, projectile[i].positionYOnTheMap);
 							projectile[i].isHitZombie = true;
 							projectile[i].posXZombieHit = zombis[j].posXZombi;
 							projectile[i].posYZombieHit = zombis[j].posYZombi;
+						// collision Roche ou arbre
+						// une fonction de classe qui retourne l'index voulu, c'est cool non ?
+						} else if ( tabContentCase[projectile[i].returnIndexOfCase()] == 1 || tabContentCase[projectile[i].returnIndexOfCase()] == 2 ){
+							printf("HIT ROCHE OU ARBRE\n");
+							projectile[i].isActive = false;
 						}
 					}
 				}

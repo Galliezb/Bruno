@@ -220,10 +220,17 @@ int Projectile::posAffichageY() {
 
 }
 
-void Projectile::drawHitSangZombie(){
+void Projectile::drawHitSangZombie(bool affSang){
+	// hit un arbre ? pas de sang !
+	if ( !affSang){
 		hitSangZombie.draw(posAffichageSangX(), posAffichageSangY(),64,64);
-		isHitZombie = false;
-		isActive = false;
+	}
+	isHitZombie = false;
+	isActive = false;
+}
+
+int Projectile::returnIndexOfCase(){
+	return ((positionXOnTheMap + 16) / 64) + ((positionYOnTheMap +40) / 64) * 120 - 1;
 }
 
 int Projectile::posAffichageSangX() {
