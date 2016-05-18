@@ -3,6 +3,7 @@
 Projectile::Projectile(){
 
 	iconProjectile.loadImage("iconInventaire.png");
+	hitSangZombie.loadImage("hiSangZombie.png");
 
 }
 
@@ -137,7 +138,8 @@ int Projectile::calculPositionXSpawn() {
 	} else if (posXCamera> 7680 - *ptrWidthScreen) {
 		posXCamera = 7680 - *ptrWidthScreen;
 	}
-	printf("X =>%d - %d = %d\n", *ptrPositionJoueurX,posXCamera, *ptrPositionJoueurX - posXCamera);
+	//printf("posXcamera => %d\n", posXCamera);
+	//printf("X =>%d - %d = %d\n", *ptrPositionJoueurX,posXCamera, *ptrPositionJoueurX - posXCamera);
 	return *ptrPositionJoueurX - posXCamera;
 
 }
@@ -147,19 +149,26 @@ int Projectile::calculPositionYSpawn() {
 
 	if (posYCamera<1) {
 		posYCamera = 0;
-	}
-	else if (posYCamera> 5120 - *ptrHeightScreen) {
+	} else if (posYCamera> 5120 - *ptrHeightScreen) {
 		posYCamera = 5120 - *ptrHeightScreen;
 	}
-	printf("Y =>%d - %d = %d\n", *ptrPositionJoueurY, posYCamera, *ptrPositionJoueurY - posYCamera);
+	//printf("posYcamera => %d\n",posYCamera);
+	//printf("Y =>%d - %d = %d\n", *ptrPositionJoueurY, posYCamera, *ptrPositionJoueurY - posYCamera);
 	return *ptrPositionJoueurY - posYCamera;
 
 }
 
 void Projectile::spanwProjectile(){
 
-	positionXOnTheMap = *ptrPositionJoueurX;
-	positionYOnTheMap = *ptrPositionJoueurY;
+	positionXOnTheMap = *ptrPositionJoueurX-16;
+	positionYOnTheMap = *ptrPositionJoueurY-8;
+
+	if ( *ptrPositionJoueurX < *ptrWidthScreen / 2 ){
+		positionXOnTheMap += 29;
+	}
+	if (*ptrPositionJoueurY < *ptrHeightScreen / 2) {
+		positionYOnTheMap += 22;
+	}
 
 	isActive = true;
 
@@ -203,6 +212,60 @@ int Projectile::posAffichageY() {
 
 		// par defaut posZombi - cote haut de l'affichage
 		return positionYOnTheMap - posYcamera;
+	}
+	else {
+		// donc on affiche pas
+		return -1;
+	}
+
+}
+
+void Projectile::drawHitSangZombie(){
+		hitSangZombie.draw(posAffichageSangX(), posAffichageSangY(),64,64);
+		isHitZombie = false;
+		isActive = false;
+}
+
+int Projectile::posAffichageSangX() {
+
+	//position par défaut de la caméra : *ptrPositionJoueurX + 32 - *ptrWidthScreen / 2;
+	int posXcamera = *ptrPositionJoueurX + 32 - *ptrWidthScreen / 2;
+	if (posXcamera<1) {
+		posXcamera = 0;
+	}
+	else if (posXcamera> 7680 - *ptrWidthScreen) {
+		posXcamera = 7680 - *ptrWidthScreen;
+	}
+
+
+	if (posXZombieHit > posXcamera && posXZombieHit < posXcamera + *ptrWidthScreen) {
+
+		// par defaut posZombi - cote gauche de l'affichage
+		return posXZombieHit - posXcamera;
+
+	}
+	else {
+		// donc on affiche pas le zombi
+		return -1;
+	}
+
+}
+int Projectile::posAffichageSangY() {
+
+	int posYcamera = *ptrPositionJoueurY + 32 - *ptrHeightScreen / 2;
+	if (posYcamera<1) {
+		posYcamera = 0;
+	}
+	else if (posYcamera> 5120 - *ptrHeightScreen) {
+		posYcamera = 5120 - *ptrHeightScreen;
+	}
+
+
+	if (posYZombieHit > posYcamera && posYZombieHit < posYcamera + *ptrHeightScreen) {
+
+		// par defaut posZombi - cote haut de l'affichage
+		return posYZombieHit - posYcamera;
+
 	}
 	else {
 		// donc on affiche pas

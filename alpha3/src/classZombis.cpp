@@ -6,6 +6,8 @@ ClassZombi::ClassZombi(){
 	zombiMarche.load("animmarchezombi.png");
 	zombiAttaque.load("animattaquezombi.png");
 	zombiMort.load("animmortzombi.png");
+
+	health=ofRandom(5,50);
 }
 
 void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis, BarreDeVie *ptrInstancebarreDeVie){

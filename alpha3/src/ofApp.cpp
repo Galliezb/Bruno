@@ -112,11 +112,12 @@ void ofApp::update() {
 			}
 		}
 	}
-		//mouvements des nuages
-		for (int i = 0; i <= 49; i++) {
-		
-			lancementMeteo[i].majNuage();
-		}
+
+	//mouvements des nuages
+	for (int i = 0; i <= 49; i++) {
+		lancementMeteo[i].majNuage();
+	}
+
 	//mouvement de la pluie
 	lancementPluie.MajPluie();
 	
@@ -128,6 +129,19 @@ void ofApp::update() {
 		for(int i = 0; i<5; i++) {
 			if (projectile[i].isActive) {
 				projectile[i].updatePosition();
+
+				// gère les collisions avec les zombis
+				if (projectile[i].isActive){
+					for (int j = 0; j < maxZombi; j++) {
+						if (zombis[j].isSpawnZombi && !projectile[i].isHitZombie && abs( zombis[j].posXZombi - projectile[i].positionXOnTheMap ) < 24 && abs(zombis[j].posYZombi - projectile[i].positionYOnTheMap) < 24) {
+							printf("Hitzombi :\n Zombi\tX:%d\ty:%d\nProjectile\tX:%d\tY:%d\n",zombis[j].posXZombi, zombis[j].posYZombi, projectile[i].positionXOnTheMap, projectile[i].positionYOnTheMap);
+							projectile[i].isHitZombie = true;
+							projectile[i].posXZombieHit = zombis[j].posXZombi;
+							projectile[i].posYZombieHit = zombis[j].posYZombi;
+						}
+					}
+				}
+				
 			}
 	}
 
@@ -144,6 +158,7 @@ void ofApp::update() {
 		musique.setStoppedForRain(false);
 		cptmusique = 0;
 	}*/
+
 }
 
 //--------------------------------------------------------------
@@ -198,6 +213,12 @@ void ofApp::draw(){
 		for (int i = 0; i<5; i++) {
 			if (projectile[i].isActive) {
 				projectile[i].displayProjectile();
+
+				//Affichage HIT ZOMBIE ! DANS TA ***BIP*** LE ZOMBIE !
+				if ( projectile[i].isHitZombie ){
+					projectile[i].drawHitSangZombie();
+				}
+
 			}
 		}
 

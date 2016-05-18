@@ -12,7 +12,7 @@ class Projectile{
 
 	// gestion du son
 	ofSoundPlayer needAmmo;
-	ofImage iconProjectile;
+	ofImage iconProjectile,hitSangZombie;
 
 	// gère la direction des projectiles
 	// fonctionne en 8 quadrants : haut, haut droite, droite, droit bas, bas, bas gauche, gauche, haut gauche
@@ -21,17 +21,25 @@ class Projectile{
 	bool projectileGoRight = false;
 	bool projectileGoLeft = false;
 
-	// position map
-	int positionXOnTheMap, positionYOnTheMap;
 	// vitesse de rotation ( en ms )
 	int speedRotation = 50;
 	// vitesse de mouvement ( en pixel )
-	int speedMoving = 25;
+	int speedMoving = 2;
 	
 	public:
 
 		/****************************************** VARIABLE PUBLIC *****************************************/
+		// true pour afficher
 		bool isActive = false;
+		bool isHitZombie = false;
+		// position map
+		int positionXOnTheMap, positionYOnTheMap;
+		// gère le temps d'affichage du hit sang
+		int tpsHitsangZombie = 0;
+
+		// position du zombie hit ( pour animation hit sang )
+		int posXZombieHit = 0;
+		int posYZombieHit = 0;
 
 
 		/****************************************** METHODE PUBLIC *****************************************/
@@ -57,6 +65,12 @@ class Projectile{
 		int posAffichageX();
 		// retourne la valeur Y sr l''affichage
 		int posAffichageY();
-		
+
+		void drawHitSangZombie();
+
+		// calcul la position d'affichage du sang
+		int posAffichageSangX();
+		// calcul la position d'affichage du sang
+		int posAffichageSangY();
 
 };

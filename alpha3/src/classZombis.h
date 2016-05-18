@@ -28,7 +28,6 @@ class ClassZombi {
 	int tpsStart;
 
 	// positionnage :D
-	int posXZombi,posYZombi;
 	bool lastmoveRight = false;
 	bool lastmoveLeft = false;
 	bool lastmoveTop = false;
@@ -73,7 +72,12 @@ class ClassZombi {
 		int distanceBetweenPLayerAndZombi();
 
 		/****************************************** VARIABLE PUBLIC *****************************************/
+		// positionnage :D
+		int posXZombi, posYZombi;
+		// vitesse zombi
 		int speedZombi = 1;
+		// point de vie du zombi
+		int health;
 		// vitesse d'animation en ms
 		int speedAnim = 55;
 		bool boolMoveZombiLeft = false;
