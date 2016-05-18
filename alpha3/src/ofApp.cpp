@@ -127,7 +127,6 @@ void ofApp::update() {
 		// gestion des projectiles
 		for(int i = 0; i<5; i++) {
 			if (projectile[i].isActive) {
-				printf("Projectile[%d] (Active)\n", i);
 				projectile[i].updatePosition();
 			}
 	}

@@ -26,7 +26,7 @@ class Projectile{
 	// vitesse de rotation ( en ms )
 	int speedRotation = 50;
 	// vitesse de mouvement ( en pixel )
-	int speedMoving = 5;
+	int speedMoving = 25;
 	
 	public:
 

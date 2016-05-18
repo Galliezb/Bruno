@@ -533,7 +533,7 @@ void ClassZombi::AnimDeathZombie()
 
 		AnimMortEnCours = true;
 		if (lastmoveTop) {
-			cout << "test";
+			//cout << "test";
 			zombiMort.drawSubsection(posAffichageX(), posAffichageY(), 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
 			if (getDiffTime() > speedAnim) {
 				startCycleAnimationTop++;

@@ -38,7 +38,7 @@ void Stats::init() {
 void Stats::theGameHasStarted() {
 	fichierZombie = fopen("fichierZombie.txt", "r");
 	fscanf(fichierZombie, "%d", &zombieKilled);
-	cout << zombieKilled;
+	//cout << zombieKilled;
 	fclose(fichierZombie);
 	fichierArbre = fopen("fichierArbre.txt", "r");
 	fscanf(fichierArbre, "%d", &treeCut);
@@ -82,7 +82,7 @@ void Stats::addZombieKilled() {
 	zombieKilled++;
 	cZombieKilled++;
 	achievement();
-	cout << zombieKilled;
+	//cout << zombieKilled;
 	bZombieKilled = true;
 	putStatInFile();
 }
