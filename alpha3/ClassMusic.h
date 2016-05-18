@@ -23,7 +23,7 @@ public:
 	int getDiffTime();
 	void setTimerStart();
 	int tpsStart;
-	string music[10][10];
+	string music[10];
 	ofSoundPlayer mainMusic;
 	ofSoundPlayer mainSound;
 	bool onOff;
