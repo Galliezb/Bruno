@@ -21,7 +21,9 @@ Music::Music() {
 
 void Music::nextMusic(string typeTheme) {
 	if (typeTheme == "Ambient") {
+		musicHorror[yH].stop();
 		musicAmbiance[yA].play();
+		musicAttack[yZA].stop();
 		if (yA == 2) {
 			yA = 0;
 		}
@@ -29,6 +31,8 @@ void Music::nextMusic(string typeTheme) {
 	}
 	else if (typeTheme == "Horror") {
 		musicHorror[yH].play();
+		musicAmbiance[yA].stop();
+		musicAttack[yZA].stop();
 		if (yH == 4) {
 			yH = 0;
 		}
@@ -36,6 +40,8 @@ void Music::nextMusic(string typeTheme) {
 	}
 	else if (typeTheme == "ZA") {
 		musicAttack[yZA].play();
+		musicAmbiance[yA].stop();
+		musicAttack[yZA].stop();
 		if (yZA == 2) {
 			yZA = 0;
 		}

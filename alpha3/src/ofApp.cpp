@@ -51,7 +51,7 @@ void ofApp::setup(){
 	}
 
 	//Musique
-	musique.changeVolume(0.5,"ambient");
+	musique.changeVolume(0.5,"Ambient");
 }
 
 
@@ -263,13 +263,13 @@ void ofApp::keyReleased(int key){
 	
 	switch (key){
 		case 'g':
-			musique.nextMusic("Horror");
+			musique.nextMusic("Ambient");
 			break;
 		case 'h':
 			musique.nextMusic("Horror");
 			break;
 		case 'j':
-			musique.nextMusic("Horror");
+			musique.nextMusic("attack");
 			break;
 		case 'i':
 			inventaire.affichage();
