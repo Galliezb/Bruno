@@ -7,7 +7,7 @@
 #include "BarreDeVie.h"
 #include "ClassProjectile.h"
 #include "../Meteo.h"
-
+#include "../ClassMusic.h"
 class ofApp : public ofBaseApp {
 
 public:
@@ -88,6 +88,6 @@ public:
 		ofTrueTypeFont font;
 		string strSurvolInventaire = "";
 
-		
-
+		//Gestion de la musique
+		Music musique;
 };

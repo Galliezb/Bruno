@@ -50,6 +50,9 @@
     <ClCompile Include="src\ClassProjectile.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="ClassMusic.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -113,6 +116,9 @@
     </ClInclude>
     <ClInclude Include="Meteo.h" />
     <ClInclude Include="src\ClassProjectile.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassMusic.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

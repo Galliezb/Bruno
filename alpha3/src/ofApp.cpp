@@ -47,6 +47,9 @@ void ofApp::setup(){
 	for (int i = 0; i<5; i++) {
 		projectile[i].init(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen, tabContentRessourcePlayer);
 	}
+
+	//Musique
+	musique.changeVolume(0.5);
 }
 
 
@@ -121,7 +124,7 @@ void ofApp::update(){
 
 
 	}
-
+	musique.setMusic("Ambient");
 }
 
 //--------------------------------------------------------------
@@ -204,7 +207,9 @@ void ofApp::keyPressed(int key){
 		if (!playerHasMove) { playerHasMove = true; }
 		if (!movePersonnage.getBoolMovePlayerLeft()) { movePersonnage.setBoolMovePlayerLeft(true); }
 	}
-	
+	if (key == 'a') {
+		musique.nextMusic("Horror");
+	}
 }
 
 //--------------------------------------------------------------

@@ -171,6 +171,7 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClassMusic.cpp" />
     <ClCompile Include="Meteo.cpp" />
     <ClCompile Include="src\BarreDeVie.cpp" />
     <ClCompile Include="src\classeMoving.cpp" />
@@ -190,6 +191,7 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClassMusic.h" />
     <ClInclude Include="Meteo.h" />
     <ClInclude Include="src\BarreDeVie.h" />
     <ClInclude Include="src\classeMoving.h" />
