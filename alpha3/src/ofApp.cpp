@@ -133,6 +133,7 @@ void ofApp::update() {
 	}
 
 		//Tout ça gère le fait que quand il pleut : musique d'horreur!
+		/*
 	if (lancementPluie.pleutIl() == true) {
 		musique.setStoppedForRain(true);
 		if (musique.getStoppedForRain() == true && cptmusique==0) {
@@ -143,7 +144,7 @@ void ofApp::update() {
 	else {
 		musique.setStoppedForRain(false);
 		cptmusique = 0;
-	}
+	}*/
 }
 
 //--------------------------------------------------------------
