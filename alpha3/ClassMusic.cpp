@@ -21,18 +21,18 @@ Music::Music() {
 
 void Music::nextMusic(string typeTheme) {
 	if (typeTheme == "Ambient") {
-		musicHorror[yH].stop();
-		musicAmbiance[yA].play();
 		musicAttack[yZA].stop();
+		musicAmbiance[yA].play();
+		musicHorror[yH].stop();
 		if (yA == 2) {
 			yA = 0;
 		}
 		yA++;
 	}
 	else if (typeTheme == "Horror") {
-		musicHorror[yH].play();
-		musicAmbiance[yA].stop();
 		musicAttack[yZA].stop();
+		musicAmbiance[yA].stop();
+		musicHorror[yH].play();
 		if (yH == 4) {
 			yH = 0;
 		}
@@ -41,7 +41,7 @@ void Music::nextMusic(string typeTheme) {
 	else if (typeTheme == "ZA") {
 		musicAttack[yZA].play();
 		musicAmbiance[yA].stop();
-		musicAttack[yZA].stop();
+		musicHorror[yH].stop();
 		if (yZA == 2) {
 			yZA = 0;
 		}
