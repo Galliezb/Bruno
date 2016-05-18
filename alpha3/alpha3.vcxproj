@@ -182,6 +182,7 @@
     <ClCompile Include="src\ClassProjectile.cpp" />
     <ClCompile Include="src\classZombis.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MeneInGame.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxBaseGui.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxButton.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="src\classMap.h" />
     <ClInclude Include="src\ClassProjectile.h" />
     <ClInclude Include="src\classZombis.h" />
+    <ClInclude Include="src\MeneInGame.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxBaseGui.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxButton.h" />

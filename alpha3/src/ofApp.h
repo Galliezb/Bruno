@@ -9,6 +9,7 @@
 #include "../Meteo.h"
 #include "../ClassMusic.h"
 #include "../HautFait.h"
+#include "MeneInGame.h"
 
 class ofApp : public ofBaseApp {
 
@@ -38,6 +39,7 @@ public:
 	Meteo lancementMeteo[50];
 	Projectile projectile[5];
 	Meteo lancementPluie;
+	MeneInGame LancementMenuInGame;
 
 		// variable
 		// temps gérant les zombis

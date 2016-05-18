@@ -46,7 +46,6 @@
     <ClCompile Include="src\BarreDeVie.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Meteo.cpp" />
     <ClCompile Include="src\ClassProjectile.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -57,6 +56,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="Popup.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Meteo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MeneInGame.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -120,8 +125,13 @@
     <ClInclude Include="src\BarreDeVie.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="Meteo.h" />
     <ClInclude Include="src\ClassProjectile.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Meteo.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MeneInGame.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="ClassMusic.h">

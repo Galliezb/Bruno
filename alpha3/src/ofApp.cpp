@@ -52,6 +52,10 @@ void ofApp::setup(){
 
 	//Musique
 	musique.changeVolume(0.5);
+	//lancement initiation Menu dans le jeu
+	LancementMenuInGame.InitInGameMenu();
+	//lancement initiation De la barre de musique du menu dans le jeu
+	LancementMenuInGame.initBarreMusique();
 }
 
 
@@ -165,6 +169,12 @@ void ofApp::update() {
 	}*/
 
 }
+		//update du menu dans le jeu
+		LancementMenuInGame.MenuMajInGame();
+		//update de la barre de Musique et ambiance dans le menu jeu
+		LancementMenuInGame.majBarreMusique();
+
+}
 
 //--------------------------------------------------------------
 void ofApp::draw(){
@@ -226,8 +236,11 @@ void ofApp::draw(){
 
 			}
 		}
-
-
+		//dessine le menu dans le jeu
+		LancementMenuInGame.inGame();
+		//dessine les barre dans le menu dans le jeu
+		LancementMenuInGame.dessineBarreMusique();
+		
 	}
 }
 
@@ -257,6 +270,23 @@ void ofApp::keyPressed(int key){
 		if (!playerMoveLeft) { playerMoveLeft = true; }
 		if (!playerHasMove) { playerHasMove = true; }
 		if (!movePersonnage.getBoolMovePlayerLeft()) { movePersonnage.setBoolMovePlayerLeft(true); }
+	}
+	//pour le menu dans le jeu c'est pour reculer dans les menus et le lancer évidemment 
+	//la touche devra être echap
+	if (key == 'j')
+	{
+		LancementMenuInGame.retourJeu = true;
+		if (LancementMenuInGame.clavierlancer) {
+			LancementMenuInGame.clavierlancer = false;
+			LancementMenuInGame.goMenuJeu = true;
+			LancementMenuInGame.retourJeu = true;
+		}
+		if (LancementMenuInGame.statMenuLancer)
+		{
+			LancementMenuInGame.statMenuLancer = false;
+			LancementMenuInGame.goMenuJeu = true;
+			LancementMenuInGame.retourJeu = true;
+		}
 	}
 }
 
