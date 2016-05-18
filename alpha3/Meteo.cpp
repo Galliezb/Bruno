@@ -169,6 +169,6 @@ int Meteo::posAffichageY() {
 		return tempsDepart;
 	}
 
-	
-
-	
+	bool Meteo::pleutIl() {
+		return dessinePluie;
+	}

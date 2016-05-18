@@ -51,6 +51,7 @@ void ofApp::setup(){
 	}
 
 	//Musique
+	musique.setMusic("Ambient");
 	musique.changeVolume(0.5);
 }
 
@@ -131,7 +132,20 @@ void ofApp::update() {
 				projectile[i].updatePosition();
 			}
 	}
-	musique.setMusic("Ambient");
+
+		//Tout ça gère le fait que quand il pleut : musique d'horreur!
+	if (lancementPluie.pleutIl() == true) {
+		musique.setStoppedForRain(true);
+		if (musique.getStoppedForRain() == true && cptmusique==0) {
+			cout << "coucou";
+			musique.setMusicOff();
+			cptmusique = 1;
+		}
+	}
+	else {
+		musique.setStoppedForRain(false);
+		cptmusique = 0;
+	}
 }
 
 //--------------------------------------------------------------

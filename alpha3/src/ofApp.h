@@ -93,4 +93,5 @@ public:
 
 		//Gestion de la musique
 		Music musique;
+		int cptmusique = 0;
 };

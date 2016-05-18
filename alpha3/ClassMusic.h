@@ -11,13 +11,15 @@ public:
 	void Music::nextMusic(string typeTheme);
 	void nextSound();
 	void setTheme(char theme[]);
-	void setMusicOnOrOff(bool musicOnOrOff, char theme[]);
+	void setMusicOff();
 	void setSound(bool soundOnOrOff, char theme[]);
 	void setSound(char theme[]);
 	void setMusic(string musicTheme);
 	void setSound(string soundTheme);
 	void changeTheme(string newTheme);
 	void changeVolume(float volume);
+	void setStoppedForRain(bool stop);
+	bool getStoppedForRain();
 	int getDiffTime();
 	void setTimerStart();
 	int tpsStart;
@@ -29,4 +31,5 @@ public:
 	int yA = 0;
 	int yH = 0;
 	int yZA = 0;
+	bool stoppedForRain=false;
 };

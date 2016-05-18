@@ -61,3 +61,20 @@ void Music::setMusic(string musicTheme) {
 void Music::changeVolume(float volume) {
 	mainMusic.setVolume(volume);
 }
+
+void Music::setMusicOff() {
+	if (stoppedForRain == true) {
+		cout << "PUTAIN";
+		nextMusic("Horror");
+	}
+}
+
+void Music::setStoppedForRain(bool stop) {
+	stoppedForRain = stop;
+	cout << stoppedForRain;
+}
+
+bool Music::getStoppedForRain()
+{
+	return stoppedForRain;
+}
