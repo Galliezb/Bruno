@@ -137,7 +137,6 @@ void ofApp::update() {
 	if (lancementPluie.pleutIl() == true) {
 		musique.setStoppedForRain(true);
 		if (musique.getStoppedForRain() == true && cptmusique==0) {
-			cout << "coucou";
 			musique.setMusicOff();
 			cptmusique = 1;
 		}
@@ -233,9 +232,6 @@ void ofApp::keyPressed(int key){
 		if (!playerMoveLeft) { playerMoveLeft = true; }
 		if (!playerHasMove) { playerHasMove = true; }
 		if (!movePersonnage.getBoolMovePlayerLeft()) { movePersonnage.setBoolMovePlayerLeft(true); }
-	}
-	if (key == 'a') {
-		musique.nextMusic("Horror");
 	}
 }
 

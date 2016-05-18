@@ -8,7 +8,7 @@
 #include "ClassProjectile.h"
 #include "../Meteo.h"
 #include "../ClassMusic.h"
-
+#include "../HautFait.h"
 
 class ofApp : public ofBaseApp {
 

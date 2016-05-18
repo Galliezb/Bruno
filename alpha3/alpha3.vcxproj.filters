@@ -53,6 +53,12 @@
     <ClCompile Include="ClassMusic.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="HautFait.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Popup.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -119,6 +125,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="ClassMusic.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="HautFait.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Popup.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -172,7 +172,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ClassMusic.cpp" />
+    <ClCompile Include="HautFait.cpp" />
     <ClCompile Include="Meteo.cpp" />
+    <ClCompile Include="Popup.cpp" />
     <ClCompile Include="src\BarreDeVie.cpp" />
     <ClCompile Include="src\classeMoving.cpp" />
     <ClCompile Include="src\classInventaire.cpp" />
@@ -192,7 +194,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClassMusic.h" />
+    <ClInclude Include="HautFait.h" />
     <ClInclude Include="Meteo.h" />
+    <ClInclude Include="Popup.h" />
     <ClInclude Include="src\BarreDeVie.h" />
     <ClInclude Include="src\classeMoving.h" />
     <ClInclude Include="src\classInventaire.h" />
