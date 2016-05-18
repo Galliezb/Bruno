@@ -8,6 +8,7 @@
 #include "ClassProjectile.h"
 #include "../Meteo.h"
 
+
 class ofApp : public ofBaseApp {
 
 public:
@@ -35,6 +36,7 @@ public:
 	BarreDeVie barreDeVie;
 	Meteo lancementMeteo[50];
 	Projectile projectile[5];
+	Meteo lancementPluie;
 
 		// variable
 		// temps gérant les zombis

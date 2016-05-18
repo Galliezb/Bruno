@@ -40,8 +40,10 @@ void ofApp::setup(){
 
 	//init gestion des méteo
 	for (int i = 0; i <= 49; i++) {
+		Sleep(1);
 		lancementMeteo[i].initMeteo(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen);
 	}
+	lancementPluie.initPluie();
 	font.load("arialR.ttf", 15);
 	// init projectile
 	for (int i = 0; i<5; i++) {
@@ -51,23 +53,24 @@ void ofApp::setup(){
 
 
 //--------------------------------------------------------------
-void ofApp::update(){
+void ofApp::update() {
 
 	if (affInventaire) {
 		inventaire.affichage();
-	} else {
+	}
+	else {
 
 		// si le joueur a bougé, on met à jour l'info
-		if(playerHasMove){
+		if (playerHasMove) {
 			// Gestion des colisions INTEGRE avec les objets présent et les cases d'eau
 			movePersonnage.updatePositionJoueur();
 
 			// Le quadrillage Horizontal
 			pathLineHorizontal.clear();
 			pathLineHorizontal.moveTo(movePersonnage.midX(), movePersonnage.midY());
-			pathLineHorizontal.lineTo(movePersonnage.midX()+64, movePersonnage.midY());
-			pathLineHorizontal.lineTo(movePersonnage.midX()+64, movePersonnage.midY() + 64);
-			pathLineHorizontal.lineTo(movePersonnage.midX(), movePersonnage.midY()+64);
+			pathLineHorizontal.lineTo(movePersonnage.midX() + 64, movePersonnage.midY());
+			pathLineHorizontal.lineTo(movePersonnage.midX() + 64, movePersonnage.midY() + 64);
+			pathLineHorizontal.lineTo(movePersonnage.midX(), movePersonnage.midY() + 64);
 			pathLineHorizontal.lineTo(movePersonnage.midX(), movePersonnage.midY());
 
 			pathLineHorizontal.close();
@@ -79,28 +82,28 @@ void ofApp::update(){
 		}
 
 		// Si une récolte est en cours
-		if (actionRecolteActive){
+		if (actionRecolteActive) {
 			actionRecolteActive = movePersonnage.actionRecolteEnd();
 		}
 
 		// fait spawn du zombis toutes les 15 sec
-		if ( tpsSpawnZombi - ofGetElapsedTimeMillis() > timerSpawnZombi ){
-			for(int i=0; i<maxZombi; i++){
+		if (tpsSpawnZombi - ofGetElapsedTimeMillis() > timerSpawnZombi) {
+			for (int i = 0; i < maxZombi; i++) {
 				// si cette unité n'est pas affecté
-				if ( !zombis[i].isSpawnZombi ){
+				if (!zombis[i].isSpawnZombi) {
 					zombis[i].spawnZombi();
 				}
 			}
 		}
 
 		// effectue les traitements sur les zombis
-		for (int i = 0; i<maxZombi; i++) {
+		for (int i = 0; i < maxZombi; i++) {
 			// si cette unité n'est pas affecté
 			if (zombis[i].isSpawnZombi) {
 				zombis[i].moveZombi();
 			}
 			// si un zombi est a distance action joueur = attaqué
-			if (playerCurrentAction != "degat" && zombis[i].distanceBetweenPLayerAndZombi() <= 32){
+			if (playerCurrentAction != "degat" && zombis[i].distanceBetweenPLayerAndZombi() <= 32) {
 				// metes l'action joueur en degat s'il n'y est pas.
 				playerCurrentAction = "degat";
 			}
@@ -108,21 +111,24 @@ void ofApp::update(){
 	}
 	//mouvements des nuages
 	for (int i = 0; i <= 49; i++) {
+		
 		lancementMeteo[i].majNuage();
 	}
-}
+	//mouvement de la pluie
+	lancementPluie.MajPluie();
+	
+
+	
+
 
 		// gestion des projectiles
-		for (int i = 0; i<5; i++) {
+		for(int i = 0; i<5; i++) {
 			if (projectile[i].isActive) {
 				printf("Projectile[%d] (Active)\n",i);
 				projectile[i].updatePosition();
 			}
 		}
 
-	}
-
-	
 }
 
 //--------------------------------------------------------------
@@ -160,9 +166,15 @@ void ofApp::draw(){
 			}
 		}
 		//Meteo
-		for (int i = 0; i <= 49; i++) {
+		//nuage
+		for (int i = 0; i <= 49; i++)
+		{
 			lancementMeteo[i].dessineNuage();
 		}
+		//orage
+		
+			lancementPluie.TombePluie();
+		
 		// barre de vie, sprint et energie
 		barreDeVie.displayBarreVie();
 
@@ -173,7 +185,7 @@ void ofApp::draw(){
 			}
 		}
 
-
+		
 	}
 }
 
@@ -305,7 +317,7 @@ void ofApp::mouseReleased(int x, int y, int button){
 			string retour = "[";
 			retour += i;
 			(projectile[i].isActive)?retour+="] Active\n" : retour+=" ] NON actif\n";
-			printf("%s",retour);
+			//printf("%s",retour);
 			if (!projectile[i].isActive){
 				projectile[i].initDirectionProjectile(x,y);
 				break;

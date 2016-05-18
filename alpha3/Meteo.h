@@ -13,6 +13,7 @@ private:
 public:
 	Meteo();
 	~Meteo();
+	//nuage
 	void initMeteo(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen);
 	void dessineNuage();
 	int posAffichageX();
@@ -23,6 +24,25 @@ public:
 	int cumulusposX;
 	int tailleXNuage, tailleYNuage;
 	ofFbo fbo;
+
+	//pluie
+	void initPluie();
+	void TombePluie();
+	void MajPluie();
+	int movePluieX = -40,movePluieY=-40;
+	ofImage pluie;
+	ofSoundPlayer orage;
+	bool dessinePluie = false;
+
+	//timer
+	void setDepartTimer();
+	
+	int getDifferenceTime();
+	int getDepartTimer();
+	long indentationCompteur =210000;
+	long tempsDepart=0;
+	
+
 
 
 };
