@@ -9,13 +9,22 @@ class Music {
 public:
 	Music();
 	void Music::nextMusic(string typeTheme);
+	void nextSound();
+	void setTheme(char theme[]);
 	void setMusicOff();
-	void changeVolume(float volume, string typeMusic);
+	void setSound(bool soundOnOrOff, char theme[]);
+	void setSound(char theme[]);
+	void setMusic(string musicTheme);
+	void setSound(string soundTheme);
+	void changeTheme(string newTheme);
+	void changeVolume(float volume);
 	void setStoppedForRain(bool stop);
 	bool getStoppedForRain();
+	int getDiffTime();
+	void setTimerStart();
 	int tpsStart;
 	string music[10][10];
-	ofSoundPlayer musicAmbiance[3],musicHorror[5],musicAttack[3];
+	ofSoundPlayer mainMusic;
 	ofSoundPlayer mainSound;
 	bool onOff;
 	string typeTheme;
@@ -23,4 +32,5 @@ public:
 	int yH = 0;
 	int yZA = 0;
 	bool stoppedForRain=false;
+	void waitMusicLoaded(string musicTheme);
 };
