@@ -5,18 +5,17 @@
 Music::Music() {
 	//Ambient
 	musicAmbiance[0].loadSound("(A)Daybreak.mp3");
-	musicAmbiance[1].loadSound("(A)End_Of_Days.mp3");
-	musicAmbiance[2].loadSound("(A)Far_And_Wide.mp3");
+	musicAmbiance[1].loadSound("(A)End_Of_Days.mp3"); //2:00
+	musicAmbiance[2].loadSound("(A)Far_And_Wide.mp3"); //3:27
 	//Horror
-	musicHorror[0].loadSound("(H)Blood_Pressure.mp3");
-	musicHorror[1].loadSound("(H)Haunted.mp3");
-	musicHorror[2].loadSound("(H)Intimidation.mp3");
-	musicHorror[3].loadSound("(H)On_The_Prowl.mp3");
-	musicHorror[4].loadSound("(H)Trick_Or_Treat.mp3");
+	musicHorror[0].loadSound("(H)Blood_Pressure.mp3"); //5:05
+	musicHorror[1].loadSound("(H)Haunted.mp3"); //6:40
+	musicHorror[2].loadSound("(H)Intimidation.mp3");//8:20
+	musicHorror[3].loadSound("(H)On_The_Prowl.mp3");//13:30
+	musicHorror[4].loadSound("(H)Trick_Or_Treat.mp3");//15:15
 	//Zombies Attack
-	musicAttack[0].loadSound("(ZA)Electro_Zombies.mp3");
-	musicAttack[1].loadSound("(ZA)Last_Stand.mp3");
-	musicAttack[2].loadSound("(ZA)Upstep.mp3");
+	musicAttack[0].loadSound("(ZA)Electro_Zombies.mp3");//16:30
+	musicAttack[1].loadSound("(ZA)Last_Stand.mp3");//19:15
 }
 
 void Music::nextMusic(string typeTheme) {
