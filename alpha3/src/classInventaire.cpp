@@ -48,7 +48,6 @@ int classInventaire::returnPosYWindow(){
 void classInventaire::fabriqueRoche(){
 	
 	if (*(ptrTabContentRessourcePlayer+1) > 0 ){
-		printf("Lance fabriquee");
 		*(ptrTabContentRessourcePlayer + 1) -= 1;
 		*(ptrTabContentRessourcePlayer + 5) += 5;
 	}
@@ -57,7 +56,6 @@ void classInventaire::fabriqueRoche(){
 void classInventaire::fabriqueLance() {
 
 	if (*(ptrTabContentRessourcePlayer) > 0) {
-		printf("Lance fabriquee");
 		*(ptrTabContentRessourcePlayer) -= 1;
 		*(ptrTabContentRessourcePlayer + 6) += 5;
 	}

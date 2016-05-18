@@ -26,7 +26,7 @@ class Projectile{
 	// vitesse de rotation ( en ms )
 	int speedRotation = 50;
 	// vitesse de mouvement ( en pixel )
-	int speedMoving = 5;
+	int speedMoving = 25;
 	
 	public:
 
@@ -43,6 +43,10 @@ class Projectile{
 		void updatePosition();
 		// affiche le projectile si dans la zone d'affichage
 		void displayProjectile();
+		// retourne la position du clic cureur vis a vis de la camera
+		int decalageCameraX();
+		// retourne la position du clic cureur vis a vis de la camera
+		int decalageCameraY();
 		// calcul la position de depart du projectile et renvoi le X
 		int calculPositionXSpawn();
 		// calcul la position de depart du projectile et renvoi le Y

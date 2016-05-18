@@ -49,6 +49,15 @@
     <ClCompile Include="src\ClassProjectile.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="ClassMusic.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="HautFait.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Popup.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="Meteo.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -123,6 +132,15 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\MeneInGame.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassMusic.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="HautFait.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Popup.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

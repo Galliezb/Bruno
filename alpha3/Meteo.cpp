@@ -112,7 +112,7 @@ int Meteo::posAffichageY() {
 
 	{
 		setDepartTimer();
-		printf("%d && %d\n", tempsDepart, indentationCompteur);
+		//printf("%d && %d\n", tempsDepart, indentationCompteur);
 		if (dessinePluie == false)
 		{
 			if (tempsDepart > 7000)//indentationCompteur)// 7000 est utilisé pour le test de son
@@ -169,6 +169,6 @@ int Meteo::posAffichageY() {
 		return tempsDepart;
 	}
 
-	
-
-	
+	bool Meteo::pleutIl() {
+		return dessinePluie;
+	}

@@ -21,62 +21,55 @@ void Projectile::initDirectionProjectile(int destinationX, int destinationY){
 	spanwProjectile();
 
 	// 8 Quadrants !!
-	// va vers le haut ( mais en coordonnée !!! 0.0 etant en haut à gauche )
-	if ( destinationY < *ptrHeightScreen / 2 - 64 && destinationX > *ptrWidthScreen / 2 - 96 && destinationX < *ptrWidthScreen / 2 + 32){
+	// HAUT ( mais en coordonnée !!! 0.0 etant en haut à gauche )
+	printf("Souris : %d / %d\n",destinationX+decalageCameraX(),destinationY+decalageCameraY());
+	if ( destinationY+decalageCameraY() < *ptrPositionJoueurY-32 && destinationX+decalageCameraX() > *ptrPositionJoueurX && destinationX+decalageCameraX() < *ptrPositionJoueurX+64){
 		projectileGoTop = true;
 		projectileGoDown = false;
 		projectileGoLeft = false;
 		projectileGoRight = false;
-		printf("haut\n");
-	// Diagonale Haut Droite
-	} else if (destinationX > *ptrWidthScreen / 2 + 32 && destinationY < *ptrHeightScreen / 2 - 64 ){
+	// HAUT DROIT
+	} else if (destinationX+decalageCameraX() > *ptrPositionJoueurX+64 && destinationY+decalageCameraY() < *ptrPositionJoueurY ){
 		projectileGoTop = true;
 		projectileGoDown = false;
 		projectileGoLeft = false;
 		projectileGoRight = true;
-		printf("Diagonale haut droite\n");
-	// A droite toute mon capitaine
-	} else if (destinationX > *ptrWidthScreen / 2 + 64 && destinationY > *ptrHeightScreen / 2 - 64 && destinationY < *ptrHeightScreen / 2 + 64) {
+	// DROITE
+	} else if (destinationX+decalageCameraX() > *ptrPositionJoueurX+64 && destinationY+decalageCameraY() > *ptrPositionJoueurY && destinationY+decalageCameraY() < *ptrPositionJoueurY + 64) {
 		projectileGoTop = false;
 		projectileGoDown = false;
 		projectileGoLeft = false;
 		projectileGoRight = true;
-		printf("droite\n");
-		// diagonale bas droite
-	} else if (destinationX > *ptrWidthScreen / 2 + 32 && destinationY > *ptrHeightScreen / 2 + 64 ){
+	// BAS DROIT
+	} else if (destinationX+decalageCameraX() > *ptrPositionJoueurX+64 && destinationY+decalageCameraY() > *ptrPositionJoueurY+ 32 ){
 		projectileGoTop = false;
 		projectileGoDown = true;
 		projectileGoLeft = false;
 		projectileGoRight = true;
-		printf("Diagonale bas droite\n");
-	// Vers le bas
-	} else if (destinationY > *ptrHeightScreen / 2 + 64 && destinationX > *ptrWidthScreen / 2 - 96 && destinationX < *ptrWidthScreen / 2 + 32) {
+	// BAS
+	} else if (destinationY+decalageCameraY() > *ptrPositionJoueurY+ 32 && destinationX+decalageCameraX() > *ptrPositionJoueurX && destinationX+decalageCameraX() < *ptrPositionJoueurX+64) {
 		projectileGoTop = false;
 		projectileGoDown = true;
 		projectileGoLeft = false;
 		projectileGoRight = false;
-		printf("Vers le bas\n");
-	// diagonale bas gauche
-	} else if (destinationX < *ptrWidthScreen / 2 -64 && destinationY > *ptrHeightScreen / 2 + 64 ) {
+	// BAS GAUCHE
+	} else if (destinationX+decalageCameraX() < *ptrPositionJoueurX && destinationY+decalageCameraY() > *ptrPositionJoueurY+64 ) {
 		projectileGoTop = false;
 		projectileGoDown = true;
 		projectileGoLeft = true;
 		projectileGoRight = false;
-		printf("diagonale bas gauche\n");
-	// A gauche toute mon capitaine !
-	} else if (destinationX < *ptrWidthScreen / 2 -64 && destinationY > *ptrHeightScreen / 2 - 64 && destinationY < *ptrHeightScreen / 2 + 64) {
+	// GAUCHE
+	} else if (destinationX+decalageCameraX() < *ptrPositionJoueurX && destinationY+decalageCameraY() > *ptrPositionJoueurY && destinationY+decalageCameraY() < *ptrPositionJoueurY+64) {
 		projectileGoTop = false;
 		projectileGoDown = false;
 		projectileGoLeft = true;
 		projectileGoRight = false;
-		printf("Vers la gauche\n");
-	// diagonale haut gauche
-	} else if (destinationX < *ptrWidthScreen / 2 - 96 && destinationY < *ptrHeightScreen / 2 - 64) {
+	// HAUT GAUCHE
+	} else if (destinationX+decalageCameraX() < *ptrPositionJoueurX && destinationY+decalageCameraY() < *ptrPositionJoueurY) {
 		projectileGoTop = true;
 		projectileGoDown = false;
 		projectileGoLeft = true;
 		projectileGoRight = false;
-		printf("Vers le coin haut gauche\n");
 	} else {
 		// sens non trouvé, désactivation projectile
 		isActive = false;
@@ -88,18 +81,16 @@ void Projectile::updatePosition() {
 
 	if (isActive){
 
-		printf("Pos Proj => %d / %d\n",positionXOnTheMap, positionYOnTheMap);
-
 		if ( projectileGoTop ){ 
-			positionYOnTheMap--; 
+			positionYOnTheMap-= speedMoving;
 		} else if (projectileGoDown) { 
-			positionYOnTheMap++; 
+			positionYOnTheMap+= speedMoving;
 		}
 	
 		if (projectileGoRight) { 
-			positionXOnTheMap++;
+			positionXOnTheMap+= speedMoving;
 		} else if (projectileGoLeft) { 
-			positionXOnTheMap--; 
+			positionXOnTheMap-= speedMoving;
 		}
 
 		// vérifie l'existence du projectile
@@ -116,18 +107,37 @@ void Projectile::displayProjectile(){
 	// caillou = 5*55
 	iconProjectile.drawSubsection(posAffichageX(),posAffichageY(),35,35,275,0,55,55);
 }
+int Projectile::decalageCameraX(){
+	int decalage = *ptrPositionJoueurX + 32 - *ptrWidthScreen / 2;
+
+	if (decalage<1) {
+		decalage = 0;
+	}
+	else if (decalage> 7680 - *ptrWidthScreen) {
+		decalage = 7680 - *ptrWidthScreen;
+	}
+	return decalage;
+}
+int Projectile::decalageCameraY() {
+	int decalage = *ptrPositionJoueurY + 32 - *ptrHeightScreen / 2;
+
+	if (decalage<1) {
+		decalage = 0;
+	} else if (decalage> 5120 - *ptrHeightScreen) {
+		decalage = 5120 - *ptrHeightScreen;
+	}
+	return decalage;
+}
 int Projectile::calculPositionXSpawn() {
 
 	int posXCamera = *ptrPositionJoueurX + 32 - *ptrWidthScreen / 2;
 
 	if (posXCamera<1) {
 		posXCamera = 0;
-
-	}
-	else if (posXCamera> 7680 - *ptrWidthScreen) {
+	} else if (posXCamera> 7680 - *ptrWidthScreen) {
 		posXCamera = 7680 - *ptrWidthScreen;
 	}
-
+	printf("X =>%d - %d = %d\n", *ptrPositionJoueurX,posXCamera, *ptrPositionJoueurX - posXCamera);
 	return *ptrPositionJoueurX - posXCamera;
 
 }
@@ -141,15 +151,15 @@ int Projectile::calculPositionYSpawn() {
 	else if (posYCamera> 5120 - *ptrHeightScreen) {
 		posYCamera = 5120 - *ptrHeightScreen;
 	}
-
+	printf("Y =>%d - %d = %d\n", *ptrPositionJoueurY, posYCamera, *ptrPositionJoueurY - posYCamera);
 	return *ptrPositionJoueurY - posYCamera;
 
 }
 
 void Projectile::spanwProjectile(){
 
-	positionXOnTheMap = calculPositionXSpawn();
-	positionYOnTheMap = calculPositionYSpawn();
+	positionXOnTheMap = *ptrPositionJoueurX;
+	positionYOnTheMap = *ptrPositionJoueurY;
 
 	isActive = true;
 
@@ -169,8 +179,8 @@ int Projectile::posAffichageX() {
 
 	if (positionXOnTheMap > posXcamera && positionXOnTheMap < posXcamera + *ptrWidthScreen) {
 
-		// par defaut posZombi - cote gauche de l'affichage
-		return positionXOnTheMap +28 - posXcamera;
+		// par defaut positionXOnTheMap - cote gauche de l'affichage
+		return positionXOnTheMap - posXcamera;
 	}
 	else {
 		// donc on affiche pas le zombi
@@ -192,7 +202,7 @@ int Projectile::posAffichageY() {
 	if (positionYOnTheMap > posYcamera && positionYOnTheMap < posYcamera + *ptrHeightScreen) {
 
 		// par defaut posZombi - cote haut de l'affichage
-		return positionYOnTheMap + 19 - posYcamera;
+		return positionYOnTheMap - posYcamera;
 	}
 	else {
 		// donc on affiche pas

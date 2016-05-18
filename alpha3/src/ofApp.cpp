@@ -49,6 +49,9 @@ void ofApp::setup(){
 	for (int i = 0; i<5; i++) {
 		projectile[i].init(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen, tabContentRessourcePlayer);
 	}
+
+	//Musique
+	musique.changeVolume(0.5);
 	//lancement initiation Menu dans le jeu
 	LancementMenuInGame.InitInGameMenu();
 	//lancement initiation De la barre de musique du menu dans le jeu
@@ -113,11 +116,11 @@ void ofApp::update() {
 			}
 		}
 	}
-	//mouvements des nuages
-	for (int i = 0; i <= 49; i++) {
+		//mouvements des nuages
+		for (int i = 0; i <= 49; i++) {
 		
-		lancementMeteo[i].majNuage();
-	}
+			lancementMeteo[i].majNuage();
+		}
 	//mouvement de la pluie
 	lancementPluie.MajPluie();
 	
@@ -128,11 +131,24 @@ void ofApp::update() {
 		// gestion des projectiles
 		for(int i = 0; i<5; i++) {
 			if (projectile[i].isActive) {
-				printf("Projectile[%d] (Active)\n", i);
 				projectile[i].updatePosition();
 			}
-		}
+	}
 
+		//Tout ça gère le fait que quand il pleut : musique d'horreur!
+		/*
+	if (lancementPluie.pleutIl() == true) {
+		musique.setStoppedForRain(true);
+		if (musique.getStoppedForRain() == true && cptmusique==0) {
+			musique.setMusicOff();
+			cptmusique = 1;
+		}
+	}
+	else {
+		musique.setStoppedForRain(false);
+		cptmusique = 0;
+	}*/
+}
 		//update du menu dans le jeu
 		LancementMenuInGame.MenuMajInGame();
 		//update de la barre de Musique et ambiance dans le menu jeu
@@ -275,6 +291,24 @@ void ofApp::keyReleased(int key){
 	// si aucun mouvement en cours, on repasse a false pour éviter les traitements.
 	if (!playerMoveTop && !playerMoveRight && !playerMoveDown && !playerMoveLeft) { playerHasMove = false; }
 	
+	switch (key){
+		case 'g':
+			musique.nextMusic("Ambient");
+			break;
+		case 'h':
+			musique.nextMusic("Horror");
+			break;
+		case 'j':
+			musique.nextMusic("ZA");
+			break;
+		case 'i':
+			inventaire.affichage();
+			affInventaire = true;
+			break;
+		case 'f':
+			ofToggleFullscreen();
+			break;
+	}
 }
 
 //--------------------------------------------------------------

@@ -7,8 +7,9 @@
 #include "BarreDeVie.h"
 #include "ClassProjectile.h"
 #include "../Meteo.h"
+#include "../ClassMusic.h"
+#include "../HautFait.h"
 #include "MeneInGame.h"
-
 
 class ofApp : public ofBaseApp {
 
@@ -91,8 +92,8 @@ public:
 
 		ofTrueTypeFont font;
 		string strSurvolInventaire = "";
-		//variable pour menu au dessus pluie
-		
-		
 
+		//Gestion de la musique
+		Music musique;
+		int cptmusique = 0;
 };

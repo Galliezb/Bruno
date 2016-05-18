@@ -33,7 +33,7 @@ public:
 	ofImage pluie;
 	ofSoundPlayer orage;
 	bool dessinePluie = false;
-
+	bool pleutIl();
 	//timer
 	void setDepartTimer();
 	
