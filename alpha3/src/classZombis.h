@@ -20,6 +20,9 @@ class ClassZombi {
 	// instance barre de vie
 	BarreDeVie *ptrInstancebarreDeVie;
 	Stats *ptrInstanceStats;
+	// pointeur tab ressource joueur
+	int *ptrTabContentRessourcePlayer;
+
 
 
 	// ofimage
@@ -61,7 +64,7 @@ class ClassZombi {
 
 		/****************************************** METHODE PUBLIC *****************************************/
 		ClassZombi();
-		void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis, BarreDeVie *ptrInstancebarreDeVie, Stats *ptrInstanceStats);
+		void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis, BarreDeVie *ptrInstancebarreDeVie, Stats *ptrInstanceStats, int *ptrTabContentRessourcePlayer);
 		// affichage des zombis présent à l'écran
 		void displayZombi();
 		// déplace le zombi

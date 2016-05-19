@@ -63,11 +63,11 @@ public:
 
 		// variable
 		// temps gérant les zombis
-		int tpsSpawnZombi = ofGetElapsedTimeMillis();
+		int tpsSpawnZombi = 0;
 		// nombre max de zombi
 		int maxZombi = 25;
 		// en milliseconde
-		int timerSpawnZombi=2500;
+		int timerSpawnZombi=5000;
 
 		// timer recharge sprint
 		int tpsTimerRechargeSprint=0;
@@ -109,7 +109,7 @@ public:
 		5 => pierre à lancer
 		6 => lance
 		*/
-		int tabContentRessourcePlayer[7] = {5,5,100,100,100,100,100 };
+		int tabContentRessourcePlayer[7] = {0};
 		//ofPath pathLineHorizontal;
 
 		// variable de récolte
