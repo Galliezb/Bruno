@@ -51,6 +51,8 @@ public:
 
 		// inventaire actuellement affiché ?
 		bool affInventaire = false;
+		// menu dans le jeu actuellement affiché? 
+		bool affMenuInGame = false;
 		// taille ecran utilisateur
 		int widthScreen,heightScreen;
 		// position de la caméra
@@ -92,8 +94,10 @@ public:
 
 		ofTrueTypeFont font;
 		string strSurvolInventaire = "";
-
+		string strSurvolTouche = "";
 		//Gestion de la musique
 		Music musique;
 		int cptmusique = 0;
+
+		
 };

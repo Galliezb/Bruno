@@ -39,8 +39,6 @@ void MeneInGame::inGame()
 	if (retourJeu) {
 		if (goMenuJeu)
 		{
-
-
 			logoFont.draw(tailleX / 2 - 500, tailleY / 2 - 350, 1000, 700);
 			//dessin bouton statistique
 			button.draw(tailleX / 2 - 100, tailleY / 5 * 2);
@@ -98,13 +96,13 @@ void MeneInGame::inGame()
 	{
 
 		goMenuJeu = false;
-		retourJeu = false;
+		//retourJeu = false;
 		clavier.draw(ofGetWindowWidth() / 2 - 640, ofGetWindowHeight() / 2 - 360);
 	}
 	if (statMenuLancer)
 	{
 		goMenuJeu = false;
-		retourJeu = false;
+		//retourJeu = false;
 		//il faut un boolean pour lancer la classe stat
 	}
 
@@ -123,14 +121,10 @@ void MeneInGame::initBarreMusique()
 	//sons musique déclaration 
 	gui.setup("Musique");
 	gui.add(volumeM.setup("Volume", volM, 0, 1));
-	//sample.loadSound("gemini.wav");
-	//sample.play();
-	//sons ambiance déclaration
+	
 	gui2.setup("Ambiance");
 	gui2.add(volumeA.setup("Volume", volA, 0, 1));
-	//sample2.loadSound("findumonde.wav");
-	//sample2.play();
-	//sample.play();
+	
 
 }
 
@@ -158,6 +152,16 @@ void MeneInGame::dessineBarreMusique()
 		gui2.setPosition(ofGetWindowWidth() / 2 - 100, ofGetWindowHeight() / 2 + 25);
 	}
 
+}
+
+bool MeneInGame::setRetourJeu()
+{
+	return retourJeu;
+}
+
+bool MeneInGame::getRetourJeu()
+{
+	return retourJeu;
 }
 
 float MeneInGame::getSonMusique()

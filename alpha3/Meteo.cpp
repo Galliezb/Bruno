@@ -115,7 +115,7 @@ int Meteo::posAffichageY() {
 		//printf("%d && %d\n", tempsDepart, indentationCompteur);
 		if (dessinePluie == false)
 		{
-			if (tempsDepart > 7000)//indentationCompteur)// 7000 est utilisé pour le test de son
+			if (tempsDepart > /*7000)*/indentationCompteur)// 7000 est utilisé pour le test de son
 			{
 				orage.play();
 				dessinePluie = !dessinePluie;

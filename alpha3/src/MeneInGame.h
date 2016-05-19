@@ -25,6 +25,8 @@ public:
 	void initBarreMusique();
 	void majBarreMusique();
 	void dessineBarreMusique();
+	bool setRetourJeu();
+	bool getRetourJeu();
 	float getSonMusique();
 	float getSonAmbiance();
 	ofxPanel gui;

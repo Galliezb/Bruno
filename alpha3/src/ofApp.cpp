@@ -148,7 +148,7 @@ void ofApp::update() {
 		musique.setStoppedForRain(false);
 		cptmusique = 0;
 	}*/
-}
+
 		//update du menu dans le jeu
 		LancementMenuInGame.MenuMajInGame();
 		//update de la barre de Musique et ambiance dans le menu jeu
@@ -162,10 +162,17 @@ void ofApp::draw(){
 	// affiche a l'écran
 	gestionMap.displayMap();
 	
-	if (affInventaire) {
+	if (affInventaire && affMenuInGame==false) {
 		inventaire.affichage();
 		font.drawString(strSurvolInventaire, inventaire.returnPosXWindow() + 225, inventaire.returnPosYWindow()+290);
-	} else {
+	}
+	else if(affInventaire == false && affMenuInGame == true) {
+		//dessine le menu dans le jeu
+		LancementMenuInGame.inGame();
+		//dessine les barre dans le menu dans le jeu
+		LancementMenuInGame.dessineBarreMusique();
+	}
+	else {
 
 		// affichage du personnage
 		movePersonnage.movePlayer();
@@ -174,21 +181,21 @@ void ofApp::draw(){
 		ofDrawBitmapString(fpsStr, 20, 100);
 		fpsStr = "positionJoueurY => " + ofToString(positionJoueurY);
 		ofDrawBitmapString(fpsStr, 20, 125);
-		fpsStr = "positionCameraX => " + ofToString(positionJoueurX-widthScreen/2);
+		fpsStr = "positionCameraX => " + ofToString(positionJoueurX - widthScreen / 2);
 		ofDrawBitmapString(fpsStr, 20, 150);
-		fpsStr = "positionCameraY => " + ofToString(positionJoueurY-heightScreen/2);
+		fpsStr = "positionCameraY => " + ofToString(positionJoueurY - heightScreen / 2);
 		ofDrawBitmapString(fpsStr, 20, 175);
-		fpsStr = "Origin: " + ofToString(positionJoueurX/64)+";"+ofToString(positionJoueurY/64);
+		fpsStr = "Origin: " + ofToString(positionJoueurX / 64) + ";" + ofToString(positionJoueurY / 64);
 		ofDrawBitmapString(fpsStr, 20, 200);
-		fpsStr = "Origin(pied): " + ofToString((positionJoueurX+32) / 64) + ";" + ofToString((positionJoueurY+60) / 64);
+		fpsStr = "Origin(pied): " + ofToString((positionJoueurX + 32) / 64) + ";" + ofToString((positionJoueurY + 60) / 64);
 		ofDrawBitmapString(fpsStr, 20, 225);
 		pathLineHorizontal.draw();
 
-		for (int i = 0; i<maxZombi; i++) {
+		for (int i = 0; i < maxZombi; i++) {
 			// si cette unité n'est pas affecté
 			if (zombis[i].isSpawnZombi) {
-				if(zombis[i].getAnimMort()==false)
-				zombis[i].displayZombi();
+				if (zombis[i].getAnimMort() == false)
+					zombis[i].displayZombi();
 			}
 		}
 		//Meteo
@@ -198,24 +205,32 @@ void ofApp::draw(){
 			lancementMeteo[i].dessineNuage();
 		}
 		//orage
-		
-			lancementPluie.TombePluie();
-		
+
+		lancementPluie.TombePluie();
+
 		// barre de vie, sprint et energie
 		barreDeVie.displayBarreVie();
 
 		// gestion des projectiles
-		for (int i = 0; i<5; i++) {
+		for (int i = 0; i < 5; i++) {
 			if (projectile[i].isActive) {
 				projectile[i].displayProjectile();
 			}
 		}
-		//dessine le menu dans le jeu
-		LancementMenuInGame.inGame();
-		//dessine les barre dans le menu dans le jeu
-		LancementMenuInGame.dessineBarreMusique();
-		
 	}
+	//Ceci permet que lorsqu'on clique sur retour Jeu le menu s'arrête bien et le menu ne fait pas laguer
+	if (affMenuInGame == true)
+	{
+		if (LancementMenuInGame.retourJeu == false)
+		{
+			affMenuInGame = false;
+		}
+	}
+	if (LancementMenuInGame.clavierlancer)
+	{
+		font.drawString(strSurvolTouche,ofGetWindowWidth()/2-200,ofGetWindowHeight()/2-120);
+	}
+	
 }
 
 //--------------------------------------------------------------
@@ -245,23 +260,7 @@ void ofApp::keyPressed(int key){
 		if (!playerHasMove) { playerHasMove = true; }
 		if (!movePersonnage.getBoolMovePlayerLeft()) { movePersonnage.setBoolMovePlayerLeft(true); }
 	}
-	//pour le menu dans le jeu c'est pour reculer dans les menus et le lancer évidemment 
-	//la touche devra être echap
-	if (key == 'j')
-	{
-		LancementMenuInGame.retourJeu = true;
-		if (LancementMenuInGame.clavierlancer) {
-			LancementMenuInGame.clavierlancer = false;
-			LancementMenuInGame.goMenuJeu = true;
-			LancementMenuInGame.retourJeu = true;
-		}
-		if (LancementMenuInGame.statMenuLancer)
-		{
-			LancementMenuInGame.statMenuLancer = false;
-			LancementMenuInGame.goMenuJeu = true;
-			LancementMenuInGame.retourJeu = true;
-		}
-	}
+	
 }
 
 //--------------------------------------------------------------
@@ -302,11 +301,36 @@ void ofApp::keyReleased(int key){
 			musique.nextMusic("ZA");
 			break;
 		case 'i':
-			inventaire.affichage();
-			affInventaire = true;
+			if (affMenuInGame == false) {
+				inventaire.affichage();
+				affInventaire = !affInventaire;
+			}
 			break;
 		case 'f':
 			ofToggleFullscreen();
+			break;
+			//menu dans le jeu
+		case 'n':
+			if (affInventaire == false) {
+				//dessine le menu dans le jeu
+				LancementMenuInGame.inGame();
+				//dessine les barre dans le menu dans le jeu
+				LancementMenuInGame.dessineBarreMusique();
+				affMenuInGame = !affMenuInGame;
+				LancementMenuInGame.retourJeu = true;
+				if (LancementMenuInGame.clavierlancer)
+				{
+					LancementMenuInGame.clavierlancer = false;
+					LancementMenuInGame.goMenuJeu = true;
+					LancementMenuInGame.retourJeu = true;
+				}
+				if (LancementMenuInGame.statMenuLancer)
+				{
+					LancementMenuInGame.statMenuLancer = false;
+					LancementMenuInGame.goMenuJeu = true;
+					LancementMenuInGame.retourJeu = true;
+				}
+			}
 			break;
 	}
 }
@@ -342,6 +366,33 @@ void ofApp::mouseMoved(int x, int y ){
 			strSurvolInventaire="";
 		}
 
+	}
+	if (LancementMenuInGame.clavierlancer)
+	{
+		if (x > ofGetWindowWidth() / 2  -640+170 && x<ofGetWindowWidth() / 2 - 640 + 220 && y > ofGetWindowHeight() / 2 - 360+280 && y<ofGetWindowHeight() / 2 - 360 + 330)
+		{
+			strSurvolTouche = "Quitter le menu";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 770 && x<ofGetWindowWidth() / 2 - 640 + 840 && y > ofGetWindowHeight() / 2 - 360 + 540 && y < ofGetWindowHeight() / 2 - 360 + 585)
+		{
+			strSurvolTouche = "Aller a gauche";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 860 && x<ofGetWindowWidth() / 2 - 640 + 930 && y > ofGetWindowHeight() / 2 - 360 + 540 && y < ofGetWindowHeight() / 2 - 360 + 585)
+		{
+			strSurvolTouche = "Aller en haut";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 950 && x<ofGetWindowWidth() / 2 - 640 + 1020&& y > ofGetWindowHeight() / 2 - 360 + 540 && y < ofGetWindowHeight() / 2 - 360 + 585)
+		{
+			strSurvolTouche = "Aller en bas";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 1040 && x<ofGetWindowWidth() / 2 - 640 + 1110 && y > ofGetWindowHeight() / 2 - 360 + 540 && y < ofGetWindowHeight() / 2 - 360 + 585)
+		{
+			strSurvolTouche = "Aller a droite";
+		}
+		else 
+		{
+			strSurvolTouche = "";
+		}
 	}
 
 }
