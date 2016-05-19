@@ -1,6 +1,5 @@
 #pragma once
 #include "ofApp.h"
-#include "classeMoving.h"
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -25,13 +24,13 @@ void ofApp::setup(){
 	// map
 	gestionMap.init(&positionJoueurX,&positionJoueurY,&widthScreen,&heightScreen, tabContentCase, tabContentTerrain);
 	// animation personnage
-	movePersonnage.init(&positionJoueurX, &positionJoueurY,&widthScreen, &heightScreen, &playerCurrentAction, tabContentCase, tabContentTerrain, tabContentRessourcePlayer, &gestionMap, &barreDeVie);
+	movePersonnage.init(&positionJoueurX, &positionJoueurY,&widthScreen, &heightScreen, &playerCurrentAction, tabContentCase, tabContentTerrain, tabContentRessourcePlayer, &gestionMap, &barreDeVie, &hautFait);
 	movePersonnage.setTimerStart();
 	// inventaire
 	inventaire.init(tabContentRessourcePlayer, &widthScreen, &heightScreen);
 	// zombis
 	for (int i=0; i<maxZombi; i++){
-		zombis[i].init(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen, tabContentCase, tabContentTerrain, &playerCurrentAction, zombis, &maxZombi, &barreDeVie);
+		zombis[i].init(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen, tabContentCase, tabContentTerrain, &playerCurrentAction, zombis, &maxZombi, &barreDeVie, &hautFait);
 	}
 
 	// init gestion des barre
@@ -55,6 +54,12 @@ void ofApp::setup(){
 	LancementMenuInGame.InitInGameMenu();
 	//lancement initiation De la barre de musique du menu dans le jeu
 	LancementMenuInGame.initBarreMusique();
+
+	// lancement des haut faits
+	hautFait.init();
+	popup.initPopUp();
+	hautFait.theGameHasStarted();
+
 }
 
 
@@ -142,11 +147,17 @@ void ofApp::update() {
 				if (projectile[i].isActive){
 					for (int j = 0; j < maxZombi; j++) {
 						// collision Zombie
-						if (zombis[j].isSpawnZombi && !projectile[i].isHitZombie && abs( zombis[j].posXZombi - projectile[i].positionXOnTheMap ) < 24 && abs(zombis[j].posYZombi - projectile[i].positionYOnTheMap) < 24) {
+						if (zombis[j].isSpawnZombi && !projectile[i].isHitZombie && zombis[j].pointDeVie > 1 && abs( zombis[j].posXZombi - projectile[i].positionXOnTheMap ) < 24 && abs(zombis[j].posYZombi - projectile[i].positionYOnTheMap) < 24) {
 							//printf("collision zombie \n");
 							projectile[i].isHitZombie = true;
 							projectile[i].posXZombieHit = zombis[j].posXZombi;
 							projectile[i].posYZombieHit = zombis[j].posYZombi;
+
+							// envoi les dégâts vers le zombi ( si pdv < 1 animation mort en cours )
+							if ( zombis[j].pointDeVie > 1 ){
+								zombis[j].receiveDamage(5);
+							}
+
 						// collision Roche ou arbre
 						// une fonction de classe qui retourne l'index voulu, c'est cool non ?
 						} else if ( tabContentCase[projectile[i].returnIndexOfCase()] == 1 || tabContentCase[projectile[i].returnIndexOfCase()] == 2 ){
@@ -264,6 +275,18 @@ void ofApp::draw(){
 		font.drawString(strSurvolTouche,ofGetWindowWidth()/2-200,ofGetWindowHeight()/2-120);
 	}
 	
+	// lance le popup et affichage d'un haut fait
+	if (hautFait.returnTest() == true) {
+		popup.majPopUp(hautFait.displayTitle(), hautFait.displayDescription());
+		popup.drawPopUp();
+	}
+	if ( ofGetElapsedTimeMillis() - hautFait.tpsEntreDeuxHautFait > 3000) {
+		hautFait.setBoolTest(false);
+	}
+	if (hautFait.getDrawStats() == true) {
+		hautFait.drawStatistics();
+	}
+	
 }
 
 //--------------------------------------------------------------
@@ -324,6 +347,10 @@ void ofApp::keyReleased(int key){
 	if (!playerMoveTop && !playerMoveRight && !playerMoveDown && !playerMoveLeft) { playerHasMove = false; }
 	
 	switch (key){
+		case 'e':
+			movePersonnage.actionRecolteStart();
+			actionRecolteActive = true;
+			break;
 		case 'g':
 			musique.nextMusic("Ambient");
 			break;

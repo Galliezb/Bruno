@@ -7,6 +7,8 @@ public:
 	//initialisation des fichiers 
 	void init();
 
+	int tpsEntreDeuxHautFait = 0;
+
 	void addZombieKilled();
 	void addTreeCut();
 	void addRockMined();

@@ -1,6 +1,7 @@
 #pragma once
 #include "ofMain.h"
 #include "BarreDeVie.h"
+#include "../HautFait.h"
 
 class ClassZombi {
 
@@ -18,6 +19,7 @@ class ClassZombi {
 	int *ptrMaxIndexPtrTabZombis;
 	// instance barre de vie
 	BarreDeVie *ptrInstancebarreDeVie;
+	Stats *ptrInstanceStats;
 
 
 	// ofimage
@@ -42,10 +44,8 @@ class ClassZombi {
 	// ecart entre les collisions de zombis
 	int ecartDeCollision = 25;
 
-	// dommage zombes, negatif car on retire de la barre de vie
+	// dommage zombies, negatif car on retire de la barre de vie
 	int damage = -5;
-
-	int pointDeVie = 10;
 
 	/****************************************** METHODE PRIVATE *****************************************/
 	void setTimerStart();
@@ -61,7 +61,7 @@ class ClassZombi {
 
 		/****************************************** METHODE PUBLIC *****************************************/
 		ClassZombi();
-		void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis, BarreDeVie *ptrInstancebarreDeVie);
+		void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis, BarreDeVie *ptrInstancebarreDeVie, Stats *ptrInstanceStats);
 		// affichage des zombis présent à l'écran
 		void displayZombi();
 		// déplace le zombi
@@ -71,13 +71,14 @@ class ClassZombi {
 		// vérifie la distance entre joueur et zombi
 		int distanceBetweenPLayerAndZombi();
 
+		// pdv du zombie
+		int pointDeVie = 10;
+
 		/****************************************** VARIABLE PUBLIC *****************************************/
 		// positionnage :D
 		int posXZombi, posYZombi;
 		// vitesse zombi
 		int speedZombi = 1;
-		// point de vie du zombi
-		int health;
 		// vitesse d'animation en ms
 		int speedAnim = 55;
 		bool boolMoveZombiLeft = false;

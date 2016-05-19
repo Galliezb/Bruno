@@ -7,10 +7,10 @@ ClassZombi::ClassZombi(){
 	zombiAttaque.load("animattaquezombi.png");
 	zombiMort.load("animmortzombi.png");
 
-	health=ofRandom(5,50);
+	pointDeVie=25;
 }
 
-void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis, BarreDeVie *ptrInstancebarreDeVie){
+void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis, BarreDeVie *ptrInstancebarreDeVie, Stats *ptrInstanceStats){
 
 	this->ptrPositionJoueurX = ptrPositionJoueurX;
 	this->ptrPositionJoueurY = ptrPositionJoueurY;
@@ -21,7 +21,7 @@ void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptr
 	this->ptrPlayerCurrentAction = ptrPlayerCurrentAction;
 	this->ptrTabZombis = ptrTabZombis;
 	this->ptrMaxIndexPtrTabZombis = ptrMaxIndexPtrTabZombis;
-
+	this->ptrInstanceStats = ptrInstanceStats;
 	// instance barre de vie
 	this->ptrInstancebarreDeVie = ptrInstancebarreDeVie;
 
@@ -158,7 +158,7 @@ void ClassZombi::displayAttackZombi() {
 void ClassZombi::moveZombi(){
 	
 	// s'il est a portée, attaque, donc plus de déplacement.
-	if (distanceBetweenPLayerAndZombi() > 32 ){
+	if (distanceBetweenPLayerAndZombi() > 32 && pointDeVie > 1 ){
 		/************************* AXE Y *************************/
 		if (*ptrPositionJoueurY > posYZombi) {
 
@@ -572,13 +572,16 @@ void ClassZombi::AnimDeathZombie()
 	}
 	if (animDeathZombiDone == true) {
 		isSpawnZombi = false;
+		ptrInstanceStats->addZombieKilled();
 	}
 }
 
 void ClassZombi::receiveDamage(int damage)
 {
 	pointDeVie -= damage;
-	AnimDeathZombie();
+	if ( pointDeVie < 1 ){
+		AnimDeathZombie();
+	}
 }
 
 int ClassZombi::isZombieDead() {
@@ -588,3 +591,4 @@ int ClassZombi::isZombieDead() {
 bool ClassZombi::getAnimMort() {
 	return animDeathZombiDone;
 }
+

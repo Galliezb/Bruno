@@ -24,7 +24,7 @@ moving::moving() {
 
 }
 // initialisation de la classe ( OF dispo ici, pas dans le constructeur )
-void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *ptrPlayerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap, BarreDeVie *ptrInstancebarreDeVie) {
+void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *ptrPlayerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap, BarreDeVie *ptrInstancebarreDeVie, Stats *ptrInstranceHautFait) {
 
 	// pointeur tab content map
 	this->ptrTabContentCase = ptrTabContentCase;
@@ -48,6 +48,9 @@ void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidt
 
 	// instance barre de vie
 	this->ptrInstancebarreDeVie = ptrInstancebarreDeVie;
+
+	// instance Stats
+	this->ptrInstranceHautFait = ptrInstranceHautFait;
 }
 
 void moving::movePlayer() {
@@ -627,14 +630,17 @@ bool moving::actionRecolteEnd(){
 	}
 
 	if (actionRecolteEnCours) {
-
+		//printf("diff time => %d - %d = %d", ofGetElapsedTimeMillis(),tpsStartActionRecolte, ofGetElapsedTimeMillis() - tpsStartActionRecolte);
 		if (ofGetElapsedTimeMillis() - tpsStartActionRecolte > 5000 ){			
 			// +1 arbre ?
 			if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 1) {
 				*(ptrTabContentRessourcePlayer)+=1;
+				// mets a jour les haut fait
+				ptrInstranceHautFait->addTreeCut();
 			// + 1 rocher ?
 			} else if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 2) {
 				*(ptrTabContentRessourcePlayer+1)+=1;
+				ptrInstranceHautFait->addRockMined();
 			}
 			// on remets l'action par defaut
 			*ptrPlayerCurrentAction = "repos";

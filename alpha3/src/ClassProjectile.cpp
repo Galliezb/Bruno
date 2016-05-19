@@ -305,7 +305,7 @@ void Projectile::choiceProjectile(){
 	typeRessourceLaunch++;
 
 	// stock insuffisant, on passe au suivant
-	printf("Stock visé => %d ( 2 + %d )\n", *(ptrTabContentRessourcePlayer + 2 + typeRessourceLaunch), typeRessourceLaunch);
+	//printf("Stock visé => %d ( 2 + %d )\n", *(ptrTabContentRessourcePlayer + 2 + typeRessourceLaunch), typeRessourceLaunch);
 	if ( *(ptrTabContentRessourcePlayer + 2 + typeRessourceLaunch) < 1 ){
 		choiceProjectile();
 	// décrémente le stock
