@@ -155,7 +155,7 @@ void Stats::achievement()
 			currentlyDrawing = true;
 			VzombieKilled = true;
 		}
-		else if ((zombieKilled >= 10 && currentlyDrawing == false && tZombieKilled == 0)) {
+		else if ((zombieKilled >= 10 && currentlyDrawing == false && tZombieKilled == 0 && !VzombieKilledTwo)) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Apprenti meurtrier";
@@ -163,8 +163,9 @@ void Stats::achievement()
 			tZombieKilled = 1;
 			putStatInFile();
 			currentlyDrawing = true;
+			VzombieKilledTwo = true;
 		}
-		else if (zombieKilled >= 50 && currentlyDrawing == false && tZombieKilledTwo == 0) {
+		else if (zombieKilled >= 50 && currentlyDrawing == false && tZombieKilledTwo == 0 &&!VzombieKilledThree) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Zombie Killer";
@@ -172,8 +173,9 @@ void Stats::achievement()
 			tZombieKilledTwo = 1;
 			putStatInFile();
 			currentlyDrawing = true;
+			VzombieKilledThree = true;
 		}
-		else if (zombieKilled >= 100 && currentlyDrawing == false && tZombieKilledThree == 0) {
+		else if (zombieKilled >= 100 && currentlyDrawing == false && tZombieKilledThree == 0 && !VzombieKilledFour) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Boucherie";
@@ -181,88 +183,101 @@ void Stats::achievement()
 			tZombieKilledThree = 1;
 			putStatInFile();
 			currentlyDrawing = true;
+			VzombieKilledFour = true;
 		}
-		else if (treeCut == 1) {
+		else if (treeCut == 1 && !VtreeCut) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Corvee de bois";
 			description = "Etait-ce vraiment utile?";
 			currentlyDrawing = true;
+			VtreeCut = true;
 		}
-		else if (treeCut == 10) {
+		else if (treeCut == 10 && !VtreeCutTwo) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Bucheron";
 			description = "Quels muscles!";
 			currentlyDrawing = true;
+			VtreeCutTwo = true;
 		}
-		else if (treeCut == 20) {
+		else if (treeCut == 20 && !VtreeCutThree) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Vingt arbres";
 			description = "Et tu replantes au moins?";
 			currentlyDrawing = true;
+			VtreeCutThree = true;
 		}
-		else if (treeCut == 50) {
+		else if (treeCut == 50 && !VtreeCutFour) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Deforestation";
 			description = "Mere nature ne sera pas contente";
+			VtreeCutFour= true;
 		}
-		else if (rocksMined == 1) {
+		else if (rocksMined == 1 && !VrocksMined) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Apprenti mineur";
 			description = "Premier coup de pioche!";
+			VrocksMined = true;
 		}
-		else if (rocksMined == 10) {
+		else if (rocksMined == 10 && !VrocksMinedTwo) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Mineur confirmé";
 			description = "Tu peux faire une petanque";
+			VrocksMinedTwo = true;
 		}
-		else if (rocksMined == 20) {
+		else if (rocksMined == 20 && VrocksMinedThree) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Mineur agueri";
 			description = "J'espere que tu t'en sers!";
+			VrocksMinedThree = true;
 		}
-		else if (steps == 1) {
+		else if (steps == 1 && !Vsteps) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Premier pas";
 			description = "Le titre suffit a comprendre non?";
+			Vsteps = true;
 		}
-		else if (steps == 100) {
+		else if (steps == 100 &&!VstepsTwo) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Les cents pas";
 			description = "Et alors, on court? Ya rien à craindre pourtant!";
+			VstepsTwo = true;
 		}
-		else if (steps == 1000) {
+		else if (steps == 1000 && !VstepsThree) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Les milles pas";
 			description = "Regardez ces mollets!";
+			VstepsThree = true;
 		}
-		else if (timeTheGameLast >= 60000 && currentlyDrawing == false && tGameLast == 0) {
+		else if (timeTheGameLast >= 60000 && currentlyDrawing == false && tGameLast == 0 && !Vtime) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "La minute";
 			description = "Elle est passee vite hein?";
-
+			Vtime = true;
 		}
-		else if (timeTheGameLast == 600000 && currentlyDrawing == false && tGameLastTwo == 0) {
+		else if (timeTheGameLast == 600000 && currentlyDrawing == false && tGameLastTwo == 0 &&!VtimeTwo) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Dix minutes";
 			description = "Amusement intense";
+			VtimeTwo = true;
 		}
-		else if (timeTheGameLast == 1200000 && currentlyDrawing == false && tGameLastThree == 0) {
+		else if (timeTheGameLast == 1200000 && currentlyDrawing == false && tGameLastThree == 0 &&!VtimeThree) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "La demi-heure";
 			description = "Sors au lieu de jouer, glandeur!";
+			VtimeThree = true;
 		}
 	}
 }
@@ -409,10 +424,3 @@ void Stats::drawStatistics() {
 	police.drawString("Mort du joueur:", windowX / 5 - 120, windowY / 5 + 400);
 	police.drawString(tabPlayerDeath, windowX / 5 + 590, windowY / 5 + 400);
 }
-
-
-
-
-
-
-

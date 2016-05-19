@@ -8,7 +8,23 @@ public:
 
 	// verif double haut fait
 	bool VzombieKilled = false;
-
+	bool VzombieKilledTwo = false;
+	bool VzombieKilledThree = false;
+	bool VzombieKilledFour = false;
+	bool VtreeCut = false;
+	bool VtreeCutTwo = false;
+	bool VtreeCutThree = false;
+	bool VtreeCutFour = false;
+	bool VrocksMined = false;
+	bool VrocksMinedTwo = false;
+	bool VrocksMinedThree = false;
+	bool VrocksMinedFour = false;
+	bool Vsteps = false;
+	bool VstepsTwo = false;
+	bool VstepsThree = false;
+	bool Vtime = false;
+	bool VtimeTwo = false;
+	bool VtimeThree = false;
 	//initialisation des fichiers 
 	Stats();
 	void init();
