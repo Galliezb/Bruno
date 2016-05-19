@@ -54,9 +54,12 @@ public:
 		// temps gérant les zombis
 		int tpsSpawnZombi = ofGetElapsedTimeMillis();
 		// nombre max de zombi
-		int maxZombi = 0;
+		int maxZombi = 10;
 		// en milliseconde
 		int timerSpawnZombi=2500;
+
+		// timer recharge sprint
+		int tpsTimerRechargeSprint=0;
 
 		// inventaire actuellement affiché ?
 		bool affInventaire = false;

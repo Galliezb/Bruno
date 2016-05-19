@@ -5,7 +5,12 @@
 class Stats {
 
 public:
+
+	// verif double haut fait
+	bool VzombieKilled = false;
+
 	//initialisation des fichiers 
+	Stats();
 	void init();
 	int tpsEntreDeuxHautFait;
 	void addPlayerDeath();
@@ -38,6 +43,7 @@ public:
 	void setCurrentlyDrawing(bool draw);
 	bool getDrawStats();
 	void drawStatistics();
+	bool drawStats = false;
 private:
 	int tpsStart, tpsStop;
 	string titre;
@@ -72,7 +78,6 @@ private:
 	int cZombieKilled, cTreeCut, cRocksMined, cSteps, cGameLast, cProjectiles;
 	bool currentlyDrawing = false;
 	ofImage statistique;
-	bool drawStats = false;
 	int windowX, windowY;
 	ofTrueTypeFont police;
 	std::string tabZombieKilled;

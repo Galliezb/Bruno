@@ -1,5 +1,9 @@
 #pragma once
 #include "HautFait.h"
+Stats::Stats(){
+	statistique.loadImage("statistiques.png");
+	police.loadFont("arial.ttf", 15, true);
+}
 void Stats::init() {
 	fichierZombie = fopen("fichierZombie.txt", "a");
 	fclose(fichierZombie);
@@ -143,12 +147,13 @@ void Stats::achievement()
 		}
 	}
 	else {
-		if (zombieKilled == 1) {
+		if (zombieKilled == 1 && !VzombieKilled) {
 			test = true;
 			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "First Blood!";
 			description = "Il le meritait quand meme!";
 			currentlyDrawing = true;
+			VzombieKilled = true;
 		}
 		else if ((zombieKilled >= 10 && currentlyDrawing == false && tZombieKilled == 0)) {
 			test = true;
@@ -357,8 +362,6 @@ int Stats::getTimerEnd() {
 	return tpsStop;
 }
 void Stats::theGameIsOver() {
-	statistique.loadImage("statistiques.png");
-	police.loadFont("arial.ttf", 15, true);
 	drawStats = true;
 	tabZombieKilled = std::to_string(cZombieKilled);
 	tabAllZombieKilled = std::to_string(zombieKilled);
