@@ -1,5 +1,6 @@
 #pragma once
 #include "ofMain.h"
+#include "MenuMain.h"
 class RejouerQuitter
 {
 public:
@@ -9,5 +10,6 @@ public:
 	void ajoutBoutonStatistique();
 	ofImage bouton, boutonSur;
 	ofTrueTypeFont font;
+	bool rejouer = false;
 };
 
