@@ -1,3 +1,4 @@
+
 #pragma once
 #include "ofMain.h"
 #include "PopUp.h"
@@ -6,9 +7,7 @@ class Stats {
 public:
 	//initialisation des fichiers 
 	void init();
-
-	int tpsEntreDeuxHautFait = 0;
-
+	void addPlayerDeath();
 	void addZombieKilled();
 	void addTreeCut();
 	void addRockMined();
@@ -49,6 +48,7 @@ private:
 	int steps = 0;
 	int timeTheGameLast = 0;
 	int projectiles = 0;
+	int playerDeath = 0;
 	FILE * fichierZombie = NULL;
 	FILE * fichierArbre = NULL;
 	FILE * fichierRocks = NULL;
@@ -61,8 +61,9 @@ private:
 	FILE * fichierTTimeTwo = NULL;
 	FILE * fichierTTimeThree = NULL;
 	FILE * fichierProjectiles = NULL;
+	FILE * fichierPlayerDeath = NULL;
 	PopUp popup;
-	bool bZombieKilled, bTreeCut, bRocksMined, bSteps, bGameLast, bProjectiles;
+	bool bZombieKilled, bTreeCut, bRocksMined, bSteps, bGameLast, bProjectiles, bPlayerDeath;
 	int tZombieKilled, tTreeCut, tRocksMined, tSteps, tGameLast;
 	int tZombieKilledTwo, tGameLastTwo;
 	int tZombieKilledThree, tGameLastThree;
@@ -85,4 +86,5 @@ private:
 	std::string tabAllGameLast;
 	std::string tabProjectiles;
 	std::string tabAllProjectiles;
+	std::string tabPlayerDeath;
 };
