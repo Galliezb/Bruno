@@ -73,6 +73,7 @@ void ofApp::update() {
 			movePersonnage.updatePositionJoueur();
 
 			// Le quadrillage Horizontal
+			/*
 			pathLineHorizontal.clear();
 			pathLineHorizontal.moveTo(movePersonnage.midX(), movePersonnage.midY());
 			pathLineHorizontal.lineTo(movePersonnage.midX() + 64, movePersonnage.midY());
@@ -84,7 +85,7 @@ void ofApp::update() {
 			pathLineHorizontal.setStrokeColor(ofColor::red);
 			pathLineHorizontal.setFilled(false);
 			pathLineHorizontal.setStrokeWidth(1);
-
+			*/
 
 		}
 
@@ -132,13 +133,17 @@ void ofApp::update() {
 		// gestion des projectiles
 		for(int i = 0; i<5; i++) {
 			if (projectile[i].isActive) {
-				projectile[i].updatePosition();
+				
+				if ( !projectile[i].isHitZombie ){
+					projectile[i].updatePosition();
+				}
 
 				// gère les collisions avec les zombis
 				if (projectile[i].isActive){
 					for (int j = 0; j < maxZombi; j++) {
 						// collision Zombie
 						if (zombis[j].isSpawnZombi && !projectile[i].isHitZombie && abs( zombis[j].posXZombi - projectile[i].positionXOnTheMap ) < 24 && abs(zombis[j].posYZombi - projectile[i].positionYOnTheMap) < 24) {
+							//printf("collision zombie \n");
 							projectile[i].isHitZombie = true;
 							projectile[i].posXZombieHit = zombis[j].posXZombi;
 							projectile[i].posYZombieHit = zombis[j].posYZombi;
@@ -195,7 +200,7 @@ void ofApp::draw(){
 
 		// affichage du personnage
 		movePersonnage.movePlayer();
-
+		/*
 		string fpsStr = "positionJoueurX => " + ofToString(positionJoueurX);
 		ofDrawBitmapString(fpsStr, 20, 100);
 		fpsStr = "positionJoueurY => " + ofToString(positionJoueurY);
@@ -209,6 +214,7 @@ void ofApp::draw(){
 		fpsStr = "Origin(pied): " + ofToString((positionJoueurX + 32) / 64) + ";" + ofToString((positionJoueurY + 60) / 64);
 		ofDrawBitmapString(fpsStr, 20, 225);
 		pathLineHorizontal.draw();
+		*/
 
 		for (int i = 0; i < maxZombi; i++) {
 			// si cette unité n'est pas affecté
@@ -233,6 +239,7 @@ void ofApp::draw(){
 		// gestion des projectiles
 		for (int i = 0; i < 5; i++) {
 			if (projectile[i].isActive) {
+
 				projectile[i].displayProjectile();
 
 				//Affichage HIT ZOMBIE ! DANS TA ***BIP*** LE ZOMBIE !
@@ -449,18 +456,23 @@ void ofApp::mouseReleased(int x, int y, int button){
 		}
 
 	} else {
-	
-		// init projectile
-		for (int i = 0; i<5; i++) {
-
-			string retour = "[";
-			retour += i;
-			(projectile[i].isActive)?retour+="] Active\n" : retour+=" ] NON actif\n";
-			//printf("%s",retour);
-			if (!projectile[i].isActive){
-				projectile[i].initDirectionProjectile(x,y);
-				break;
+		// si le joueur a des ressources à lancer
+		if ( projectile[0].playerHaveEnoughRessource() ){
+			// init projectile
+			for (int i = 0; i<5; i++) {
+				/*
+				string retour = "[";
+				retour += i;
+				(projectile[i].isActive)?retour+="] Active\n" : retour+=" ] NON actif\n";
+				printf("%s",retour);
+				*/
+				if (!projectile[i].isActive){
+					projectile[i].initDirectionProjectile(x,y);
+					break;
+				}
 			}
+		} else {
+			projectile[0].needAmmoSound();
 		}
 
 	

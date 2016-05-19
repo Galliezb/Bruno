@@ -4,6 +4,8 @@ Projectile::Projectile(){
 
 	iconProjectile.loadImage("iconInventaire.png");
 	hitSangZombie.loadImage("hiSangZombie.png");
+	needAmmo.load("needAmo.mp3");
+	tpsNeedAmmoSoundPlay = ofGetElapsedTimeMillis();
 
 }
 
@@ -23,7 +25,7 @@ void Projectile::initDirectionProjectile(int destinationX, int destinationY){
 
 	// 8 Quadrants !!
 	// HAUT ( mais en coordonnée !!! 0.0 etant en haut à gauche )
-	printf("Souris : %d / %d\n",destinationX+decalageCameraX(),destinationY+decalageCameraY());
+	//printf("Souris : %d / %d\n",destinationX+decalageCameraX(),destinationY+decalageCameraY());
 	if ( destinationY+decalageCameraY() < *ptrPositionJoueurY-32 && destinationX+decalageCameraX() > *ptrPositionJoueurX && destinationX+decalageCameraX() < *ptrPositionJoueurX+64){
 		projectileGoTop = true;
 		projectileGoDown = false;
@@ -106,7 +108,9 @@ void Projectile::updatePosition() {
 
 void Projectile::displayProjectile(){
 	// caillou = 5*55
-	iconProjectile.drawSubsection(posAffichageX(),posAffichageY(),35,35,275,0,55,55);
+	int spriteX = 2*55 + typeRessourceLaunch * 55;
+	//printf("spriteX = %d\n");
+	iconProjectile.drawSubsection(posAffichageX(),posAffichageY(),35,35,spriteX,0,55,55);
 }
 int Projectile::decalageCameraX(){
 	int decalage = *ptrPositionJoueurX + 32 - *ptrWidthScreen / 2;
@@ -159,6 +163,9 @@ int Projectile::calculPositionYSpawn() {
 }
 
 void Projectile::spanwProjectile(){
+
+	// choisi le projectile
+	choiceProjectile();
 
 	positionXOnTheMap = *ptrPositionJoueurX-16;
 	positionYOnTheMap = *ptrPositionJoueurY-8;
@@ -220,11 +227,10 @@ int Projectile::posAffichageY() {
 
 }
 
-void Projectile::drawHitSangZombie(bool affSang){
+void Projectile::drawHitSangZombie(){
 	// hit un arbre ? pas de sang !
-	if ( !affSang){
-		hitSangZombie.draw(posAffichageSangX(), posAffichageSangY(),64,64);
-	}
+	//printf("Hit sang en X:%d & Y:%d\n", posAffichageSangX(), posAffichageSangY());
+	hitSangZombie.draw(posAffichageSangX(), posAffichageSangY(),64,64);
 	isHitZombie = false;
 	isActive = false;
 }
@@ -277,6 +283,45 @@ int Projectile::posAffichageSangY() {
 	else {
 		// donc on affiche pas
 		return -1;
+	}
+
+}
+
+bool Projectile::playerHaveEnoughRessource(){
+	// verif des cas 2,3,4,5,6
+	if ( *(ptrTabContentRessourcePlayer + 2) > 0 ||
+		 *(ptrTabContentRessourcePlayer + 3) > 0 ||
+		 *(ptrTabContentRessourcePlayer + 4) > 0 ||
+		 *(ptrTabContentRessourcePlayer + 5) > 0 ||
+		 *(ptrTabContentRessourcePlayer + 6) > 0 ){
+		 return true;
+	} else {
+		return false;
+	}
+}
+
+void Projectile::choiceProjectile(){
+
+	typeRessourceLaunch++;
+
+	// stock insuffisant, on passe au suivant
+	printf("Stock visé => %d ( 2 + %d )\n", *(ptrTabContentRessourcePlayer + 2 + typeRessourceLaunch), typeRessourceLaunch);
+	if ( *(ptrTabContentRessourcePlayer + 2 + typeRessourceLaunch) < 1 ){
+		choiceProjectile();
+	// décrémente le stock
+	} else {
+		*(ptrTabContentRessourcePlayer + 2 + typeRessourceLaunch) -= 1;
+	}
+
+	if (typeRessourceLaunch >= 4) { typeRessourceLaunch = 0; }
+
+}
+
+void Projectile::needAmmoSound(){
+
+	if ( !needAmmo.isPlaying() && ofGetElapsedTimeMillis() - tpsNeedAmmoSoundPlay > 5000 ){
+		tpsNeedAmmoSoundPlay = ofGetElapsedTimeMillis();
+		needAmmo.play();
 	}
 
 }

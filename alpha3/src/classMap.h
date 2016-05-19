@@ -4,7 +4,8 @@
 
 class classMap{
 	private :
-		ofImage arbre,boue,eau,herbe,rocher,cadre;
+		ofImage arbre,boue,eau,herbe,rocher;
+		//ofImage cadre;
 		ofFbo fbo;
 		bool moveCameraLeft = false;
 		bool moveCameraRight = false;

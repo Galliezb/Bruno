@@ -86,8 +86,8 @@ public:
 		5 => pierre à lancer
 		6 => lance
 		*/
-		int tabContentRessourcePlayer[7] = {10,10,10,10,10,10,10};
-		ofPath pathLineHorizontal;
+		int tabContentRessourcePlayer[7] = {5,5,1,2,3,4,5};
+		//ofPath pathLineHorizontal;
 
 		// variable de récolte
 		bool actionRecolteActive = false;

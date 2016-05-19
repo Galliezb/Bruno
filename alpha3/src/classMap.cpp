@@ -17,7 +17,7 @@ void classMap::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWi
 	boue.loadImage("boue.png");
 	eau.loadImage("eau.png");
 	rocher.loadImage("rochert.png");
-	cadre.loadImage("cadre.png");
+	//cadre.loadImage("cadre.png");
 	fbo.allocate(widthImage, heightImage);
 
 	// pointeur tab content map
@@ -77,7 +77,7 @@ bool classMap::remplirHerbe() {
 		for (int y = 0; y<80; y++) {
 			herbe.draw(x * 64, y * 64);
 			*(ptrTabContentTerrain + x + y * 120 - 1) = 0;
-			cadre.draw(x * 64, y * 64);
+			//cadre.draw(x * 64, y * 64);
 		}
 	}
 	fbo.end();

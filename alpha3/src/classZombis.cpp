@@ -30,11 +30,13 @@ void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptr
 
 void ClassZombi::displayZombi() {
 
-	// rectangle autour du joueur
+	// rectangle autour du zombie
+	/*
 	ofSetColor(255,0,0);
 	ofDrawRectangle(posAffichageX(),posAffichageY(),64,64);
 	ofNoFill();
 	ofSetColor(255, 255, 255);
+	*/
 		
 
 	// *positionJoueurX, *positionJoueurY affiche le coin haut gauche de la caméra
