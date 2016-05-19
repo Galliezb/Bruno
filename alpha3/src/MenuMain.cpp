@@ -5,7 +5,15 @@
 
 MenuMain::MenuMain()
 {
-
+	fondEcran.loadImage("fondEcran.jpg");
+	//buttonSonOn.loadImage("BoutonSon.png");
+	//buttonSonOff.loadImage("BoutonSonOff.png");
+	font.loadFont("CandyShop.ttf", 12, true);
+	font2.loadFont("CandyShop.ttf", 20, true);
+	button.loadImage("Boutton.png");
+	buttonSur.loadImage("BouttonSur.png");
+	clavier.loadImage("clavier2.png");
+	credit.loadImage("credits.png");
 }
 
 MenuMain::~MenuMain()
@@ -23,6 +31,7 @@ void MenuMain::aJourMenu()
 
 void MenuMain::testAffichage()
 {
+
 	//ofColor col1(200, 150, 50);
 	//ofColor col2(50, 200, 150);
 	//ofBackgroundGradient(col1, col2, OF_GRADIENT_CIRCULAR);
@@ -33,21 +42,13 @@ void MenuMain::testAffichage()
 	{
 		ofSetWindowShape(1200, 600);//Taille minimun de la fenêtre de menu
 	}
-	fondEcran.loadImage("fondEcran.jpg");
-	buttonSonOn.loadImage("BoutonSon.png");
-	buttonSonOff.loadImage("BoutonSonOff.png");
-	font.loadFont("CandyShop.ttf", 12, true);
-	font2.loadFont("CandyShop.ttf", 20, true);
-	button.loadImage("Boutton.png");
-	buttonSur.loadImage("BouttonSur.png");
-	clavier.loadImage("clavier2.png");
-	credit.loadImage("credits.png");
+	
 
 	fondEcran.draw(0, 0, tailleFX, tailleFY);
 	if (menuPrincipal) {
 		if (leJeuSeLance  && lanceOptionTouche && lanceCredit) {
 
-			buttonSonOn.draw(tailleFX - 64, tailleFY - 64);
+			//buttonSonOn.draw(tailleFX - 64, tailleFY - 64);
 			int xbutton = 100;
 			do {//création graphique des boutons
 				button.draw(tailleFX / 2 - 100, xbutton);
@@ -74,13 +75,13 @@ void MenuMain::testAffichage()
 					buttonSur.draw(tailleFX / 2 - 105, 395);
 				}
 			}
-			if (ofGetMouseX() >= tailleFX - 64 && ofGetMouseX() <= tailleFX && ofGetMouseY() >= tailleFY - 64 && ofGetMouseY() <= tailleFY) {//SON
+			/*if (ofGetMouseX() >= tailleFX - 64 && ofGetMouseX() <= tailleFX && ofGetMouseY() >= tailleFY - 64 && ofGetMouseY() <= tailleFY) {//SON
 				if (ofGetMousePressed()) {
 					//printf("CLICK\n");
 					son = !son;
 				}
-			}
-			if (son)
+			}*/
+			/*if (son)
 			{
 				buttonSonOff.clear();
 				buttonSonOn.draw(tailleFX - 64, tailleFY - 64);
@@ -91,7 +92,7 @@ void MenuMain::testAffichage()
 
 				buttonSonOn.clear();
 				buttonSonOff.draw(tailleFX - 64, tailleFY - 64);
-			}
+			}*/
 
 
 
@@ -140,8 +141,6 @@ void MenuMain::testAffichage()
 	if (leJeuSeLance == false)
 	{
 		fondEcran.clear();
-		ofSetColor(0);
-		ofDrawRectangle(0, 0, 2000, 2000);
 		/*BotMouvement();*/
 	}
 

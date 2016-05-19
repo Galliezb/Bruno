@@ -20,13 +20,13 @@ void RejouerQuitter::initBoutonStatistique()
 
 void RejouerQuitter::ajoutBoutonStatistique()
 {
-	bouton.draw(ofGetWindowWidth() / 2 - 200, 700);
+	/*bouton.draw(ofGetWindowWidth() / 2 - 200, 700);*/
 	bouton.draw(ofGetWindowWidth() / 2 + 100, 700);
-	if (ofGetMouseX() >= ofGetWindowWidth() / 2 - 200 && ofGetMouseX() <= ofGetWindowWidth() / 2 - 100) {
+	/*if (ofGetMouseX() >= ofGetWindowWidth() / 2 - 200 && ofGetMouseX() <= ofGetWindowWidth() / 2 - 100) {
 		if (ofGetMouseY() >= 700 && ofGetMouseY() <= 750) {
 			boutonSur.draw(ofGetWindowWidth() / 2 - 200, 700);
 		}
-	}
+	}*/
 	if (ofGetMouseX() >= ofGetWindowWidth() / 2 + 100 && ofGetMouseX() <= ofGetWindowWidth() / 2 + 200) {
 		if (ofGetMouseY() >= 700 && ofGetMouseY() <= 750) {
 			boutonSur.draw(ofGetWindowWidth() / 2 + 100, 700);
@@ -41,14 +41,14 @@ void RejouerQuitter::ajoutBoutonStatistique()
 			}
 		}
 	}
-	if (ofGetMouseX() >= ofGetWindowWidth() / 2 - 200 && ofGetMouseX() <= ofGetWindowWidth() / 2 - 100) {
+	/*if (ofGetMouseX() >= ofGetWindowWidth() / 2 - 200 && ofGetMouseX() <= ofGetWindowWidth() / 2 - 100) {
 		if (ofGetMouseY() >= 700 && ofGetMouseY() <= 750) {
 			if (ofGetMousePressed()) {
 				MenuMain();
 			}
 		}
-	}
+	}*/
 
-	font.drawString("Rejouer", ofGetWindowWidth() / 2 - 165, 735);
+	/*font.drawString("Rejouer", ofGetWindowWidth() / 2 - 165, 735);*/
 	font.drawString("Quitter", ofGetWindowWidth() / 2 + 135, 735);
 }

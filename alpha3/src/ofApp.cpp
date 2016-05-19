@@ -4,6 +4,12 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
+	//initialisation du menu et du logo
+	lancementChargement.initiation();
+
+	soundMenu.loadSound("musiqueMenu.mp3");
+	soundMenu.setLoop("true");
+	font2.load("arialR.ttf", 15);
 	// réglage du framerate
 	ofSetFrameRate(30);
 
@@ -61,237 +67,260 @@ void ofApp::setup(){
 	hautFait.theGameHasStarted();
 	// lancement du "menu" dans stat à la fin du jeu pour rejouer ou quitter
 	lancementRejouerQuitter.initBoutonStatistique();
+	
 }
 
 
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	//Musique
-	musique.changeVolume(LancementMenuInGame.volA);
-	if (affInventaire) {
-		inventaire.affichage();
-	}
-	else {
+	//lancement du logo vers le menu
+	lancementChargement.maj();
+	if (lancementMenu.leJeuSeLance == false) {
 
-		// si le joueur a bougé, on met à jour l'info
-		if (playerHasMove) {
-			// Gestion des colisions INTEGRE avec les objets présent et les cases d'eau
-			movePersonnage.updatePositionJoueur();
-
-			// Le quadrillage Horizontal
-			/*
-			pathLineHorizontal.clear();
-			pathLineHorizontal.moveTo(movePersonnage.midX(), movePersonnage.midY());
-			pathLineHorizontal.lineTo(movePersonnage.midX() + 64, movePersonnage.midY());
-			pathLineHorizontal.lineTo(movePersonnage.midX() + 64, movePersonnage.midY() + 64);
-			pathLineHorizontal.lineTo(movePersonnage.midX(), movePersonnage.midY() + 64);
-			pathLineHorizontal.lineTo(movePersonnage.midX(), movePersonnage.midY());
-
-			pathLineHorizontal.close();
-			pathLineHorizontal.setStrokeColor(ofColor::red);
-			pathLineHorizontal.setFilled(false);
-			pathLineHorizontal.setStrokeWidth(1);
-			*/
-
+		//Musique
+		musique.changeVolume(LancementMenuInGame.volA);
+		if (affInventaire) {
+			inventaire.affichage();
 		}
+		else {
 
-		// Si une récolte est en cours
-		if (actionRecolteActive) {
-			actionRecolteActive = movePersonnage.actionRecolteEnd();
-		}
+			// si le joueur a bougé, on met à jour l'info
+			if (playerHasMove) {
+				// Gestion des colisions INTEGRE avec les objets présent et les cases d'eau
+				movePersonnage.updatePositionJoueur();
 
-		// fait spawn du zombis toutes les 15 sec
-		if (tpsSpawnZombi - ofGetElapsedTimeMillis() > timerSpawnZombi) {
+				// Le quadrillage Horizontal
+				/*
+				pathLineHorizontal.clear();
+				pathLineHorizontal.moveTo(movePersonnage.midX(), movePersonnage.midY());
+				pathLineHorizontal.lineTo(movePersonnage.midX() + 64, movePersonnage.midY());
+				pathLineHorizontal.lineTo(movePersonnage.midX() + 64, movePersonnage.midY() + 64);
+				pathLineHorizontal.lineTo(movePersonnage.midX(), movePersonnage.midY() + 64);
+				pathLineHorizontal.lineTo(movePersonnage.midX(), movePersonnage.midY());
+
+				pathLineHorizontal.close();
+				pathLineHorizontal.setStrokeColor(ofColor::red);
+				pathLineHorizontal.setFilled(false);
+				pathLineHorizontal.setStrokeWidth(1);
+				*/
+
+			}
+
+			// Si une récolte est en cours
+			if (actionRecolteActive) {
+				actionRecolteActive = movePersonnage.actionRecolteEnd();
+			}
+
+			// fait spawn du zombis toutes les 15 sec
+			if (tpsSpawnZombi - ofGetElapsedTimeMillis() > timerSpawnZombi) {
+				for (int i = 0; i < maxZombi; i++) {
+					// si cette unité n'est pas affecté
+					if (!zombis[i].isSpawnZombi) {
+						zombis[i].spawnZombi();
+					}
+				}
+			}
+
+			// effectue les traitements sur les zombis
 			for (int i = 0; i < maxZombi; i++) {
 				// si cette unité n'est pas affecté
-				if (!zombis[i].isSpawnZombi) {
-					zombis[i].spawnZombi();
+				if (zombis[i].isSpawnZombi) {
+					zombis[i].moveZombi();
+				}
+				// si un zombi est a distance action joueur = attaqué
+				if (playerCurrentAction != "degat" && zombis[i].distanceBetweenPLayerAndZombi() <= 32 && zombis[i].isSpawnZombi) {
+					// metes l'action joueur en degat s'il n'y est pas.
+					playerCurrentAction = "degat";
 				}
 			}
 		}
 
-		// effectue les traitements sur les zombis
-		for (int i = 0; i < maxZombi; i++) {
-			// si cette unité n'est pas affecté
-			if (zombis[i].isSpawnZombi) {
-				zombis[i].moveZombi();
-			}
-			// si un zombi est a distance action joueur = attaqué
-			if (playerCurrentAction != "degat" && zombis[i].distanceBetweenPLayerAndZombi() <= 32 && zombis[i].isSpawnZombi){
-				// metes l'action joueur en degat s'il n'y est pas.
-				playerCurrentAction = "degat";
-			}
+		//mouvements des nuages
+		for (int i = 0; i <= 49; i++) {
+			lancementMeteo[i].majNuage();
 		}
-	}
 
-	//mouvements des nuages
-	for (int i = 0; i <= 49; i++) {
-		lancementMeteo[i].majNuage();
-	}
-
-	//mouvement de la pluie
-	lancementPluie.MajPluie();
-	
-
-	
-
+		//mouvement de la pluie
+		lancementPluie.MajPluie();
 
 		// gestion des projectiles
-		for(int i = 0; i<5; i++) {
+		for (int i = 0; i < 5; i++) {
 			if (projectile[i].isActive) {
-				
-				if ( !projectile[i].isHitZombie ){
+
+				if (!projectile[i].isHitZombie) {
 					projectile[i].updatePosition();
 				}
 
 				// gère les collisions avec les zombis
-				if (projectile[i].isActive){
+				if (projectile[i].isActive) {
 					for (int j = 0; j < maxZombi; j++) {
 						// collision Zombie
-						if (zombis[j].isSpawnZombi && !projectile[i].isHitZombie && zombis[j].pointDeVie > 1 && abs( zombis[j].posXZombi - projectile[i].positionXOnTheMap ) < 24 && abs(zombis[j].posYZombi - projectile[i].positionYOnTheMap) < 24) {
+						if (zombis[j].isSpawnZombi && !projectile[i].isHitZombie && zombis[j].pointDeVie > 1 && abs(zombis[j].posXZombi - projectile[i].positionXOnTheMap) < 24 && abs(zombis[j].posYZombi - projectile[i].positionYOnTheMap) < 24) {
 							//printf("collision zombie \n");
 							projectile[i].isHitZombie = true;
 							projectile[i].posXZombieHit = zombis[j].posXZombi;
 							projectile[i].posYZombieHit = zombis[j].posYZombi;
 
 							// envoi les dégâts vers le zombi ( si pdv < 1 animation mort en cours )
-							if ( zombis[j].pointDeVie > 1 ){
+							if (zombis[j].pointDeVie > 1) {
 								zombis[j].receiveDamage(5);
 							}
 
-						// collision Roche ou arbre
-						// une fonction de classe qui retourne l'index voulu, c'est cool non ?
-					}
-					else if (tabContentCase[projectile[i].returnIndexOfCase()] == 1 || tabContentCase[projectile[i].returnIndexOfCase()] == 2) {
-						projectile[i].isActive = false;
+							// collision Roche ou arbre
+							// une fonction de classe qui retourne l'index voulu, c'est cool non ?
+						}
+						else if (tabContentCase[projectile[i].returnIndexOfCase()] == 1 || tabContentCase[projectile[i].returnIndexOfCase()] == 2) {
+							projectile[i].isActive = false;
+						}
 					}
 				}
-			}
 
+			}
 		}
-	}
 
 		//Tout ça gère le fait que quand il pleut : musique d'horreur!
-		
-	if (lancementPluie.pleutIl() == true) {
-		musique.setStoppedForRain(true);
-		if (musique.getStoppedForRain() == true && cptmusique==0) {
-			musique.setMusicOff();
-			cptmusique = 1;
+
+		if (lancementPluie.pleutIl() == true) {
+			musique.setStoppedForRain(true);
+			if (musique.getStoppedForRain() == true && cptmusique == 0) {
+				musique.setMusicOff();
+				cptmusique = 1;
+			}
 		}
-	}
-	else if (lancementPluie.pleutIl()==false){
-		musique.setStoppedForRain(false);
-		musique.setMusicOff();
-		cptmusique = 0;
-	}
+		else if (lancementPluie.pleutIl() == false) {
+			musique.setStoppedForRain(false);
+			musique.setMusicOff();
+			cptmusique = 0;
+		}
 
-	//update du menu dans le jeu
-	LancementMenuInGame.MenuMajInGame();
-	//update de la barre de Musique et ambiance dans le menu jeu
-	LancementMenuInGame.majBarreMusique();
-
+		//update du menu dans le jeu
+		LancementMenuInGame.MenuMajInGame();
+		//update de la barre de Musique et ambiance dans le menu jeu
+		LancementMenuInGame.majBarreMusique();
+	}
 
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 
-	// affiche a l'écran
-	gestionMap.displayMap();
-	
-	if (affInventaire && affMenuInGame==false) {
-		inventaire.affichage();
-		font.drawString(strSurvolInventaire, inventaire.returnPosXWindow() + 225, inventaire.returnPosYWindow()+290);
-	}
-	else if(affInventaire == false && affMenuInGame == true) {
-		//dessine le menu dans le jeu
-		LancementMenuInGame.inGame();
-		//dessine les barre dans le menu dans le jeu
-		LancementMenuInGame.dessineBarreMusique();
-	}
-	else {
-
-		// affichage du personnage
-		movePersonnage.movePlayer();
-		/*
-		string fpsStr = "positionJoueurX => " + ofToString(positionJoueurX);
-		ofDrawBitmapString(fpsStr, 20, 100);
-		fpsStr = "positionJoueurY => " + ofToString(positionJoueurY);
-		ofDrawBitmapString(fpsStr, 20, 125);
-		fpsStr = "positionCameraX => " + ofToString(positionJoueurX - widthScreen / 2);
-		ofDrawBitmapString(fpsStr, 20, 150);
-		fpsStr = "positionCameraY => " + ofToString(positionJoueurY - heightScreen / 2);
-		ofDrawBitmapString(fpsStr, 20, 175);
-		fpsStr = "Origin: " + ofToString(positionJoueurX / 64) + ";" + ofToString(positionJoueurY / 64);
-		ofDrawBitmapString(fpsStr, 20, 200);
-		fpsStr = "Origin(pied): " + ofToString((positionJoueurX + 32) / 64) + ";" + ofToString((positionJoueurY + 60) / 64);
-		ofDrawBitmapString(fpsStr, 20, 225);
-		pathLineHorizontal.draw();
-		*/
-
-		for (int i = 0; i < maxZombi; i++) {
-			// si cette unité n'est pas affecté
-			if (zombis[i].isSpawnZombi) {
-				if (zombis[i].getAnimMort() == false)
-					zombis[i].displayZombi();
-			}
-		}
-		//Meteo
-		//nuage
-		for (int i = 0; i <= 49; i++)
+	//Draw     utiliser pour le chargement des menus et du logo Ohm Game ainsi que le son du lancement dans logo
+	lancementChargement.chargement();
+	if (lancementChargement.goMenu == 2) {
+		lancementMenu.testAffichage();
+		/*if (lancementMenu.son == false)
 		{
-			lancementMeteo[i].dessineNuage();
+			soundMenu.stop();
+			sonMenuPrincipallancer = true;
 		}
-		//orage
+		if (sonMenuPrincipallancer || lancementMenu.leJeuSeLance == false) {
+			soundMenu.play();
+			sonMenuPrincipallancer = false;
+		}*/
+	}
+	//Ecrit au survol dans le menu touche
+	if (lancementMenu.lanceOptionTouche == false)
+	{
+		font2.drawString(strSurvolTouche, ofGetWindowWidth() / 2 - 200, ofGetWindowHeight() / 2 - 120);
+	}
+	
+	if (lancementMenu.leJeuSeLance==false) {
+		lancementMenu.menuPrincipal = false;
+		// affiche a l'écran
+		gestionMap.displayMap();
 
-		lancementPluie.TombePluie();
+		if (affInventaire && affMenuInGame == false) {
+			inventaire.affichage();
+			font.drawString(strSurvolInventaire, inventaire.returnPosXWindow() + 225, inventaire.returnPosYWindow() + 290);
+		}
+		else if (affInventaire == false && affMenuInGame == true) {
+			//dessine le menu dans le jeu
+			LancementMenuInGame.inGame();
+			//dessine les barre dans le menu dans le jeu
+			LancementMenuInGame.dessineBarreMusique();
+		}
+		else {
 
-		// barre de vie, sprint et energie
-		barreDeVie.displayBarreVie();
+			// affichage du personnage
+			movePersonnage.movePlayer();
+			/*
+			string fpsStr = "positionJoueurX => " + ofToString(positionJoueurX);
+			ofDrawBitmapString(fpsStr, 20, 100);
+			fpsStr = "positionJoueurY => " + ofToString(positionJoueurY);
+			ofDrawBitmapString(fpsStr, 20, 125);
+			fpsStr = "positionCameraX => " + ofToString(positionJoueurX - widthScreen / 2);
+			ofDrawBitmapString(fpsStr, 20, 150);
+			fpsStr = "positionCameraY => " + ofToString(positionJoueurY - heightScreen / 2);
+			ofDrawBitmapString(fpsStr, 20, 175);
+			fpsStr = "Origin: " + ofToString(positionJoueurX / 64) + ";" + ofToString(positionJoueurY / 64);
+			ofDrawBitmapString(fpsStr, 20, 200);
+			fpsStr = "Origin(pied): " + ofToString((positionJoueurX + 32) / 64) + ";" + ofToString((positionJoueurY + 60) / 64);
+			ofDrawBitmapString(fpsStr, 20, 225);
+			pathLineHorizontal.draw();
+			*/
 
-		// gestion des projectiles
-		for (int i = 0; i < 5; i++) {
-			if (projectile[i].isActive) {
-
-				projectile[i].displayProjectile();
-
-				//Affichage HIT ZOMBIE ! DANS TA ***BIP*** LE ZOMBIE !
-				if ( projectile[i].isHitZombie ){
-					projectile[i].drawHitSangZombie();
+			for (int i = 0; i < maxZombi; i++) {
+				// si cette unité n'est pas affecté
+				if (zombis[i].isSpawnZombi) {
+					if (zombis[i].getAnimMort() == false)
+						zombis[i].displayZombi();
 				}
+			}
+			//Meteo
+			//nuage
+			for (int i = 0; i <= 49; i++)
+			{
+				lancementMeteo[i].dessineNuage();
+			}
+			//orage
 
+			lancementPluie.TombePluie();
+
+			// barre de vie, sprint et energie
+			barreDeVie.displayBarreVie();
+
+			// gestion des projectiles
+			for (int i = 0; i < 5; i++) {
+				if (projectile[i].isActive) {
+
+					projectile[i].displayProjectile();
+
+					//Affichage HIT ZOMBIE ! DANS TA ***BIP*** LE ZOMBIE !
+					if (projectile[i].isHitZombie) {
+						projectile[i].drawHitSangZombie();
+					}
+
+				}
 			}
 		}
-	}
-	//Ceci permet que lorsqu'on clique sur retour Jeu le menu s'arrête bien et le menu ne fait pas laguer
-	if (affMenuInGame == true)
-	{
-		if (LancementMenuInGame.retourJeu == false)
+		//Ceci permet que lorsqu'on clique sur retour Jeu le menu s'arrête bien et le menu ne fait pas laguer
+		if (affMenuInGame == true)
 		{
-			affMenuInGame = false;
+			if (LancementMenuInGame.retourJeu == false)
+			{
+				affMenuInGame = false;
+			}
+		}
+		if (LancementMenuInGame.clavierlancer)
+		{
+			font.drawString(strSurvolTouche, ofGetWindowWidth() / 2 - 200, ofGetWindowHeight() / 2 - 120);
+		}
+
+		// lance le popup et affichage d'un haut fait
+		if (hautFait.returnTest() == true) {
+			popup.majPopUp(hautFait.displayTitle(), hautFait.displayDescription());
+			popup.drawPopUp();
+		}
+		if (ofGetElapsedTimeMillis() - hautFait.tpsEntreDeuxHautFait > 3000) {
+			hautFait.setBoolTest(false);
+		}
+		if (hautFait.getDrawStats() == true) {
+			hautFait.drawStatistics();
+			//dessine les boutons pour le click rejouer ou quitter à la fin du jeu
+			lancementRejouerQuitter.ajoutBoutonStatistique();
 		}
 	}
-	if (LancementMenuInGame.clavierlancer)
-	{
-		font.drawString(strSurvolTouche,ofGetWindowWidth()/2-200,ofGetWindowHeight()/2-120);
-	}
-	
-	// lance le popup et affichage d'un haut fait
-	if (hautFait.returnTest() == true) {
-		popup.majPopUp(hautFait.displayTitle(), hautFait.displayDescription());
-		popup.drawPopUp();
-	}
-	if ( ofGetElapsedTimeMillis() - hautFait.tpsEntreDeuxHautFait > 3000) {
-		hautFait.setBoolTest(false);
-	}
-	if (hautFait.getDrawStats() == true) {
-		hautFait.drawStatistics();
-		//dessine les boutons pour le click rejouer ou quitter à la fin du jeu
-		lancementRejouerQuitter.ajoutBoutonStatistique();
-	}
-	
 }
 
 //--------------------------------------------------------------
@@ -484,10 +513,71 @@ void ofApp::mouseMoved(int x, int y ){
 		}
 		else if (x > ofGetWindowWidth() / 2 - 640 + 455 && x<ofGetWindowWidth() / 2 - 640 + 455 + 55 && y > ofGetWindowHeight() / 2 - 360 + 417 && y < ofGetWindowHeight() / 2 - 360 + 417 + 55)
 		{
-			strSurvolTouche = "Pleine Ecran";
+			strSurvolTouche = "Plein Ecran";
 		}
 		
 		else 
+		{
+			strSurvolTouche = "";
+		}
+	}
+	//Permet de donner une valeur strSurvolTouche en fonction de la position ou pointe la souris dans le menu Principal
+	if (lancementMenu.lanceOptionTouche == false)
+	{
+		if (x > ofGetWindowWidth() / 2 - 640 + 169 && x<ofGetWindowWidth() / 2 - 640 + 169 + 55 && y > ofGetWindowHeight() / 2 - 360 + 246 && y<ofGetWindowHeight() / 2 - 360 + 246 + 29)
+		{
+			strSurvolTouche = "Quitter le menu";
+		}
+		else if (x > ofGetWindowWidth() / 2 + 283 && x<ofGetWindowWidth() / 2 + 338 && y > ofGetWindowHeight() / 2 + 188 && y < ofGetWindowHeight() / 2 + 243)
+		{
+			strSurvolTouche = "Gauche";
+		}
+		else if (x > ofGetWindowWidth() / 2 + 416 && x<ofGetWindowWidth() / 2 + 471 && y > ofGetWindowHeight() / 2 + 189 && y < ofGetWindowHeight() / 2 + 244)
+		{
+			strSurvolTouche = "Droite";
+		}
+		else if (x > ofGetWindowWidth() / 2 + 350 && x<ofGetWindowWidth() / 2 + 406 && y > ofGetWindowHeight() / 2 + 188 && y < ofGetWindowHeight() / 2 - 360 + 548 + 27)
+		{
+			strSurvolTouche = "Avancer";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 990 && x<ofGetWindowWidth() / 2 - 640 + 990 + 56 && y > ofGetWindowHeight() / 2 - 360 + 577 && y < ofGetWindowHeight() / 2 - 360 + 577 + 27)
+		{
+			strSurvolTouche = "Reculer";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 709 && x<ofGetWindowWidth() / 2 - 640 + 709 + 55 && y > ofGetWindowHeight() / 2 - 360 + 349 && y < ofGetWindowHeight() / 2 - 360 + 349 + 55)
+		{
+			strSurvolTouche = "Inventaire";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 1133 && x<ofGetWindowWidth() / 2 - 640 + 1133 + 87 && y > ofGetWindowHeight() / 2 - 360 + 213 && y < ofGetWindowHeight() / 2 - 360 + 213 + 113)
+		{
+			strSurvolTouche = "lancer de projectile";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 312 && x<ofGetWindowWidth() / 2 - 640 + 312 + 55 && y > ofGetWindowHeight() / 2 - 360 + 351 && y < ofGetWindowHeight() / 2 - 360 + 351 + 55)
+		{
+			strSurvolTouche = "Avancer";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 259 && x<ofGetWindowWidth() / 2 - 640 + 259 + 55 && y > ofGetWindowHeight() / 2 - 360 + 417 && y < ofGetWindowHeight() / 2 - 360 + 417 + 55)
+		{
+			strSurvolTouche = "Gauche";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 325 && x<ofGetWindowWidth() / 2 - 640 + 325 + 55 && y > ofGetWindowHeight() / 2 - 360 + 417 && y < ofGetWindowHeight() / 2 - 360 + 417 + 55)
+		{
+			strSurvolTouche = "Reculer";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 389 && x<ofGetWindowWidth() / 2 - 640 + 389 + 55 && y > ofGetWindowHeight() / 2 - 360 + 417 && y < ofGetWindowHeight() / 2 - 360 + 417 + 55)
+		{
+			strSurvolTouche = "Droite";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 379 && x<ofGetWindowWidth() / 2 - 640 + 379 + 55 && y > ofGetWindowHeight() / 2 - 360 + 351 && y < ofGetWindowHeight() / 2 - 360 + 351 + 55)
+		{
+			strSurvolTouche = "Couper/Miner";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 455 && x<ofGetWindowWidth() / 2 - 640 + 455 + 55 && y > ofGetWindowHeight() / 2 - 360 + 417 && y < ofGetWindowHeight() / 2 - 360 + 417 + 55)
+		{
+			strSurvolTouche = "Plein Ecran";
+		}
+
+		else
 		{
 			strSurvolTouche = "";
 		}
@@ -503,6 +593,16 @@ void ofApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
 
+	if (ofGetMousePressed()) {
+		//Classe MenuMain Touche et Crédit pour le retour vers le menu principal
+		if (lancementMenu.lanceCredit == false) {
+			lancementMenu.lanceCredit = true;
+		}
+		if (lancementMenu.lanceOptionTouche == false)
+		{
+			lancementMenu.lanceOptionTouche = true;
+		}
+	}
 }
 
 //--------------------------------------------------------------

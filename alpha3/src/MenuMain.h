@@ -8,7 +8,7 @@ class MenuMain
 {
 public:
 	ofTrueTypeFont font, font2;
-	ofImage button, buttonSur, fondEcran, buttonSonOn, buttonSonOff, clavier, credit;
+	ofImage button, buttonSur, fondEcran,/* buttonSonOn, buttonSonOff,*/ clavier, credit;
 	MenuMain();
 	~MenuMain();
 	bool menuPrincipal = true;//si tout le menuprincipal est affiché
@@ -21,7 +21,7 @@ public:
 	int temporaire;
 	bool lanceCredit = true;//Bool qui permet de lance le menu des crédits
 	void aJourMenu();
-	bool son = true;
+//	bool son = true;
 
 
 

@@ -12,6 +12,8 @@
 #include "../HautFait.h"
 #include "../Popup.h"
 #include "RejouerQuitter.h"
+#include "ClasseLogo.h"
+#include "MenuMain.h"
 
 class ofApp : public ofBaseApp {
 
@@ -47,6 +49,15 @@ public:
 	Music musique;
 	Stats hautFait;
 	PopUp popup;
+	//classe logo
+	ClasseLogo lancementChargement;
+	//classe Menu
+	MenuMain lancementMenu;
+	//son du menu Principal
+	ofSoundPlayer soundMenu;
+	bool sonMenuPrincipallancer = true;
+	ofTrueTypeFont font2;
+	//string strSurvolTouche;
 	
 
 
