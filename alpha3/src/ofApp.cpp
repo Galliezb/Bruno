@@ -50,8 +50,7 @@ void ofApp::setup(){
 		projectile[i].init(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen, tabContentRessourcePlayer);
 	}
 
-	//Musique
-	musique.changeVolume(0.5);
+	
 	//lancement initiation Menu dans le jeu
 	LancementMenuInGame.InitInGameMenu();
 	//lancement initiation De la barre de musique du menu dans le jeu
@@ -61,7 +60,8 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update() {
-
+	//Musique
+	musique.changeVolume(LancementMenuInGame.volA);
 	if (affInventaire) {
 		inventaire.affichage();
 	}

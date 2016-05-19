@@ -113,19 +113,13 @@ void MeneInGame::initBarreMusique()
 	sauvMusique = fopen("sauvMusique.txt", "r");
 	if (sauvMusique != NULL)
 	{
-		fscanf(sauvMusique, "%f %f", &volM, &volA);
+		fscanf(sauvMusique, "%f ", &volA);
 		fclose(sauvMusique);
 	}
-	
-
 	//sons musique déclaration 
-	gui.setup("Musique");
-	gui.add(volumeM.setup("Volume", volM, 0, 1));
-	
-	gui2.setup("Ambiance");
-	gui2.add(volumeA.setup("Volume", volA, 0, 1));
-	
 
+	gui2.setup("Musique");
+	gui2.add(volumeA.setup("Volume", volA, 0, 1));
 }
 
 void MeneInGame::majBarreMusique()
@@ -133,9 +127,8 @@ void MeneInGame::majBarreMusique()
 	//sauvegarde sons
 	//fscanf(sauvMusique, "%f %f", &volM, &volA);
 	sauvMusique = fopen("sauvMusique.txt", "w");
-	fprintf(sauvMusique, "%f %f", volM, volA);
+	fprintf(sauvMusique, "%f", volA);
 	fclose(sauvMusique);
-	volM = volumeM;
 	volA = volumeA;
 }
 
@@ -144,9 +137,7 @@ void MeneInGame::dessineBarreMusique()
 	if (retourJeu && goMenuJeu) {
 
 		//position des barres de sons
-		gui.draw();
-		sample.setVolume(volM);
-		gui.setPosition(ofGetWindowWidth() / 2 - 100, ofGetWindowHeight() / 2 - 20);
+		
 		gui2.draw();
 		sample2.setVolume(volA);
 		gui2.setPosition(ofGetWindowWidth() / 2 - 100, ofGetWindowHeight() / 2 + 25);
@@ -164,10 +155,6 @@ bool MeneInGame::getRetourJeu()
 	return retourJeu;
 }
 
-float MeneInGame::getSonMusique()
-{
-	return volM;
-}
 
 float MeneInGame::getSonAmbiance()
 {
