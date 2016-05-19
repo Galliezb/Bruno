@@ -64,6 +64,9 @@
     <ClCompile Include="src\MeneInGame.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\RejouerQuitter.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -141,6 +144,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="Popup.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RejouerQuitter.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -160,13 +160,14 @@ void ofApp::update() {
 
 						// collision Roche ou arbre
 						// une fonction de classe qui retourne l'index voulu, c'est cool non ?
-						} else if ( tabContentCase[projectile[i].returnIndexOfCase()] == 1 || tabContentCase[projectile[i].returnIndexOfCase()] == 2 ){
-							projectile[i].isActive = false;
-						}
+					}
+					else if (tabContentCase[projectile[i].returnIndexOfCase()] == 1 || tabContentCase[projectile[i].returnIndexOfCase()] == 2) {
+						projectile[i].isActive = false;
 					}
 				}
-				
 			}
+
+		}
 	}
 
 		//Tout ça gère le fait que quand il pleut : musique d'horreur!

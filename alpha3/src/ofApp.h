@@ -9,10 +9,8 @@
 #include "../Meteo.h"
 #include "../ClassMusic.h"
 #include "MeneInGame.h"
-/*
 #include "../HautFait.h"
 #include "../Popup.h"
-*/
 
 class ofApp : public ofBaseApp {
 
