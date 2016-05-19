@@ -342,8 +342,13 @@ void ofApp::draw() {
 		}
 		else {
 			hautFait.drawStatistics();
+			
 			//dessine les boutons pour le click rejouer ou quitter à la fin du jeu
 			lancementRejouerQuitter.ajoutBoutonStatistique();
+		}
+		if (LancementMenuInGame.statMenuLancer)
+		{
+			hautFait.drawStatistics();
 		}
 	}
 
