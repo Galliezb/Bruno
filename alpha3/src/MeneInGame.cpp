@@ -18,7 +18,7 @@ void MeneInGame::InitInGameMenu()
 	ecrit.loadFont("CandyShop.ttf", 10, true);
 	button.loadImage("Boutton.png");
 	buttonSur.loadImage("BouttonSur.png");
-	clavier.loadImage("clavier.png");
+	clavier.loadImage("clavier2.png");
 
 }
 

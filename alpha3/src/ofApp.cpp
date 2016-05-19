@@ -403,26 +403,59 @@ void ofApp::mouseMoved(int x, int y ){
 	}
 	if (LancementMenuInGame.clavierlancer)
 	{
-		if (x > ofGetWindowWidth() / 2  -640+170 && x<ofGetWindowWidth() / 2 - 640 + 220 && y > ofGetWindowHeight() / 2 - 360+280 && y<ofGetWindowHeight() / 2 - 360 + 330)
+		if (x > ofGetWindowWidth() / 2  -640+169 && x<ofGetWindowWidth() / 2 - 640 + 169+55 && y > ofGetWindowHeight() / 2 - 360+246 && y<ofGetWindowHeight() / 2 - 360 + 246+29)
 		{
 			strSurvolTouche = "Quitter le menu";
 		}
-		else if (x > ofGetWindowWidth() / 2 - 640 + 770 && x<ofGetWindowWidth() / 2 - 640 + 840 && y > ofGetWindowHeight() / 2 - 360 + 540 && y < ofGetWindowHeight() / 2 - 360 + 585)
+		else if (x > ofGetWindowWidth() / 2 +283 && x<ofGetWindowWidth() / 2 +338 && y > ofGetWindowHeight() / 2 +188 && y < ofGetWindowHeight() / 2 +243)
 		{
-			strSurvolTouche = "Aller a gauche";
+			strSurvolTouche = "Gauche";
 		}
-		else if (x > ofGetWindowWidth() / 2 - 640 + 860 && x<ofGetWindowWidth() / 2 - 640 + 930 && y > ofGetWindowHeight() / 2 - 360 + 540 && y < ofGetWindowHeight() / 2 - 360 + 585)
+		else if (x > ofGetWindowWidth() / 2 +416 && x<ofGetWindowWidth() / 2 +471 && y > ofGetWindowHeight() / 2 +189 && y < ofGetWindowHeight() / 2 +244)
 		{
-			strSurvolTouche = "Aller en haut";
+			strSurvolTouche = "Droite";
 		}
-		else if (x > ofGetWindowWidth() / 2 - 640 + 950 && x<ofGetWindowWidth() / 2 - 640 + 1020&& y > ofGetWindowHeight() / 2 - 360 + 540 && y < ofGetWindowHeight() / 2 - 360 + 585)
+		else if (x > ofGetWindowWidth() / 2 +350 && x<ofGetWindowWidth() / 2+406 && y > ofGetWindowHeight() / 2 +188 && y < ofGetWindowHeight() / 2 -360+ 548+27)
 		{
-			strSurvolTouche = "Aller en bas";
+			strSurvolTouche = "Avancer";
 		}
-		else if (x > ofGetWindowWidth() / 2 - 640 + 1040 && x<ofGetWindowWidth() / 2 - 640 + 1110 && y > ofGetWindowHeight() / 2 - 360 + 540 && y < ofGetWindowHeight() / 2 - 360 + 585)
+		else if (x > ofGetWindowWidth() / 2 - 640 + 990 && x<ofGetWindowWidth() / 2 - 640 + 990+56 && y > ofGetWindowHeight() / 2 - 360 + 577 && y < ofGetWindowHeight() / 2 -360+ 577 + 27)
 		{
-			strSurvolTouche = "Aller a droite";
+			strSurvolTouche = "Reculer";
 		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 709 && x<ofGetWindowWidth() / 2 - 640 + 709 + 55 && y > ofGetWindowHeight() / 2 - 360 + 349 && y < ofGetWindowHeight() / 2 - 360 + 349 + 55)
+		{
+			strSurvolTouche = "Inventaire";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 1133 && x<ofGetWindowWidth() / 2 - 640 + 1133 + 87 && y > ofGetWindowHeight() / 2 - 360 + 213 && y < ofGetWindowHeight() / 2 - 360 + 213 + 113)
+		{
+			strSurvolTouche = "lancer de projectile";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 312 && x<ofGetWindowWidth() / 2 - 640 + 312 + 55 && y > ofGetWindowHeight() / 2 - 360 + 351 && y < ofGetWindowHeight() / 2 - 360 + 351 + 55)
+		{
+			strSurvolTouche = "Avancer";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 259 && x<ofGetWindowWidth() / 2 - 640 + 259 + 55 && y > ofGetWindowHeight() / 2 - 360 + 417 && y < ofGetWindowHeight() / 2 - 360 + 417 + 55)
+		{
+			strSurvolTouche = "Gauche";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 325 && x<ofGetWindowWidth() / 2 - 640 + 325 + 55 && y > ofGetWindowHeight() / 2 - 360 + 417 && y < ofGetWindowHeight() / 2 - 360 + 417 + 55)
+		{
+			strSurvolTouche = "Reculer";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 389 && x<ofGetWindowWidth() / 2 - 640 + 389 + 55 && y > ofGetWindowHeight() / 2 - 360 + 417 && y < ofGetWindowHeight() / 2 - 360 + 417 + 55)
+		{
+			strSurvolTouche = "Droite";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 379 && x<ofGetWindowWidth() / 2 - 640 + 379 + 55 && y > ofGetWindowHeight() / 2 - 360 + 351 && y < ofGetWindowHeight() / 2 - 360 + 351 + 55)
+		{
+			strSurvolTouche = "Couper/Miner";
+		}
+		else if (x > ofGetWindowWidth() / 2 - 640 + 455 && x<ofGetWindowWidth() / 2 - 640 + 455 + 55 && y > ofGetWindowHeight() / 2 - 360 + 417 && y < ofGetWindowHeight() / 2 - 360 + 417 + 55)
+		{
+			strSurvolTouche = "Pleine Ecran";
+		}
+		
 		else 
 		{
 			strSurvolTouche = "";
