@@ -10,6 +10,7 @@
 #include "../ClassMusic.h"
 #include "../HautFait.h"
 #include "MeneInGame.h"
+#include"RejouerQuitter.h"
 
 class ofApp : public ofBaseApp {
 

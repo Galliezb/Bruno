@@ -130,27 +130,28 @@ void ofApp::update() {
 
 
 		// gestion des projectiles
-		for(int i = 0; i<5; i++) {
-			if (projectile[i].isActive) {
-				projectile[i].updatePosition();
+	for (int i = 0; i < 5; i++) {
+		if (projectile[i].isActive) {
+			projectile[i].updatePosition();
 
-				// gère les collisions avec les zombis
-				if (projectile[i].isActive){
-					for (int j = 0; j < maxZombi; j++) {
-						// collision Zombie
-						if (zombis[j].isSpawnZombi && !projectile[i].isHitZombie && abs( zombis[j].posXZombi - projectile[i].positionXOnTheMap ) < 24 && abs(zombis[j].posYZombi - projectile[i].positionYOnTheMap) < 24) {
-							projectile[i].isHitZombie = true;
-							projectile[i].posXZombieHit = zombis[j].posXZombi;
-							projectile[i].posYZombieHit = zombis[j].posYZombi;
+			// gère les collisions avec les zombis
+			if (projectile[i].isActive) {
+				for (int j = 0; j < maxZombi; j++) {
+					// collision Zombie
+					if (zombis[j].isSpawnZombi && !projectile[i].isHitZombie && abs(zombis[j].posXZombi - projectile[i].positionXOnTheMap) < 24 && abs(zombis[j].posYZombi - projectile[i].positionYOnTheMap) < 24) {
+						projectile[i].isHitZombie = true;
+						projectile[i].posXZombieHit = zombis[j].posXZombi;
+						projectile[i].posYZombieHit = zombis[j].posYZombi;
 						// collision Roche ou arbre
 						// une fonction de classe qui retourne l'index voulu, c'est cool non ?
-						} else if ( tabContentCase[projectile[i].returnIndexOfCase()] == 1 || tabContentCase[projectile[i].returnIndexOfCase()] == 2 ){
-							projectile[i].isActive = false;
-						}
+					}
+					else if (tabContentCase[projectile[i].returnIndexOfCase()] == 1 || tabContentCase[projectile[i].returnIndexOfCase()] == 2) {
+						projectile[i].isActive = false;
 					}
 				}
-				
 			}
+
+		}
 	}
 
 		//Tout ça gère le fait que quand il pleut : musique d'horreur!
@@ -162,7 +163,7 @@ void ofApp::update() {
 			cptmusique = 1;
 		}
 	}
-	else if (lancementPluie.pleutIl()==false{
+	else if (lancementPluie.pleutIl()==false){
 		musique.setStoppedForRain(false);
 		musique.setMusicOff();
 		cptmusique = 0;
