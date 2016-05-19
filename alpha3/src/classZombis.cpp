@@ -10,7 +10,7 @@ ClassZombi::ClassZombi(){
 	pointDeVie=25;
 }
 
-void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis, BarreDeVie *ptrInstancebarreDeVie, Stats *ptrInstanceStats){
+void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis, BarreDeVie *ptrInstancebarreDeVie, Stats *ptrInstanceStats, int *ptrTabContentRessourcePlayer){
 
 	this->ptrPositionJoueurX = ptrPositionJoueurX;
 	this->ptrPositionJoueurY = ptrPositionJoueurY;
@@ -24,7 +24,7 @@ void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptr
 	this->ptrInstanceStats = ptrInstanceStats;
 	// instance barre de vie
 	this->ptrInstancebarreDeVie = ptrInstancebarreDeVie;
-
+	this->ptrTabContentRessourcePlayer = ptrTabContentRessourcePlayer;
 }
 
 void ClassZombi::displayZombi() {
@@ -570,6 +570,9 @@ void ClassZombi::AnimDeathZombie()
 	if (animDeathZombiDone == true) {
 		isSpawnZombi = false;
 		ptrInstanceStats->addZombieKilled();
+		*(ptrTabContentRessourcePlayer + 2) += 1;
+		*(ptrTabContentRessourcePlayer + 3) += 1;
+		*(ptrTabContentRessourcePlayer + 4) += 1;
 	}
 }
 

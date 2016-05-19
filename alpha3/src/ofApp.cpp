@@ -36,7 +36,7 @@ void ofApp::setup(){
 	inventaire.init(tabContentRessourcePlayer, &widthScreen, &heightScreen);
 	// zombis
 	for (int i=0; i<maxZombi; i++){
-		zombis[i].init(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen, tabContentCase, tabContentTerrain, &playerCurrentAction, zombis, &maxZombi, &barreDeVie, &hautFait);
+		zombis[i].init(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen, tabContentCase, tabContentTerrain, &playerCurrentAction, zombis, &maxZombi, &barreDeVie, &hautFait, tabContentRessourcePlayer);
 	}
 
 	// init gestion des barre
