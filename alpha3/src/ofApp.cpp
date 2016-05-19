@@ -128,10 +128,11 @@ void ofApp::update() {
 				}
 
 				// fait spawn du zombis toutes les 15 sec
-				if (tpsSpawnZombi - ofGetElapsedTimeMillis() > timerSpawnZombi) {
+				if (ofGetElapsedTimeMillis() - tpsSpawnZombi  > timerSpawnZombi) {
 					for (int i = 0; i < maxZombi; i++) {
 						// si cette unité n'est pas affecté
 						if (!zombis[i].isSpawnZombi) {
+						printf("\n\n\n\nSpawnZombie\n\n\n\n\n");
 							zombis[i].spawnZombi();
 						}
 					}

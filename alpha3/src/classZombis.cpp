@@ -25,7 +25,6 @@ void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptr
 	// instance barre de vie
 	this->ptrInstancebarreDeVie = ptrInstancebarreDeVie;
 
-
 }
 
 void ClassZombi::displayZombi() {
@@ -387,8 +386,6 @@ void ClassZombi::spawnZombi(){
 	// on fait spawn en dehors de la carte
 	posXZombi = 7680+x;
 	posYZombi = 5120+y;
-	posXZombi = 448+x;
-	posYZombi = 384+y;
 
 	bool verification = false;
 	// pour éviter les zombis buggé l'un sur l'autre, on spawn pas sur un autre zombi SVP !!!

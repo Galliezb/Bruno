@@ -38,7 +38,7 @@ public:
 	classMap gestionMap;
 	moving movePersonnage;
 	classInventaire inventaire;
-	ClassZombi zombis[10];
+	ClassZombi zombis[25];
 	BarreDeVie barreDeVie;
 	Meteo lancementMeteo[50];
 	Projectile projectile[5];
@@ -65,7 +65,7 @@ public:
 		// temps gérant les zombis
 		int tpsSpawnZombi = ofGetElapsedTimeMillis();
 		// nombre max de zombi
-		int maxZombi = 10;
+		int maxZombi = 25;
 		// en milliseconde
 		int timerSpawnZombi=2500;
 
