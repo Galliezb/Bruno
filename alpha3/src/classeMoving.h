@@ -2,6 +2,7 @@
 #include "ofMain.h"
 #include "classMap.h"
 #include "BarreDeVie.h"
+#include "../HautFait.h"
 
 class moving {
 
@@ -17,6 +18,8 @@ class moving {
 	classMap *ptrInstanceGestionMap;
 	// instance barre de vie
 	BarreDeVie *ptrInstancebarreDeVie;
+	// instance hautfait
+	Stats *ptrInstranceHautFait;
 
 	// incrementation pour l'animation
 	int startCycleAnimationTop = 0;
@@ -64,7 +67,7 @@ class moving {
 public:
 
 	moving();
-	void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *ptrPlayerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap, BarreDeVie *ptrInstancebarreDeVie);
+	void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *ptrPlayerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap, BarreDeVie *ptrInstancebarreDeVie, Stats *ptrInstranceHautFait);
 	void playerAction();
 	// méthode de gestion du déplacement joueur
 	void movePlayer();

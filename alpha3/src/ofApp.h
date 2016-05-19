@@ -8,9 +8,9 @@
 #include "ClassProjectile.h"
 #include "../Meteo.h"
 #include "../ClassMusic.h"
-#include "../HautFait.h"
 #include "MeneInGame.h"
-#include"RejouerQuitter.h"
+#include "../HautFait.h"
+#include "../Popup.h"
 
 class ofApp : public ofBaseApp {
 
@@ -41,12 +41,18 @@ public:
 	Projectile projectile[5];
 	Meteo lancementPluie;
 	MeneInGame LancementMenuInGame;
+	//Gestion de la musique
+	Music musique;
+	Stats hautFait;
+	PopUp popup;
+	
+
 
 		// variable
 		// temps gérant les zombis
 		int tpsSpawnZombi = ofGetElapsedTimeMillis();
 		// nombre max de zombi
-		int maxZombi = 1;
+		int maxZombi = 0;
 		// en milliseconde
 		int timerSpawnZombi=2500;
 
@@ -87,7 +93,7 @@ public:
 		5 => pierre à lancer
 		6 => lance
 		*/
-		int tabContentRessourcePlayer[7] = {5,5,1,2,3,4,5};
+		int tabContentRessourcePlayer[7] = {5,5,100,100,100,100,100 };
 		//ofPath pathLineHorizontal;
 
 		// variable de récolte
@@ -96,8 +102,6 @@ public:
 		ofTrueTypeFont font;
 		string strSurvolInventaire = "";
 		string strSurvolTouche = "";
-		//Gestion de la musique
-		Music musique;
 		int cptmusique = 0;
 
 		
