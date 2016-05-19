@@ -115,11 +115,12 @@ void moving::movePlayer() {
 void moving::playerAction() {
 
 	// rectangle autour du joueur
+	/*
 	ofSetColor(255, 0, 0);
 	ofDrawRectangle(midX(), midY(), 64, 64);
 	ofNoFill();
 	ofSetColor(255, 255, 255);
-
+	*/
 
 	if (*ptrPlayerCurrentAction == "construire") {
 		action = construire;

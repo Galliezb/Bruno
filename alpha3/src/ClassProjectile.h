@@ -24,7 +24,14 @@ class Projectile{
 	// vitesse de rotation ( en ms )
 	int speedRotation = 50;
 	// vitesse de mouvement ( en pixel )
-	int speedMoving = 2;
+	int speedMoving = 15;
+
+	// incrément typre ressource lancé
+	// Start -1 car on incrémente systématiquement et vérif ensuite
+	int typeRessourceLaunch = -1;
+
+	// timer need Ammo evite la répétition abusive
+	int tpsNeedAmmoSoundPlay;
 	
 	public:
 
@@ -65,7 +72,7 @@ class Projectile{
 		int posAffichageX();
 		// retourne la valeur Y sr l''affichage
 		int posAffichageY();
-		void drawHitSangZombie(bool affSang = true);
+		void drawHitSangZombie();
 
 		int returnIndexOfCase();
 
@@ -73,5 +80,14 @@ class Projectile{
 		int posAffichageSangX();
 		// calcul la position d'affichage du sang
 		int posAffichageSangY();
+
+		bool playerHaveEnoughRessource();
+
+		// gère le choix du projectile selon le stock disponible
+		// + décrémente le stock
+		void choiceProjectile();
+
+		// besoin de munition
+		void needAmmoSound();
 
 };

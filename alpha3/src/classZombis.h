@@ -22,7 +22,7 @@ class ClassZombi {
 
 	// ofimage
 	ofImage zombiMarche, zombiAttaque, zombiMort;
-	ofPath repere;
+	//ofPath repere;
 
 	// variable de temps pour l'animation
 	int tpsStart;
