@@ -67,6 +67,12 @@
     <ClCompile Include="src\RejouerQuitter.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\MenuMain.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ClasseLogo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -147,6 +153,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\RejouerQuitter.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MenuMain.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ClasseLogo.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -176,6 +176,7 @@
     <ClCompile Include="Meteo.cpp" />
     <ClCompile Include="Popup.cpp" />
     <ClCompile Include="src\BarreDeVie.cpp" />
+    <ClCompile Include="src\ClasseLogo.cpp" />
     <ClCompile Include="src\classeMoving.cpp" />
     <ClCompile Include="src\classInventaire.cpp" />
     <ClCompile Include="src\classMap.cpp" />
@@ -183,6 +184,7 @@
     <ClCompile Include="src\classZombis.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MeneInGame.cpp" />
+    <ClCompile Include="src\MenuMain.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxBaseGui.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxButton.cpp" />
@@ -200,12 +202,14 @@
     <ClInclude Include="Meteo.h" />
     <ClInclude Include="Popup.h" />
     <ClInclude Include="src\BarreDeVie.h" />
+    <ClInclude Include="src\ClasseLogo.h" />
     <ClInclude Include="src\classeMoving.h" />
     <ClInclude Include="src\classInventaire.h" />
     <ClInclude Include="src\classMap.h" />
     <ClInclude Include="src\ClassProjectile.h" />
     <ClInclude Include="src\classZombis.h" />
     <ClInclude Include="src\MeneInGame.h" />
+    <ClInclude Include="src\MenuMain.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxBaseGui.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxButton.h" />
