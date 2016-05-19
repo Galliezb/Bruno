@@ -60,11 +60,11 @@ void classMap::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWi
 	Sleep(1);
 
 	// ajoute des arbres de manière aleatoire
-	//succes = addRessourceRandom(true, false);
+	addRessourceRandom(true, false);
 
 
 	// test ajoute des rochers de manière aleatoire
-	//succes = addRessourceRandom(false, true);
+	addRessourceRandom(false, true);
 
 }
 /******************************* HERBE ************************************/

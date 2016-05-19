@@ -42,10 +42,10 @@ class ClassZombi {
 	int startCycleAnimationLeft = 48;
 
 	// ecart entre les collisions de zombis
-	int ecartDeCollision = 25;
+	int ecartDeCollision = 5;
 
 	// dommage zombies, negatif car on retire de la barre de vie
-	int damage = -5;
+	int damage = -25;
 
 	/****************************************** METHODE PRIVATE *****************************************/
 	void setTimerStart();
@@ -78,7 +78,7 @@ class ClassZombi {
 		// positionnage :D
 		int posXZombi, posYZombi;
 		// vitesse zombi
-		int speedZombi = 1;
+		int speedZombi = ofRandom(1,3);
 		// vitesse d'animation en ms
 		int speedAnim = 55;
 		bool boolMoveZombiLeft = false;

@@ -11,6 +11,7 @@ moving::moving() {
 	miner.loadImage("animminer.png");
 	mort.loadImage("animmort.png");
 	attaquer.loadImage("animattaquer.png");
+	sonMort.load("sonMort.mp3");
 
 	for (int i=1; i<18; i++){
 		string str = "aie";
@@ -148,6 +149,7 @@ void moving::playerAction() {
 	else if (*ptrPlayerCurrentAction == "mort") {
 		action = mort;
 		speedAnim = 100;
+		//printf("mort putain !\n");
 	}
 	else if (*ptrPlayerCurrentAction == "attaquer") {
 		action = attaquer;
@@ -157,6 +159,7 @@ void moving::playerAction() {
 		action = repos;
 		speedAnim = 50;
 	}
+
 
 	// joue les son récolte arbre et minage
 	if (actionRecolteEnCours && (startCycleAnimationLeft == 57
@@ -187,6 +190,14 @@ void moving::playerAction() {
 				if (cptSoundAie == 17) { cptSoundAie = 1; }
 			}
 
+			// LE PERSONNAGE EST MORT ! C'EST LA FIN !
+			if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationRight == 16) {
+				sonMort.play();
+			} else if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationRight == 31) {
+				ptrInstranceHautFait->drawStats = true;
+			}
+
+
 
 		}
 		if (startCycleAnimationRight == 32) { startCycleAnimationRight = 16; }
@@ -203,6 +214,13 @@ void moving::playerAction() {
 				leSonDegatRecu[cptSoundAie].play();
 				cptSoundAie++;
 				if (cptSoundAie == 17) { cptSoundAie = 1; }
+			}
+
+			// LE PERSONNAGE EST MORT ! C'EST LA FIN !
+			if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationLeft == 48) {
+				sonMort.play();
+			} else if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationLeft == 63) {
+				ptrInstranceHautFait->drawStats = true;
 			}
 
 
@@ -224,6 +242,13 @@ void moving::playerAction() {
 				if (cptSoundAie == 17) { cptSoundAie = 1; }
 			}
 
+			// LE PERSONNAGE EST MORT ! C'EST LA FIN !
+			if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationTop == 0) {
+				sonMort.play();
+			}
+			else if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationTop == 15) {
+				ptrInstranceHautFait->drawStats = true;
+			}
 
 		}
 		if (startCycleAnimationTop == 16) { startCycleAnimationTop = 0; }
@@ -241,6 +266,13 @@ void moving::playerAction() {
 				leSonDegatRecu[cptSoundAie].play();
 				cptSoundAie++;
 				if (cptSoundAie == 17) { cptSoundAie = 1; }
+			}
+
+			// LE PERSONNAGE EST MORT ! C'EST LA FIN !
+			if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationDown == 32) {
+				sonMort.play();
+			} else if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationDown == 47) {
+				ptrInstranceHautFait->drawStats = true;
 			}
 
 
@@ -343,7 +375,7 @@ int moving::getDiffTime() {
 void moving::updatePositionJoueur() {
 
 	// si on se déplace mais qu'une action de récolte en cours, on la stop
-	if (actionRecolteEnCours){
+	if (actionRecolteEnCours && *ptrPlayerCurrentAction != "mort" ){
 		actionRecolteEnCours = false;
 		*ptrPlayerCurrentAction = "repos";
 	}
@@ -606,13 +638,19 @@ void moving::actionRecolteStart() {
 		// c'est un arbre ?
 		if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 1 && !lastmoveDown) {
 			
-			*ptrPlayerCurrentAction = "hacher";
+			if (*ptrPlayerCurrentAction != "mort"){
+				*ptrPlayerCurrentAction = "hacher";
+			}
 			tpsStartActionRecolte = ofGetElapsedTimeMillis();
 			actionRecolteEnCours = true;
 
 		// c'est un rocher ?
 		} else if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 2) {
-			*ptrPlayerCurrentAction = "miner";
+			
+			if (*ptrPlayerCurrentAction != "mort") {
+				*ptrPlayerCurrentAction = "miner";
+			}
+
 			tpsStartActionRecolte = ofGetElapsedTimeMillis();
 			actionRecolteEnCours = true;
 		}
@@ -643,7 +681,9 @@ bool moving::actionRecolteEnd(){
 				ptrInstranceHautFait->addRockMined();
 			}
 			// on remets l'action par defaut
-			*ptrPlayerCurrentAction = "repos";
+			if (*ptrPlayerCurrentAction != "mort") {
+				*ptrPlayerCurrentAction = "repos";
+			}
 			// on cloture l'action en cours
 			actionRecolteEnCours = false;
 

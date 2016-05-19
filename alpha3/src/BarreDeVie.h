@@ -5,12 +5,13 @@ class BarreDeVie{
 	// pointeur taille écran
 	int *ptrWidthScreen;
 	int *ptrHeightScreen;
-	float pointDeVie, pointDeSprint, pointDeVoltage, maxPointDeVie, maxPointDeVoltage, maxPointDeSprint;
+	string *ptrPlayerCurrentAction;
 
 public:
+	float pointDeVie, pointDeSprint, pointDeVoltage, maxPointDeVie, maxPointDeVoltage, maxPointDeSprint;
 	BarreDeVie();
 	void displayBarreVie();
-	void init(int *ptrWidthScreen, int *ptrHeightScreen);
+	void init(int *ptrWidthScreen, int *ptrHeightScreen, string *ptrPlayerCurrentAction);
 	// param = quantité + type (vie,voltage,sprint)
 	void modifiePointDeVie(int);
 	void modifiePointDeSprint(int);
