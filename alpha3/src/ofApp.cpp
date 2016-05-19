@@ -167,7 +167,7 @@ void ofApp::update() {
 			cptmusique = 1;
 		}
 	}
-	else if (lancementPluie.pleutIl()==false{
+	else if (lancementPluie.pleutIl()==false){
 		musique.setStoppedForRain(false);
 		musique.setMusicOff();
 		cptmusique = 0;
