@@ -50,8 +50,7 @@ void ofApp::setup(){
 		projectile[i].init(&positionJoueurX, &positionJoueurY, &widthScreen, &heightScreen, tabContentRessourcePlayer);
 	}
 
-	//Musique
-	musique.changeVolume(0.5);
+	
 	//lancement initiation Menu dans le jeu
 	LancementMenuInGame.InitInGameMenu();
 	//lancement initiation De la barre de musique du menu dans le jeu
@@ -61,7 +60,8 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update() {
-
+	//Musique
+	musique.changeVolume(LancementMenuInGame.volA);
 	if (affInventaire) {
 		inventaire.affichage();
 	}
@@ -159,7 +159,7 @@ void ofApp::update() {
 	}
 
 		//Tout ça gère le fait que quand il pleut : musique d'horreur!
-		/*
+		
 	if (lancementPluie.pleutIl() == true) {
 		musique.setStoppedForRain(true);
 		if (musique.getStoppedForRain() == true && cptmusique==0) {
@@ -167,10 +167,11 @@ void ofApp::update() {
 			cptmusique = 1;
 		}
 	}
-	else {
+	else if (lancementPluie.pleutIl()==false{
 		musique.setStoppedForRain(false);
+		musique.setMusicOff();
 		cptmusique = 0;
-	}*/
+	}
 
 	//update du menu dans le jeu
 	LancementMenuInGame.MenuMajInGame();

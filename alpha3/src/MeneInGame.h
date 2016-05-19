@@ -27,14 +27,11 @@ public:
 	void dessineBarreMusique();
 	bool setRetourJeu();
 	bool getRetourJeu();
-	float getSonMusique();
 	float getSonAmbiance();
-	ofxPanel gui;
+
 	ofxPanel gui2;
-	ofxFloatSlider volumeM;
-	ofSoundPlayer sample;
 	ofxFloatSlider volumeA;
-	float volM=0, volA=0;
+	float volA=0;
 	ofSoundPlayer sample2;
 	FILE *sauvMusique;
 };
