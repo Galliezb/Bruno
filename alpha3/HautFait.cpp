@@ -34,11 +34,14 @@ void Stats::init() {
 	fichierProjectiles = fopen("fichierProjectiles.txt", "a");
 	fclose(fichierProjectiles);
 
+	fichierPlayerDeath = fopen("fichierPlayerDeath.txt", "a");
+	fclose(fichierPlayerDeath);
+
 }
 void Stats::theGameHasStarted() {
 	fichierZombie = fopen("fichierZombie.txt", "r");
 	fscanf(fichierZombie, "%d", &zombieKilled);
-	//cout << zombieKilled;
+	cout << zombieKilled;
 	fclose(fichierZombie);
 	fichierArbre = fopen("fichierArbre.txt", "r");
 	fscanf(fichierArbre, "%d", &treeCut);
@@ -77,12 +80,21 @@ void Stats::theGameHasStarted() {
 	fichierProjectiles = fopen("fichierProjectiles.txt", "r");
 	fscanf(fichierProjectiles, "%d", &projectiles);
 	fclose(fichierProjectiles);
+	//
+	fichierPlayerDeath = fopen("fichierPlayerDeath.txt", "r");
+	fscanf(fichierPlayerDeath, "%d", &playerDeath);
+	fclose(fichierPlayerDeath);
+}
+void Stats::addPlayerDeath() {
+	playerDeath++;
+	bPlayerDeath = true;
+	putStatInFile();
 }
 void Stats::addZombieKilled() {
 	zombieKilled++;
 	cZombieKilled++;
 	achievement();
-	//cout << zombieKilled;
+	cout << zombieKilled;
 	bZombieKilled = true;
 	putStatInFile();
 }
@@ -133,14 +145,12 @@ void Stats::achievement()
 	else {
 		if (zombieKilled == 1) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "First Blood!";
 			description = "Il le meritait quand meme!";
 			currentlyDrawing = true;
 		}
 		else if ((zombieKilled >= 10 && currentlyDrawing == false && tZombieKilled == 0)) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Apprenti meurtrier";
 			description = "Tiendras-tu longtemps?";
 			tZombieKilled = 1;
@@ -149,7 +159,6 @@ void Stats::achievement()
 		}
 		else if (zombieKilled >= 50 && currentlyDrawing == false && tZombieKilledTwo == 0) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Zombie Killer";
 			description = "Ca commence à en faire..";
 			tZombieKilledTwo = 1;
@@ -158,7 +167,6 @@ void Stats::achievement()
 		}
 		else if (zombieKilled >= 100 && currentlyDrawing == false && tZombieKilledThree == 0) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Boucherie";
 			description = "Tu veux pas mourir?!";
 			tZombieKilledThree = 1;
@@ -167,83 +175,70 @@ void Stats::achievement()
 		}
 		else if (treeCut == 1) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Corvee de bois";
 			description = "Etait-ce vraiment utile?";
 			currentlyDrawing = true;
 		}
 		else if (treeCut == 10) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Bucheron";
 			description = "Quels muscles!";
 			currentlyDrawing = true;
 		}
 		else if (treeCut == 20) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Vingt arbres";
 			description = "Et tu replantes au moins?";
 			currentlyDrawing = true;
 		}
 		else if (treeCut == 50) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Deforestation";
 			description = "Mere nature ne sera pas contente";
 		}
 		else if (rocksMined == 1) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Apprenti mineur";
 			description = "Premier coup de pioche!";
 		}
 		else if (rocksMined == 10) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Mineur confirmé";
 			description = "Tu peux faire une petanque";
 		}
 		else if (rocksMined == 20) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Mineur agueri";
 			description = "J'espere que tu t'en sers!";
 		}
 		else if (steps == 1) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Premier pas";
 			description = "Le titre suffit a comprendre non?";
 		}
 		else if (steps == 100) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Les cents pas";
 			description = "Et alors, on court? Ya rien à craindre pourtant!";
 		}
 		else if (steps == 1000) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Les milles pas";
 			description = "Regardez ces mollets!";
 		}
 		else if (timeTheGameLast >= 60000 && currentlyDrawing == false && tGameLast == 0) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "La minute";
 			description = "Elle est passee vite hein?";
 
 		}
 		else if (timeTheGameLast == 600000 && currentlyDrawing == false && tGameLastTwo == 0) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "Dix minutes";
 			description = "Amusement intense";
 		}
 		else if (timeTheGameLast == 1200000 && currentlyDrawing == false && tGameLastThree == 0) {
 			test = true;
-			tpsEntreDeuxHautFait = ofGetElapsedTimeMillis();
 			titre = "La demi-heure";
 			description = "Sors au lieu de jouer, glandeur!";
 		}
@@ -302,6 +297,11 @@ void Stats::putStatInFile() {
 		fprintf(fichierTZombieThree, "%d", tZombieKilledThree);
 		fclose(fichierTZombieThree);
 	}
+	else if (bPlayerDeath) {
+		fichierPlayerDeath = fopen("fichierPlayerDeath.txt", "w");
+		fprintf(fichierPlayerDeath, "%d", playerDeath);
+		fclose(fichierPlayerDeath);
+	}
 }
 
 string Stats::displayTitle() {
@@ -355,6 +355,7 @@ void Stats::theGameIsOver() {
 	tabAllGameLast = std::to_string(timeTheGameLast);
 	tabProjectiles = std::to_string(cProjectiles);
 	tabAllProjectiles = std::to_string(projectiles);
+	tabPlayerDeath = std::to_string(playerDeath);
 }
 
 bool Stats::getDrawStats() {
@@ -385,4 +386,13 @@ void Stats::drawStatistics() {
 	police.drawString("Projectiles:", windowX / 5 - 120, windowY / 5 + 350);
 	police.drawString(tabProjectiles, windowX / 5 + 120, windowY / 5 + 350);
 	police.drawString(tabAllProjectiles, windowX / 5 + 590, windowY / 5 + 350);
+	police.drawString("Mort du joueur:", windowX / 5 - 120, windowY / 5 + 400);
+	police.drawString(tabPlayerDeath, windowX / 5 + 590, windowY / 5 + 400);
 }
+
+
+
+
+
+
+
