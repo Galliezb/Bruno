@@ -63,11 +63,11 @@ public:
 
 		// variable
 		// temps gérant les zombis
-		int tpsSpawnZombi = ofGetElapsedTimeMillis();
+		int tpsSpawnZombi = 0;
 		// nombre max de zombi
 		int maxZombi = 25;
 		// en milliseconde
-		int timerSpawnZombi=2500;
+		int timerSpawnZombi=5000;
 
 		// timer recharge sprint
 		int tpsTimerRechargeSprint=0;

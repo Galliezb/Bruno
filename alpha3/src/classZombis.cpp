@@ -381,11 +381,11 @@ int ClassZombi::posAffichageY() {
 }
 void ClassZombi::spawnZombi(){
 
-	int x = ofRandom(500);
-	int y = ofRandom(500);
+	int x = ofRandom(500,750);
+	int y = ofRandom(500, 750);
 	// on fait spawn en dehors de la carte
-	posXZombi = 7680+x;
-	posYZombi = 5120+y;
+	posXZombi = *ptrPositionJoueurX+x;
+	posYZombi = *ptrPositionJoueurY+y;
 
 	bool verification = false;
 	// pour éviter les zombis buggé l'un sur l'autre, on spawn pas sur un autre zombi SVP !!!

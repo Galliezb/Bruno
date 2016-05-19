@@ -134,6 +134,8 @@ void ofApp::update() {
 						if (!zombis[i].isSpawnZombi) {
 						printf("\n\n\n\nSpawnZombie\n\n\n\n\n");
 							zombis[i].spawnZombi();
+							tpsSpawnZombi = ofGetElapsedTimeMillis();
+							break;
 						}
 					}
 				}
