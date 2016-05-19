@@ -59,8 +59,10 @@ void ofApp::setup(){
 	hautFait.init();
 	popup.initPopUp();
 	hautFait.theGameHasStarted();
-
+	// lancement du "menu" dans stat à la fin du jeu pour rejouer ou quitter
+	lancementRejouerQuitter.initBoutonStatistique();
 }
+
 
 
 //--------------------------------------------------------------
@@ -286,6 +288,8 @@ void ofApp::draw(){
 	}
 	if (hautFait.getDrawStats() == true) {
 		hautFait.drawStatistics();
+		//dessine les boutons pour le click rejouer ou quitter à la fin du jeu
+		lancementRejouerQuitter.ajoutBoutonStatistique();
 	}
 	
 }

@@ -7,6 +7,7 @@ class Stats {
 public:
 	//initialisation des fichiers 
 	void init();
+	int tpsEntreDeuxHautFait;
 	void addPlayerDeath();
 	void addZombieKilled();
 	void addTreeCut();

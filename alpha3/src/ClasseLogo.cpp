@@ -22,7 +22,7 @@ void ClasseLogo::initiation()
 	fontBlanc = false;
 	dessin = true;
 	ofSetFrameRate(60);
-	ofSetFullscreen;
+	//ofSetFullscreen;
 	tailleFX = ofGetScreenWidth();//taille en X de la fenetre
 	tailleFY = ofGetScreenHeight();//taille en y de la fenetre
 	tmp3 = tailleFX;

@@ -11,6 +11,7 @@
 #include "MeneInGame.h"
 #include "../HautFait.h"
 #include "../Popup.h"
+#include "RejouerQuitter.h"
 
 class ofApp : public ofBaseApp {
 
@@ -41,6 +42,7 @@ public:
 	Projectile projectile[5];
 	Meteo lancementPluie;
 	MeneInGame LancementMenuInGame;
+	RejouerQuitter lancementRejouerQuitter;
 	//Gestion de la musique
 	Music musique;
 	Stats hautFait;
@@ -103,6 +105,7 @@ public:
 		string strSurvolInventaire = "";
 		string strSurvolTouche = "";
 		int cptmusique = 0;
+
 
 		
 };
