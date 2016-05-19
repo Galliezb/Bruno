@@ -116,11 +116,12 @@ void ofApp::update() {
 			}
 		}
 	}
-		//mouvements des nuages
-		for (int i = 0; i <= 49; i++) {
-		
-			lancementMeteo[i].majNuage();
-		}
+
+	//mouvements des nuages
+	for (int i = 0; i <= 49; i++) {
+		lancementMeteo[i].majNuage();
+	}
+
 	//mouvement de la pluie
 	lancementPluie.MajPluie();
 	
@@ -132,6 +133,23 @@ void ofApp::update() {
 		for(int i = 0; i<5; i++) {
 			if (projectile[i].isActive) {
 				projectile[i].updatePosition();
+
+				// gère les collisions avec les zombis
+				if (projectile[i].isActive){
+					for (int j = 0; j < maxZombi; j++) {
+						// collision Zombie
+						if (zombis[j].isSpawnZombi && !projectile[i].isHitZombie && abs( zombis[j].posXZombi - projectile[i].positionXOnTheMap ) < 24 && abs(zombis[j].posYZombi - projectile[i].positionYOnTheMap) < 24) {
+							projectile[i].isHitZombie = true;
+							projectile[i].posXZombieHit = zombis[j].posXZombi;
+							projectile[i].posYZombieHit = zombis[j].posYZombi;
+						// collision Roche ou arbre
+						// une fonction de classe qui retourne l'index voulu, c'est cool non ?
+						} else if ( tabContentCase[projectile[i].returnIndexOfCase()] == 1 || tabContentCase[projectile[i].returnIndexOfCase()] == 2 ){
+							projectile[i].isActive = false;
+						}
+					}
+				}
+				
 			}
 	}
 
@@ -149,10 +167,11 @@ void ofApp::update() {
 		cptmusique = 0;
 	}*/
 
-		//update du menu dans le jeu
-		LancementMenuInGame.MenuMajInGame();
-		//update de la barre de Musique et ambiance dans le menu jeu
-		LancementMenuInGame.majBarreMusique();
+	//update du menu dans le jeu
+	LancementMenuInGame.MenuMajInGame();
+	//update de la barre de Musique et ambiance dans le menu jeu
+	LancementMenuInGame.majBarreMusique();
+
 
 }
 
@@ -215,6 +234,12 @@ void ofApp::draw(){
 		for (int i = 0; i < 5; i++) {
 			if (projectile[i].isActive) {
 				projectile[i].displayProjectile();
+
+				//Affichage HIT ZOMBIE ! DANS TA ***BIP*** LE ZOMBIE !
+				if ( projectile[i].isHitZombie ){
+					projectile[i].drawHitSangZombie();
+				}
+
 			}
 		}
 	}
