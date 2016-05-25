@@ -3,7 +3,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-
+	
 	//initialisation du menu et du logo
 	lancementChargement.initiation();
 
@@ -68,6 +68,7 @@ void ofApp::setup(){
 	// lancement du "menu" dans stat à la fin du jeu pour rejouer ou quitter
 	lancementRejouerQuitter.initBoutonStatistique();
 	
+	setTimerStart();
 }
 
 
@@ -84,12 +85,16 @@ void ofApp::update() {
 			playerMoveLeft = false;
 			playerMoveTop = false;
 		}
-
-		if (ofGetElapsedTimeMillis() - tpsTimerRechargeSprint > 1000) {
+		if (speedTest == true) {
+			barreDeVie.modifiePointDeSprint(-2);
+		}
+		else if (ofGetElapsedTimeMillis() - tpsTimerRechargeSprint > 1000) {
 			barreDeVie.modifiePointDeSprint(10);
 			tpsTimerRechargeSprint = ofGetElapsedTimeMillis();
-		}
 
+		}
+		
+		
 		// si le joueur est pas mort
 		if (hautFait.getDrawStats() == false) {
 
@@ -351,6 +356,8 @@ void ofApp::draw() {
 		}
 		if (LancementMenuInGame.statMenuLancer)
 		{
+			tpsStart = tpsStart / 1000;
+			hautFait.howLongTheGameLast(tpsStart);
 			hautFait.drawStatistics();
 		}
 	}
@@ -386,22 +393,26 @@ void ofApp::keyPressed(int key){
 		if (!movePersonnage.getBoolMovePlayerLeft()) { movePersonnage.setBoolMovePlayerLeft(true); }
 	}
 	if ( key== OF_KEY_SHIFT){
-		if ( barreDeVie.pointDeSprint > 1 ){
-			movePersonnage.scrollingSpeed = 6;
-			barreDeVie.modifiePointDeSprint(-5);
-		}
+		
+			if (barreDeVie.pointDeSprint > 1) {
+				
+				movePersonnage.scrollingSpeed = 6;
+				barreDeVie.modifiePointDeSprint(-5);
+				speedTest = true;
+			}
+		
 	}
 	
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
+void ofApp::keyReleased(int key) {
 
 	// deplacement position joueur + animation
 	if (key == OF_KEY_UP || key == 'z') {
 		playerMoveTop = false;
-		if ( movePersonnage.getBoolMovePlayerTop() ){ movePersonnage.setBoolMovePlayerTop(false); }
-		if ( playerCurrentAction != "mort" ){
+		if (movePersonnage.getBoolMovePlayerTop()) { movePersonnage.setBoolMovePlayerTop(false); }
+		if (playerCurrentAction != "mort") {
 			playerCurrentAction = "repos";
 		}
 	}
@@ -427,7 +438,11 @@ void ofApp::keyReleased(int key){
 		}
 	}
 	if (key == OF_KEY_SHIFT) {
+		
+			speedTest = false;
 		movePersonnage.scrollingSpeed = 1;
+		
+		
 	}
 	// si aucun mouvement en cours, on repasse a false pour éviter les traitements.
 	if (!playerMoveTop && !playerMoveRight && !playerMoveDown && !playerMoveLeft) { playerHasMove = false; }
@@ -721,4 +736,8 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
+}
+
+void ofApp::setTimerStart() {
+	tpsStart = ofGetElapsedTimeMillis();
 }

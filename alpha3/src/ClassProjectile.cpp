@@ -319,7 +319,7 @@ void Projectile::choiceProjectile(){
 
 void Projectile::needAmmoSound(){
 
-	if ( !needAmmo.isPlaying() && ofGetElapsedTimeMillis() - tpsNeedAmmoSoundPlay > 5000 ){
+	if ( !needAmmo.isPlaying() && ofGetElapsedTimeMillis() - tpsNeedAmmoSoundPlay > 5000 && ofGetElapsedTimeMillis() > 10000 ){
 		tpsNeedAmmoSoundPlay = ofGetElapsedTimeMillis();
 		needAmmo.play();
 	}

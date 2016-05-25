@@ -378,6 +378,7 @@ int Stats::getTimerEnd() {
 }
 void Stats::theGameIsOver() {
 	drawStats = true;
+	/*
 	tabZombieKilled = std::to_string(cZombieKilled);
 	tabAllZombieKilled = std::to_string(zombieKilled);
 	tabTreeCut = std::to_string(cTreeCut);
@@ -391,6 +392,7 @@ void Stats::theGameIsOver() {
 	tabProjectiles = std::to_string(cProjectiles);
 	tabAllProjectiles = std::to_string(projectiles);
 	tabPlayerDeath = std::to_string(playerDeath);
+	*/
 }
 
 bool Stats::getDrawStats() {
@@ -404,23 +406,26 @@ void Stats::drawStatistics() {
 	police.drawString("Pendant la partie:", windowX / 5 + 60, windowY / 5 + 50);
 	police.drawString("Au total:", windowX / 5 + 560, windowY / 5 + 50);
 	police.drawString("Zombies morts:", windowX / 5 - 120, windowY / 5 + 100);
-	police.drawString(tabZombieKilled, windowX / 5 + 120, windowY / 5 + 100);
-	police.drawString(tabAllZombieKilled, windowX / 5 + 590, windowY / 5 + 100);
+	police.drawString(ofToString(zombieKilled), windowX / 5 + 120, windowY / 5 + 100);
+	police.drawString(ofToString(cZombieKilled), windowX / 5 + 590, windowY / 5 + 100);
+	ofDrawBitmapString(tabZombieKilled, 200, 300);
 	police.drawString("Bois loot:", windowX / 5 - 120, windowY / 5 + 150);
-	police.drawString(tabTreeCut, windowX / 5 + 120, windowY / 5 + 150);
-	police.drawString(tabAllTreeCut, windowX / 5 + 590, windowY / 5 + 150);
+	police.drawString(ofToString(cTreeCut), windowX / 5 + 120, windowY / 5 + 150);
+	police.drawString(ofToString(treeCut), windowX / 5 + 590, windowY / 5 + 150);
 	police.drawString("Pierres loot:", windowX / 5 - 120, windowY / 5 + 200);
-	police.drawString(tabRocksMined, windowX / 5 + 120, windowY / 5 + 200);
-	police.drawString(tabAllRocksMined, windowX / 5 + 590, windowY / 5 + 200);
+	police.drawString(ofToString(rocksMined), windowX / 5 + 120, windowY / 5 + 200);
+	police.drawString(ofToString(cRocksMined), windowX / 5 + 590, windowY / 5 + 200);
 	police.drawString("Metres parcouru:", windowX / 5 - 120, windowY / 5 + 250);
-	police.drawString(tabSteps, windowX / 5 + 120, windowY / 5 + 250);
-	police.drawString(tabAllSteps, windowX / 5 + 590, windowY / 5 + 250);
+	police.drawString(ofToString(steps), windowX / 5 + 120, windowY / 5 + 250);
+	police.drawString(ofToString(cSteps), windowX / 5 + 590, windowY / 5 + 250);
 	police.drawString("Temps de jeu:", windowX / 5 - 120, windowY / 5 + 300);
-	police.drawString(tabGameLast, windowX / 5 + 120, windowY / 5 + 300);
-	police.drawString(tabAllGameLast, windowX / 5 + 590, windowY / 5 + 300);
+	police.drawString(ofToString(timeTheGameLast), windowX / 5 + 120, windowY / 5 + 300);
+	police.drawString(ofToString(cGameLast), windowX / 5 + 590, windowY / 5 + 300);
 	police.drawString("Projectiles:", windowX / 5 - 120, windowY / 5 + 350);
-	police.drawString(tabProjectiles, windowX / 5 + 120, windowY / 5 + 350);
-	police.drawString(tabAllProjectiles, windowX / 5 + 590, windowY / 5 + 350);
+	police.drawString(ofToString(projectiles), windowX / 5 + 120, windowY / 5 + 350);
+	police.drawString(ofToString(cProjectiles), windowX / 5 + 590, windowY / 5 + 350);
 	police.drawString("Mort du joueur:", windowX / 5 - 120, windowY / 5 + 400);
-	police.drawString(tabPlayerDeath, windowX / 5 + 590, windowY / 5 + 400);
+	police.drawString(ofToString(playerDeath), windowX / 5 + 590, windowY / 5 + 400);
+
+	cout << cZombieKilled;
 }

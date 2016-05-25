@@ -33,7 +33,7 @@ public:
 	void windowResized(int w, int h);
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
-
+	void setTimerStart();
 	// Utilisation des classes
 	classMap gestionMap;
 	moving movePersonnage;
@@ -120,6 +120,6 @@ public:
 		string strSurvolTouche = "";
 		int cptmusique = 0;
 
-
-		
+		int tpsStart;
+		bool speedTest = false;
 };

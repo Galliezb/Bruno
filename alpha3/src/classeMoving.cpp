@@ -194,6 +194,7 @@ void moving::playerAction() {
 			if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationRight == 16) {
 				sonMort.play();
 			} else if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationRight == 31) {
+				ptrInstranceHautFait->addPlayerDeath();
 				ptrInstranceHautFait->drawStats = true;
 			}
 
@@ -220,6 +221,7 @@ void moving::playerAction() {
 			if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationLeft == 48) {
 				sonMort.play();
 			} else if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationLeft == 63) {
+				ptrInstranceHautFait->addPlayerDeath();
 				ptrInstranceHautFait->drawStats = true;
 			}
 
@@ -247,6 +249,7 @@ void moving::playerAction() {
 				sonMort.play();
 			}
 			else if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationTop == 15) {
+				ptrInstranceHautFait->addPlayerDeath();
 				ptrInstranceHautFait->drawStats = true;
 			}
 
@@ -272,6 +275,7 @@ void moving::playerAction() {
 			if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationDown == 32) {
 				sonMort.play();
 			} else if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationDown == 47) {
+				ptrInstranceHautFait->addPlayerDeath();
 				ptrInstranceHautFait->drawStats = true;
 			}
 
@@ -384,6 +388,8 @@ void moving::updatePositionJoueur() {
 	/*************************************** VERS LE HAUT ******************************/
 	if (boolMovePlayerTop) {
 
+		ptrInstranceHautFait->addHowManyStepsIDid(scrollingSpeed);
+
 		*ptrPositionJoueurY -= scrollingSpeed;
 		// Putain tu va ou la ? On sort pas de la map gros lâche !
 		// -24 mesuré au pixel prêt
@@ -436,6 +442,8 @@ void moving::updatePositionJoueur() {
 	/*************************************** VERS LA DROITE ******************************/
 	if (boolMovePlayerRight) {
 		*ptrPositionJoueurX += scrollingSpeed;
+		ptrInstranceHautFait->addHowManyStepsIDid(scrollingSpeed);
+
 		if (*ptrPositionJoueurX > 7640) {
 			*ptrPositionJoueurX = 7640;
 			// colision arbre ( tout sauf la pointe )
@@ -475,6 +483,8 @@ void moving::updatePositionJoueur() {
 	if (boolMovePlayerDown) {
 
 		*ptrPositionJoueurY += scrollingSpeed;
+		ptrInstranceHautFait->addHowManyStepsIDid(scrollingSpeed);
+
 		if (*ptrPositionJoueurY > 5060) {
 			*ptrPositionJoueurY = 5060;
 
@@ -523,6 +533,7 @@ void moving::updatePositionJoueur() {
 		if (*ptrPositionJoueurX < -24) {
 			*ptrPositionJoueurX = -24;
 		}
+		ptrInstranceHautFait->addHowManyStepsIDid(scrollingSpeed);
 
 
 		if ((*(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 1
@@ -557,7 +568,7 @@ void moving::updatePositionJoueur() {
 	}
 
 }
-// origin / center / left / Right
+// origin / center / left / Righth
 int moving::returnPosCaseX(string ancre) {
 
 	if (ancre == "origin") {

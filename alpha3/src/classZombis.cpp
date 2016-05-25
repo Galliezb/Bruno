@@ -455,7 +455,8 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 
 			if ((ptrTabZombis + i)->posYZombi != posYZombi && (ptrTabZombis + i)->posYZombi != posYZombi &&
 				futurPosYZombi - (ptrTabZombis + i)->posYZombi > 0 && futurPosYZombi - (ptrTabZombis + i)->posYZombi < ecartDeCollision &&
-				posXZombi > (ptrTabZombis + i)->posXZombi - ecartDeCollision && posXZombi < (ptrTabZombis + i)->posXZombi + ecartDeCollision) {
+				posXZombi > (ptrTabZombis + i)->posXZombi - ecartDeCollision && posXZombi < (ptrTabZombis + i)->posXZombi + ecartDeCollision
+				&& (ptrTabZombis+i)->isSpawnZombi==true && (ptrTabZombis + i)->animDeathZombiDone == false ) {
 
 				retour = true;
 				break;
@@ -473,7 +474,8 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 
 			if ((ptrTabZombis + i)->posYZombi != posYZombi && (ptrTabZombis + i)->posYZombi != posYZombi &&
 				(ptrTabZombis + i)->posYZombi - futurPosYZombi  > 0 && (ptrTabZombis + i)->posYZombi - futurPosYZombi  < ecartDeCollision &&
-				posXZombi >(ptrTabZombis + i)->posXZombi - ecartDeCollision && posXZombi < (ptrTabZombis + i)->posXZombi + ecartDeCollision) {
+				posXZombi >(ptrTabZombis + i)->posXZombi - ecartDeCollision && posXZombi < (ptrTabZombis + i)->posXZombi + ecartDeCollision
+				&& (ptrTabZombis + i)->isSpawnZombi == true && (ptrTabZombis + i)->animDeathZombiDone == false) {
 				retour = true;
 				break;
 			}
@@ -494,7 +496,8 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 			// un zombi aura une zone de 10*10 autour du centre de ses pieds qui gère la collision
 			if ((ptrTabZombis + i)->posXZombi != posXZombi && (ptrTabZombis + i)->posXZombi != posXZombi &&
 				(ptrTabZombis + i)->posXZombi - futurPosXZombi  > 0 && (ptrTabZombis + i)->posXZombi - futurPosXZombi < ecartDeCollision &&
-				posYZombi >(ptrTabZombis + i)->posYZombi - ecartDeCollision && posYZombi < (ptrTabZombis + i)->posYZombi + ecartDeCollision) {
+				posYZombi >(ptrTabZombis + i)->posYZombi - ecartDeCollision && posYZombi < (ptrTabZombis + i)->posYZombi + ecartDeCollision
+				&& (ptrTabZombis + i)->isSpawnZombi == true && (ptrTabZombis + i)->animDeathZombiDone == false) {
 				retour = true;
 				break;
 			}
@@ -514,7 +517,8 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 			// un zombi aura une zone de 10*10 autour du centre de ses pieds qui gère la collision
 			if ((ptrTabZombis + i)->posXZombi != posXZombi && (ptrTabZombis + i)->posXZombi != posXZombi &&
 				futurPosXZombi - (ptrTabZombis + i)->posXZombi > 0 && futurPosXZombi - (ptrTabZombis + i)->posXZombi < ecartDeCollision &&
-				posYZombi >(ptrTabZombis + i)->posYZombi - ecartDeCollision && posYZombi < (ptrTabZombis + i)->posYZombi + ecartDeCollision) {
+				posYZombi >(ptrTabZombis + i)->posYZombi - ecartDeCollision && posYZombi < (ptrTabZombis + i)->posYZombi + ecartDeCollision
+				&& (ptrTabZombis + i)->isSpawnZombi == true && (ptrTabZombis + i)->animDeathZombiDone == false) {
 				retour = true;
 				break;
 			}
@@ -522,7 +526,7 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 		}
 
 	}
-
+	
 
 	return retour;
 
