@@ -9,9 +9,10 @@ BarreDeVie::BarreDeVie()
 	maxPointDeVoltage = 250;
 	bdvie.loadImage("barredevie.png");
 }
-void BarreDeVie::init(int *ptrWidthScreen, int *ptrHeightScreen){
+void BarreDeVie::init(int *ptrWidthScreen, int *ptrHeightScreen, string *ptrPlayerCurrentAction){
 	this->ptrWidthScreen = ptrWidthScreen;
 	this->ptrHeightScreen = ptrHeightScreen;
+	this->ptrPlayerCurrentAction = ptrPlayerCurrentAction;
 }
 void BarreDeVie::displayBarreVie(){
 
@@ -36,10 +37,11 @@ void BarreDeVie::displayBarreVie(){
 
 void BarreDeVie::modifiePointDeVie(int quantite){
 	pointDeVie += quantite;
-	if (pointDeVie<0) {
+	if (pointDeVie<1) {
 		pointDeVie = 0;
-	}
-	else if (pointDeVie>maxPointDeVie) {
+		//printf("mort putain !\n");
+		*ptrPlayerCurrentAction = "mort";
+	} else if (pointDeVie>maxPointDeVie) {
 		pointDeVie = maxPointDeVie;
 	}
 }
@@ -47,8 +49,7 @@ void BarreDeVie::modifiePointDeSprint(int quantite) {
 	pointDeSprint += quantite;
 	if (pointDeSprint<0) {
 		pointDeSprint = 0;
-	}
-	else if (pointDeSprint>maxPointDeSprint) {
+	} else if (pointDeSprint > maxPointDeSprint){
 		pointDeSprint = maxPointDeSprint;
 	}
 }

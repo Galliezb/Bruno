@@ -1,6 +1,7 @@
 #pragma once
 #include "ofMain.h"
 #include "BarreDeVie.h"
+#include "../HautFait.h"
 
 class ClassZombi {
 
@@ -18,17 +19,20 @@ class ClassZombi {
 	int *ptrMaxIndexPtrTabZombis;
 	// instance barre de vie
 	BarreDeVie *ptrInstancebarreDeVie;
+	Stats *ptrInstanceStats;
+	// pointeur tab ressource joueur
+	int *ptrTabContentRessourcePlayer;
+
 
 
 	// ofimage
 	ofImage zombiMarche, zombiAttaque, zombiMort;
-	ofPath repere;
+	//ofPath repere;
 
 	// variable de temps pour l'animation
 	int tpsStart;
 
 	// positionnage :D
-	int posXZombi,posYZombi;
 	bool lastmoveRight = false;
 	bool lastmoveLeft = false;
 	bool lastmoveTop = false;
@@ -41,12 +45,10 @@ class ClassZombi {
 	int startCycleAnimationLeft = 48;
 
 	// ecart entre les collisions de zombis
-	int ecartDeCollision = 25;
+	int ecartDeCollision = 5;
 
-	// dommage zombes, negatif car on retire de la barre de vie
-	int damage = -5;
-
-	int pointDeVie = 10;
+	// dommage zombies, negatif car on retire de la barre de vie
+	int damage = -25;
 
 	/****************************************** METHODE PRIVATE *****************************************/
 	void setTimerStart();
@@ -62,7 +64,7 @@ class ClassZombi {
 
 		/****************************************** METHODE PUBLIC *****************************************/
 		ClassZombi();
-		void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis, BarreDeVie *ptrInstancebarreDeVie);
+		void init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis, BarreDeVie *ptrInstancebarreDeVie, Stats *ptrInstanceStats, int *ptrTabContentRessourcePlayer);
 		// affichage des zombis présent à l'écran
 		void displayZombi();
 		// déplace le zombi
@@ -72,8 +74,14 @@ class ClassZombi {
 		// vérifie la distance entre joueur et zombi
 		int distanceBetweenPLayerAndZombi();
 
+		// pdv du zombie
+		int pointDeVie = 10;
+
 		/****************************************** VARIABLE PUBLIC *****************************************/
-		int speedZombi = 1;
+		// positionnage :D
+		int posXZombi, posYZombi;
+		// vitesse zombi
+		int speedZombi = ofRandom(1,3);
 		// vitesse d'animation en ms
 		int speedAnim = 55;
 		bool boolMoveZombiLeft = false;

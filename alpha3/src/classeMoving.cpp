@@ -11,6 +11,7 @@ moving::moving() {
 	miner.loadImage("animminer.png");
 	mort.loadImage("animmort.png");
 	attaquer.loadImage("animattaquer.png");
+	sonMort.load("sonMort.mp3");
 
 	for (int i=1; i<18; i++){
 		string str = "aie";
@@ -24,7 +25,7 @@ moving::moving() {
 
 }
 // initialisation de la classe ( OF dispo ici, pas dans le constructeur )
-void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *ptrPlayerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap, BarreDeVie *ptrInstancebarreDeVie) {
+void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, string *ptrPlayerCurrentAction, int *ptrTabContentCase, int *ptrTtabContentTerrain, int *ptrTabContentRessourcePlayer, classMap *ptrInstanceGestionMap, BarreDeVie *ptrInstancebarreDeVie, Stats *ptrInstranceHautFait) {
 
 	// pointeur tab content map
 	this->ptrTabContentCase = ptrTabContentCase;
@@ -48,6 +49,9 @@ void moving::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidt
 
 	// instance barre de vie
 	this->ptrInstancebarreDeVie = ptrInstancebarreDeVie;
+
+	// instance Stats
+	this->ptrInstranceHautFait = ptrInstranceHautFait;
 }
 
 void moving::movePlayer() {
@@ -115,11 +119,12 @@ void moving::movePlayer() {
 void moving::playerAction() {
 
 	// rectangle autour du joueur
+	/*
 	ofSetColor(255, 0, 0);
 	ofDrawRectangle(midX(), midY(), 64, 64);
 	ofNoFill();
 	ofSetColor(255, 255, 255);
-
+	*/
 
 	if (*ptrPlayerCurrentAction == "construire") {
 		action = construire;
@@ -144,6 +149,7 @@ void moving::playerAction() {
 	else if (*ptrPlayerCurrentAction == "mort") {
 		action = mort;
 		speedAnim = 100;
+		//printf("mort putain !\n");
 	}
 	else if (*ptrPlayerCurrentAction == "attaquer") {
 		action = attaquer;
@@ -153,6 +159,7 @@ void moving::playerAction() {
 		action = repos;
 		speedAnim = 50;
 	}
+
 
 	// joue les son récolte arbre et minage
 	if (actionRecolteEnCours && (startCycleAnimationLeft == 57
@@ -183,6 +190,15 @@ void moving::playerAction() {
 				if (cptSoundAie == 17) { cptSoundAie = 1; }
 			}
 
+			// LE PERSONNAGE EST MORT ! C'EST LA FIN !
+			if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationRight == 16) {
+				sonMort.play();
+			} else if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationRight == 31) {
+				ptrInstranceHautFait->addPlayerDeath();
+				ptrInstranceHautFait->drawStats = true;
+			}
+
+
 
 		}
 		if (startCycleAnimationRight == 32) { startCycleAnimationRight = 16; }
@@ -199,6 +215,14 @@ void moving::playerAction() {
 				leSonDegatRecu[cptSoundAie].play();
 				cptSoundAie++;
 				if (cptSoundAie == 17) { cptSoundAie = 1; }
+			}
+
+			// LE PERSONNAGE EST MORT ! C'EST LA FIN !
+			if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationLeft == 48) {
+				sonMort.play();
+			} else if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationLeft == 63) {
+				ptrInstranceHautFait->addPlayerDeath();
+				ptrInstranceHautFait->drawStats = true;
 			}
 
 
@@ -220,6 +244,14 @@ void moving::playerAction() {
 				if (cptSoundAie == 17) { cptSoundAie = 1; }
 			}
 
+			// LE PERSONNAGE EST MORT ! C'EST LA FIN !
+			if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationTop == 0) {
+				sonMort.play();
+			}
+			else if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationTop == 15) {
+				ptrInstranceHautFait->addPlayerDeath();
+				ptrInstranceHautFait->drawStats = true;
+			}
 
 		}
 		if (startCycleAnimationTop == 16) { startCycleAnimationTop = 0; }
@@ -237,6 +269,14 @@ void moving::playerAction() {
 				leSonDegatRecu[cptSoundAie].play();
 				cptSoundAie++;
 				if (cptSoundAie == 17) { cptSoundAie = 1; }
+			}
+
+			// LE PERSONNAGE EST MORT ! C'EST LA FIN !
+			if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationDown == 32) {
+				sonMort.play();
+			} else if (*ptrPlayerCurrentAction == "mort" && startCycleAnimationDown == 47) {
+				ptrInstranceHautFait->addPlayerDeath();
+				ptrInstranceHautFait->drawStats = true;
 			}
 
 
@@ -339,7 +379,7 @@ int moving::getDiffTime() {
 void moving::updatePositionJoueur() {
 
 	// si on se déplace mais qu'une action de récolte en cours, on la stop
-	if (actionRecolteEnCours){
+	if (actionRecolteEnCours && *ptrPlayerCurrentAction != "mort" ){
 		actionRecolteEnCours = false;
 		*ptrPlayerCurrentAction = "repos";
 	}
@@ -347,6 +387,8 @@ void moving::updatePositionJoueur() {
 	// Calcul de case pour les colisions !
 	/*************************************** VERS LE HAUT ******************************/
 	if (boolMovePlayerTop) {
+
+		ptrInstranceHautFait->addHowManyStepsIDid(scrollingSpeed);
 
 		*ptrPositionJoueurY -= scrollingSpeed;
 		// Putain tu va ou la ? On sort pas de la map gros lâche !
@@ -400,6 +442,8 @@ void moving::updatePositionJoueur() {
 	/*************************************** VERS LA DROITE ******************************/
 	if (boolMovePlayerRight) {
 		*ptrPositionJoueurX += scrollingSpeed;
+		ptrInstranceHautFait->addHowManyStepsIDid(scrollingSpeed);
+
 		if (*ptrPositionJoueurX > 7640) {
 			*ptrPositionJoueurX = 7640;
 			// colision arbre ( tout sauf la pointe )
@@ -439,6 +483,8 @@ void moving::updatePositionJoueur() {
 	if (boolMovePlayerDown) {
 
 		*ptrPositionJoueurY += scrollingSpeed;
+		ptrInstranceHautFait->addHowManyStepsIDid(scrollingSpeed);
+
 		if (*ptrPositionJoueurY > 5060) {
 			*ptrPositionJoueurY = 5060;
 
@@ -487,6 +533,7 @@ void moving::updatePositionJoueur() {
 		if (*ptrPositionJoueurX < -24) {
 			*ptrPositionJoueurX = -24;
 		}
+		ptrInstranceHautFait->addHowManyStepsIDid(scrollingSpeed);
 
 
 		if ((*(ptrTabContentCase + returnPosCaseX("center") + returnPosCaseY("bottom") * 120 - 1) == 1
@@ -521,7 +568,7 @@ void moving::updatePositionJoueur() {
 	}
 
 }
-// origin / center / left / Right
+// origin / center / left / Righth
 int moving::returnPosCaseX(string ancre) {
 
 	if (ancre == "origin") {
@@ -602,13 +649,19 @@ void moving::actionRecolteStart() {
 		// c'est un arbre ?
 		if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 1 && !lastmoveDown) {
 			
-			*ptrPlayerCurrentAction = "hacher";
+			if (*ptrPlayerCurrentAction != "mort"){
+				*ptrPlayerCurrentAction = "hacher";
+			}
 			tpsStartActionRecolte = ofGetElapsedTimeMillis();
 			actionRecolteEnCours = true;
 
 		// c'est un rocher ?
 		} else if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 2) {
-			*ptrPlayerCurrentAction = "miner";
+			
+			if (*ptrPlayerCurrentAction != "mort") {
+				*ptrPlayerCurrentAction = "miner";
+			}
+
 			tpsStartActionRecolte = ofGetElapsedTimeMillis();
 			actionRecolteEnCours = true;
 		}
@@ -626,17 +679,22 @@ bool moving::actionRecolteEnd(){
 	}
 
 	if (actionRecolteEnCours) {
-
+		//printf("diff time => %d - %d = %d", ofGetElapsedTimeMillis(),tpsStartActionRecolte, ofGetElapsedTimeMillis() - tpsStartActionRecolte);
 		if (ofGetElapsedTimeMillis() - tpsStartActionRecolte > 5000 ){			
 			// +1 arbre ?
 			if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 1) {
 				*(ptrTabContentRessourcePlayer)+=1;
+				// mets a jour les haut fait
+				ptrInstranceHautFait->addTreeCut();
 			// + 1 rocher ?
 			} else if (*(ptrTabContentCase + posXActionRecolte + posYActionRecolte * 120 - 1) == 2) {
 				*(ptrTabContentRessourcePlayer+1)+=1;
+				ptrInstranceHautFait->addRockMined();
 			}
 			// on remets l'action par defaut
-			*ptrPlayerCurrentAction = "repos";
+			if (*ptrPlayerCurrentAction != "mort") {
+				*ptrPlayerCurrentAction = "repos";
+			}
 			// on cloture l'action en cours
 			actionRecolteEnCours = false;
 

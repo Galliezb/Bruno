@@ -6,9 +6,11 @@ ClassZombi::ClassZombi(){
 	zombiMarche.load("animmarchezombi.png");
 	zombiAttaque.load("animattaquezombi.png");
 	zombiMort.load("animmortzombi.png");
+
+	pointDeVie=25;
 }
 
-void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis, BarreDeVie *ptrInstancebarreDeVie){
+void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptrWidthScreen, int *ptrHeightScreen, int *ptrTabContentCase, int *ptrTabContentTerrain, string *ptrPlayerCurrentAction, ClassZombi *ptrTabZombis, int *ptrMaxIndexPtrTabZombis, BarreDeVie *ptrInstancebarreDeVie, Stats *ptrInstanceStats, int *ptrTabContentRessourcePlayer){
 
 	this->ptrPositionJoueurX = ptrPositionJoueurX;
 	this->ptrPositionJoueurY = ptrPositionJoueurY;
@@ -19,20 +21,21 @@ void ClassZombi::init(int *ptrPositionJoueurX, int *ptrPositionJoueurY, int *ptr
 	this->ptrPlayerCurrentAction = ptrPlayerCurrentAction;
 	this->ptrTabZombis = ptrTabZombis;
 	this->ptrMaxIndexPtrTabZombis = ptrMaxIndexPtrTabZombis;
-
+	this->ptrInstanceStats = ptrInstanceStats;
 	// instance barre de vie
 	this->ptrInstancebarreDeVie = ptrInstancebarreDeVie;
-
-
+	this->ptrTabContentRessourcePlayer = ptrTabContentRessourcePlayer;
 }
 
 void ClassZombi::displayZombi() {
 
-	// rectangle autour du joueur
+	// rectangle autour du zombie
+	/*
 	ofSetColor(255,0,0);
 	ofDrawRectangle(posAffichageX(),posAffichageY(),64,64);
 	ofNoFill();
 	ofSetColor(255, 255, 255);
+	*/
 		
 
 	// *positionJoueurX, *positionJoueurY affiche le coin haut gauche de la caméra
@@ -154,7 +157,7 @@ void ClassZombi::displayAttackZombi() {
 void ClassZombi::moveZombi(){
 	
 	// s'il est a portée, attaque, donc plus de déplacement.
-	if (distanceBetweenPLayerAndZombi() > 32 ){
+	if (distanceBetweenPLayerAndZombi() > 32 && pointDeVie > 1 ){
 		/************************* AXE Y *************************/
 		if (*ptrPositionJoueurY > posYZombi) {
 
@@ -378,13 +381,11 @@ int ClassZombi::posAffichageY() {
 }
 void ClassZombi::spawnZombi(){
 
-	int x = ofRandom(500);
-	int y = ofRandom(500);
+	int x = ofRandom(500,750);
+	int y = ofRandom(500, 750);
 	// on fait spawn en dehors de la carte
-	posXZombi = 7680+x;
-	posYZombi = 5120+y;
-	posXZombi = 448+x;
-	posYZombi = 384+y;
+	posXZombi = *ptrPositionJoueurX+x;
+	posYZombi = *ptrPositionJoueurY+y;
 
 	bool verification = false;
 	// pour éviter les zombis buggé l'un sur l'autre, on spawn pas sur un autre zombi SVP !!!
@@ -454,7 +455,8 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 
 			if ((ptrTabZombis + i)->posYZombi != posYZombi && (ptrTabZombis + i)->posYZombi != posYZombi &&
 				futurPosYZombi - (ptrTabZombis + i)->posYZombi > 0 && futurPosYZombi - (ptrTabZombis + i)->posYZombi < ecartDeCollision &&
-				posXZombi > (ptrTabZombis + i)->posXZombi - ecartDeCollision && posXZombi < (ptrTabZombis + i)->posXZombi + ecartDeCollision) {
+				posXZombi > (ptrTabZombis + i)->posXZombi - ecartDeCollision && posXZombi < (ptrTabZombis + i)->posXZombi + ecartDeCollision
+				&& (ptrTabZombis+i)->isSpawnZombi==true && (ptrTabZombis + i)->animDeathZombiDone == false ) {
 
 				retour = true;
 				break;
@@ -472,7 +474,8 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 
 			if ((ptrTabZombis + i)->posYZombi != posYZombi && (ptrTabZombis + i)->posYZombi != posYZombi &&
 				(ptrTabZombis + i)->posYZombi - futurPosYZombi  > 0 && (ptrTabZombis + i)->posYZombi - futurPosYZombi  < ecartDeCollision &&
-				posXZombi >(ptrTabZombis + i)->posXZombi - ecartDeCollision && posXZombi < (ptrTabZombis + i)->posXZombi + ecartDeCollision) {
+				posXZombi >(ptrTabZombis + i)->posXZombi - ecartDeCollision && posXZombi < (ptrTabZombis + i)->posXZombi + ecartDeCollision
+				&& (ptrTabZombis + i)->isSpawnZombi == true && (ptrTabZombis + i)->animDeathZombiDone == false) {
 				retour = true;
 				break;
 			}
@@ -493,7 +496,8 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 			// un zombi aura une zone de 10*10 autour du centre de ses pieds qui gère la collision
 			if ((ptrTabZombis + i)->posXZombi != posXZombi && (ptrTabZombis + i)->posXZombi != posXZombi &&
 				(ptrTabZombis + i)->posXZombi - futurPosXZombi  > 0 && (ptrTabZombis + i)->posXZombi - futurPosXZombi < ecartDeCollision &&
-				posYZombi >(ptrTabZombis + i)->posYZombi - ecartDeCollision && posYZombi < (ptrTabZombis + i)->posYZombi + ecartDeCollision) {
+				posYZombi >(ptrTabZombis + i)->posYZombi - ecartDeCollision && posYZombi < (ptrTabZombis + i)->posYZombi + ecartDeCollision
+				&& (ptrTabZombis + i)->isSpawnZombi == true && (ptrTabZombis + i)->animDeathZombiDone == false) {
 				retour = true;
 				break;
 			}
@@ -513,7 +517,8 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 			// un zombi aura une zone de 10*10 autour du centre de ses pieds qui gère la collision
 			if ((ptrTabZombis + i)->posXZombi != posXZombi && (ptrTabZombis + i)->posXZombi != posXZombi &&
 				futurPosXZombi - (ptrTabZombis + i)->posXZombi > 0 && futurPosXZombi - (ptrTabZombis + i)->posXZombi < ecartDeCollision &&
-				posYZombi >(ptrTabZombis + i)->posYZombi - ecartDeCollision && posYZombi < (ptrTabZombis + i)->posYZombi + ecartDeCollision) {
+				posYZombi >(ptrTabZombis + i)->posYZombi - ecartDeCollision && posYZombi < (ptrTabZombis + i)->posYZombi + ecartDeCollision
+				&& (ptrTabZombis + i)->isSpawnZombi == true && (ptrTabZombis + i)->animDeathZombiDone == false) {
 				retour = true;
 				break;
 			}
@@ -521,7 +526,7 @@ bool ClassZombi::returnZombiCollisionProximity(bool top, bool right, bool down, 
 		}
 
 	}
-
+	
 
 	return retour;
 
@@ -533,7 +538,7 @@ void ClassZombi::AnimDeathZombie()
 
 		AnimMortEnCours = true;
 		if (lastmoveTop) {
-			cout << "test";
+			//cout << "test";
 			zombiMort.drawSubsection(posAffichageX(), posAffichageY(), 64, 64, 64 * startCycleAnimationTop, 0, 64, 64);
 			if (getDiffTime() > speedAnim) {
 				startCycleAnimationTop++;
@@ -568,13 +573,19 @@ void ClassZombi::AnimDeathZombie()
 	}
 	if (animDeathZombiDone == true) {
 		isSpawnZombi = false;
+		ptrInstanceStats->addZombieKilled();
+		*(ptrTabContentRessourcePlayer + 2) += 1;
+		*(ptrTabContentRessourcePlayer + 3) += 1;
+		*(ptrTabContentRessourcePlayer + 4) += 1;
 	}
 }
 
 void ClassZombi::receiveDamage(int damage)
 {
 	pointDeVie -= damage;
-	AnimDeathZombie();
+	if ( pointDeVie < 1 ){
+		AnimDeathZombie();
+	}
 }
 
 int ClassZombi::isZombieDead() {
@@ -584,3 +595,4 @@ int ClassZombi::isZombieDead() {
 bool ClassZombi::getAnimMort() {
 	return animDeathZombiDone;
 }
+

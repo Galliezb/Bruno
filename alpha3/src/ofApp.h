@@ -7,6 +7,13 @@
 #include "BarreDeVie.h"
 #include "ClassProjectile.h"
 #include "../Meteo.h"
+#include "../ClassMusic.h"
+#include "MeneInGame.h"
+#include "../HautFait.h"
+#include "../Popup.h"
+#include "RejouerQuitter.h"
+#include "ClasseLogo.h"
+#include "MenuMain.h"
 
 class ofApp : public ofBaseApp {
 
@@ -26,26 +33,49 @@ public:
 	void windowResized(int w, int h);
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
-
+	void setTimerStart();
 	// Utilisation des classes
 	classMap gestionMap;
 	moving movePersonnage;
 	classInventaire inventaire;
-	ClassZombi zombis[10];
+	ClassZombi zombis[25];
 	BarreDeVie barreDeVie;
 	Meteo lancementMeteo[50];
 	Projectile projectile[5];
+	Meteo lancementPluie;
+	MeneInGame LancementMenuInGame;
+	RejouerQuitter lancementRejouerQuitter;
+	//Gestion de la musique
+	Music musique;
+	Stats hautFait;
+	PopUp popup;
+	//classe logo
+	ClasseLogo lancementChargement;
+	//classe Menu
+	MenuMain lancementMenu;
+	//son du menu Principal
+	ofSoundPlayer soundMenu;
+	bool sonMenuPrincipallancer = true;
+	ofTrueTypeFont font2;
+	//string strSurvolTouche;
+	
+
 
 		// variable
 		// temps gérant les zombis
-		int tpsSpawnZombi = ofGetElapsedTimeMillis();
+		int tpsSpawnZombi = 0;
 		// nombre max de zombi
-		int maxZombi = 1;
+		int maxZombi = 25;
 		// en milliseconde
-		int timerSpawnZombi=2500;
+		int timerSpawnZombi=5000;
+
+		// timer recharge sprint
+		int tpsTimerRechargeSprint=0;
 
 		// inventaire actuellement affiché ?
 		bool affInventaire = false;
+		// menu dans le jeu actuellement affiché? 
+		bool affMenuInGame = false;
 		// taille ecran utilisateur
 		int widthScreen,heightScreen;
 		// position de la caméra
@@ -79,15 +109,17 @@ public:
 		5 => pierre à lancer
 		6 => lance
 		*/
-		int tabContentRessourcePlayer[7] = {10,10,10,10,10,10,10};
-		ofPath pathLineHorizontal;
+		int tabContentRessourcePlayer[7] = {0};
+		//ofPath pathLineHorizontal;
 
 		// variable de récolte
 		bool actionRecolteActive = false;
 
 		ofTrueTypeFont font;
 		string strSurvolInventaire = "";
+		string strSurvolTouche = "";
+		int cptmusique = 0;
 
-		
-
+		int tpsStart;
+		bool speedTest = false;
 };
