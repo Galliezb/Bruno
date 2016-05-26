@@ -2,6 +2,13 @@
 #include "ofApp.h"
 #include "classeMoving.h"
 
+/*
+
+
+
+*/
+
+
 //--------------------------------------------------------------
 void ofApp::setup(){
 
@@ -204,11 +211,23 @@ void ofApp::keyPressed(int key){
 		if (!playerHasMove) { playerHasMove = true; }
 		if (!movePersonnage.getBoolMovePlayerLeft()) { movePersonnage.setBoolMovePlayerLeft(true); }
 	}
+
 	
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
+
+	switch(key){
+	
+		case 'f':
+			ofToggleFullscreen();
+			break;
+		case 'i':
+			inventaire.affichage();
+			affInventaire = true;
+	
+	}
 
 	// deplacement position joueur + animation
 	if (key == OF_KEY_UP) {
